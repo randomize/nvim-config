@@ -3,6 +3,7 @@
 "
 " Eugene Mihailenco, 2016
 
+let g:python_host_prog='/usr/bin/python2'
 " {{{ Plugins
 
 call plug#begin('~/.config/nvim/plugged')
@@ -19,6 +20,12 @@ Plug 'tpope/vim-surround'
 " TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" You complete me
+Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer' }
+
+" C# support
+Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
 
 " Any valid git URL is allowed
 " Plug 'https://github.com/junegunn/vim-github-dashboard.git'
