@@ -3,7 +3,8 @@
 "
 " Eugene Mihailenco, 2016
 
-let g:python_host_prog='/usr/bin/python2'
+
+let g:python_host_prog='/usr/bin/python2.7'
 " {{{ Plugins
 
 call plug#begin('~/.config/nvim/plugged')
@@ -22,7 +23,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer' }
 
 " C# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
@@ -121,16 +122,25 @@ nnoremap z5 :set foldlevel=5<cr>
 
 " }}} ===========================================================
 
-" {{{ Search ====================================================
+" {{{ Options ====================================================
 
 set infercase
 set hlsearch
 set incsearch
+
 set number relativenumber
 set nowrap
 set textwidth=80
-set expandtab
 set ruler
+
+" Tabs and indentation
+set tabstop=4       " Tab size
+set softtabstop=4   " Tab size in inset mode
+set shiftwidth=4    " <<>> shifts size
+set expandtab       " Tabs to spaces
+set smarttab        " Consolidated editing
+set smartindent     " When starting new line repeat indentation
+set autoindent
 
 " }}} ===========================================================
 
