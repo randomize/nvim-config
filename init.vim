@@ -46,29 +46,15 @@ Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --sys
 " C# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
 
-" Any valid git URL is allowed
-" Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " On-demand loading
-" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-" Using a non-master branch
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
-" Plugin options
-" Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-
-" Plugin outside ~/.vim/plugged with post-update hook
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Unite
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-
-" Unmanaged plugin (manually installed and updated)
-" Plug '~/my-prototype-plugin'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -156,6 +142,10 @@ set expandtab       " Tabs to spaces
 set smarttab        " Consolidated editing
 set smartindent     " When starting new line repeat indentation
 set autoindent
+
+" Other
+set virtualedit=all
+
 
 " }}} ===========================================================
 
