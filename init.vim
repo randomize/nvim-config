@@ -6,7 +6,7 @@
 " {{{ Platform specific switches
 if has("unix")
   let s:uname = system("uname")
-  let g:python_host_prog='/usr/bin/python'
+  let g:python_host_prog='/usr/bin/python2'
   if s:uname == "Darwin\n"
     let g:python_host_prog='/usr/bin/python2.7'
   endif
