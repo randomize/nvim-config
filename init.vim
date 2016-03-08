@@ -3,8 +3,17 @@
 "
 " Eugene Mihailenco, 2016
 
+" {{{ Platform specific switches
+if has("unix")
+  let s:uname = system("uname")
+  let g:python_host_prog='/usr/bin/python'
+  if s:uname == "Darwin\n"
+    let g:python_host_prog='/usr/bin/python2.7'
+  endif
+endif
 
-let g:python_host_prog='/usr/bin/python2.7'
+" }}}
+
 " {{{ Plugins
 
 call plug#begin('~/.config/nvim/plugged')
@@ -57,7 +66,6 @@ call plug#end()
 
 " }}}
 
-
 " {{{ White spacing and Characters ===============================
 
 set fillchars+=diff:⣿
@@ -81,12 +89,10 @@ set sidescrolloff=1
 
 " }}} ===========================================================
 
-
-"------------------------------------
-" Behavior
-"------------------------------------
+" {{{ Behavior
 let g:mapleader=','
 let g:maplocalleader='\\'
+" }}}
 
 " {{{ Key mappings
 
@@ -156,7 +162,6 @@ iabbrev melname Mihailenco
 iabbrev mesite http://randomize.github.io/
 " }}} ===========================================================
 
-
 " {{{ Plugins
 
 " {{{ ultisnips
@@ -201,7 +206,6 @@ let g:airline_mode_map = {
 
 
 " }}}
-
 
 filetype plugin indent on
 syntax on
