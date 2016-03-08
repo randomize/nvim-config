@@ -23,9 +23,18 @@ call plug#begin('~/.config/nvim/plugged')
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " Plug 'junegunn/vim-easy-align'
 Plug 'tomasr/molokai'
+
+" Git support
 Plug 'airblade/vim-gitgutter'
-Plug 'benekastah/neomake'       " Syntax checker
+Plug 'tpope/vim-fugitive'
+
+" Syntastic replacer
+Plug 'benekastah/neomake'
+
+" Other musthave
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'easymotion/vim-easymotion'
 
 " TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
