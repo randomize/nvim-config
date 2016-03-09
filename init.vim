@@ -5,11 +5,13 @@
 
 " {{{ Platform specific switches
 if has("unix")
-  let s:uname = system("uname")
+
+  let s:uname = substitute(system('uname'), '\n', '', 'g')
   let g:python_host_prog='/usr/bin/python2'
-  if s:uname == "Darwin\n"
+  if s:uname == "Darwin"
     let g:python_host_prog='/usr/bin/python2.7'
   endif
+
 endif
 
 " }}}
