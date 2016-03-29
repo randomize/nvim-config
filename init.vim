@@ -14,6 +14,11 @@ if has("unix")
 
 endif
 
+" Setup gloval dev variable
+if !exists("g:bully_dev")
+    let g:bully_dev = $bully_dev
+endif
+
 " }}}
 
 " {{{ Plugins
@@ -390,11 +395,6 @@ vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 " }}}
 
-if g:bully_dev == "eugene"
-    call Enable80CharsLimit()
-    :IndentGuidesEnable
-endif
-
 " == Unite ===
 nnoremap <leader>uf :call Unite_ctrlp()<cr>
 
@@ -506,6 +506,14 @@ let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
 " }}} YouCompleteme
 
 " {{{ Neomake
+let g:neomake_error_sign = {
+    \ 'text': '✖',
+    \ 'texthl': 'ErrorMsg',
+    \ }
+let g:neomake_warning_sign = {
+    \ 'text': '⚠',
+    \ 'texthl': 'None',
+    \ }
 autocmd! BufWritePost * Neomake
 " }}} Neomake
 
@@ -564,7 +572,6 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
 \ '\.anim$', '\.controller$'
 \ ], '\|'))
 " }}}
-
 
 " {{{ Ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
