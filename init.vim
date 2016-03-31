@@ -19,17 +19,21 @@ if !exists("g:bully_dev")
     let g:bully_dev = $bully_dev
 endif
 
+" 
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
 " }}}
 
 " {{{ Plugins
 
 call plug#begin('~/.config/nvim/plugged')
 
-" Make sure you use single quotes
+" NOTE: Make sure you use single quotes
 
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-" Plug 'junegunn/vim-easy-align'
+Plug 'Buffergator'
 Plug 'tomasr/molokai'
+" Super increment
+Plug 'VisIncr'
 
 " Git support
 Plug 'airblade/vim-gitgutter'
@@ -48,6 +52,7 @@ Plug 'mileszs/ack.vim'
 " TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
 
 " You complete me
 Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer' }
@@ -75,34 +80,24 @@ Plug 'unite-yarm'
 
 " CtrlP
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ludovicchabant/vim-ctrlp-autoignore'
 
+" Tags for C++/C and others
+Plug 'demelev/tagbar'
+
+" Session save/restore
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+
+" Undo visual tree
+Plug 'mbbill/undotree'
+
+" Plug 'junegunn/vim-easy-align'
 " Add plugins to &runtimepath
 call plug#end()
 
 " }}}
 
-" {{{ White spacing and Characters ===============================
-
-set fillchars+=diff:⣿
-set fillchars+=vert:│
-set fillchars+=fold:-
-
-" A visual cue for line-wrapping.
-set showbreak=↪
-
-" Visual cues when in 'list' model.
-set nolist
-set listchars+=eol:¶
-set listchars+=extends:❯
-set listchars+=precedes:❮
-set listchars+=trail:⋅
-set listchars+=nbsp:⋅
-set listchars+=tab:\|\ 
-
-" Keep some spacing.
-set sidescrolloff=1
-
-" }}} ===========================================================
 
 " {{{ Behavior
 let g:mapleader=','
@@ -437,9 +432,11 @@ nnoremap <leader>sh :OmniSharpHighlightTypes<cr>
 
 " {{{ Options ====================================================
 
-set infercase
-set hlsearch
-set incsearch
+set hlsearch     " Highlight search results
+set ignorecase   " no sensitive to case
+set incsearch    " enable incremental search
+set smartcase    " When meet uppercase -> sensitive
+"set infercase
 
 set number relativenumber
 set nowrap
@@ -458,6 +455,31 @@ set autoindent
 " Other
 set virtualedit=all
 
+" Buffers ans splits
+set hidden " allow hidden buffers
+set splitbelow " new splits go down
+set splitright " and right
+
+" White spacing and Characters
+
+set fillchars+=diff:⣿
+set fillchars+=vert:│
+set fillchars+=fold:-
+
+" A visual cue for line-wrapping.
+set showbreak=↪
+
+" Visual cues when in 'list' model.
+set nolist
+set listchars+=eol:¶
+set listchars+=extends:❯
+set listchars+=precedes:❮
+set listchars+=trail:⋅
+set listchars+=nbsp:⋅
+set listchars+=tab:\|\ 
+
+" Keep some spacing.
+set sidescrolloff=1
 
 " }}} ===========================================================
 
@@ -575,6 +597,10 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
 
 " {{{ Ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
+" }}}
+
+" {{{ CtrlP
+let g:ctrlp_extensions = ['autoignore']
 " }}}
 
 " }}}
