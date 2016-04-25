@@ -55,7 +55,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --omnisharp-completer --racer-completer --tern-completer' }
+" Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
 " C# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
@@ -91,6 +92,10 @@ Plug 'xolox/vim-misc'
 
 " Undo visual tree
 Plug 'mbbill/undotree'
+
+
+" Node js stuff
+Plug 'ternjs/tern_for_vim'
 
 " Plug 'junegunn/vim-easy-align'
 " Add plugins to &runtimepath
@@ -519,6 +524,7 @@ let g:OmniSharp_server_type = 'roslyn'
 " }}} OmniSharp
 
 " {{{ YouCompleteme
+let g:ycm_python_binary_path = '/usr/bin/python3'
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_auto_trigger = 1
 " let g:ycm_key_invoke_completion = '<c-Tab>'
