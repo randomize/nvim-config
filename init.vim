@@ -55,7 +55,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --omnisharp-completer --racer-completer --tern-completer' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer ' }
+" Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
 " C# support
