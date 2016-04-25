@@ -63,7 +63,7 @@ Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.s
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
-Plug 'vim-scripts/cg.vim', { 'for': 'cg' }
+Plug 'BullyEntertainment/cg.vim', { 'for': 'cg' }
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
