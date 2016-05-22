@@ -65,6 +65,7 @@ Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.s
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
 Plug 'BullyEntertainment/cg.vim', { 'for': 'cg' }
+Plug 'sheerun/vim-polyglot'
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -79,6 +80,8 @@ Plug 'ujihisa/unite-colorscheme'
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'unite-yarm'
+Plug 'Shougo/unite-outline'
+Plug 'tsukkee/unite-tag'
 
 " CtrlP
 Plug 'ctrlpvim/ctrlp.vim'
@@ -354,12 +357,12 @@ nmap <leader>yt :YcmCompleter GetType<cr>
 let g:unite_source_history_yank_enable = 1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-nnoremap <leader>uf :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async <cr>
-
-nnoremap <leader>ut :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
-nnoremap <leader>ur :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
-nnoremap <leader>uo :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
-nnoremap <leader>uy :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
+nnoremap <leader>uf :<C-u>Unite -buffer-name=files   -start-insert file_rec/async <cr>
+nnoremap <leader>ug :<C-u>Unite -buffer-name=gitfiles   -start-insert file_rec/git <cr>
+nnoremap <leader>ut :<C-u>Unite -buffer-name=files   -start-insert file<cr>
+nnoremap <leader>ur :<C-u>Unite -buffer-name=mru     -start-insert file_mru<cr>
+nnoremap <leader>uo :<C-u>Unite -buffer-name=outline -start-insert outline<cr>
+nnoremap <leader>uy :<C-u>Unite -buffer-name=yank    history/yank<cr>
 nnoremap <leader>ub :<C-u>Unite -buffer-name=buffer  buffer<cr>
 nnoremap <leader>ul :<C-u>Unite -buffer-name=lines  line<cr>
 nnoremap <leader>um :<C-u>Unite -buffer-name=bookmarks  bookmark<cr>
@@ -380,24 +383,19 @@ endfunction
 nmap <Tab> %
 vmap <Tab> %
 
-" Ack on ,a
+" == Ack ===========
 nmap <leader>a :Ack<space>
 
-if bully_dev != "demelev"
-    " == Fugitive =======
-    noremap <leader>gd :Gdiff<CR>
-    noremap <leader>gc :Gcommit<CR>
-    noremap <leader>gs :Gstatus<CR>
-    noremap <leader>gw :Gwrite<CR>
-    noremap <leader>gb :Gblame<CR>
-endif
+" == Fugitive =======
+noremap <leader>gd :Gdiff<CR>
+noremap <leader>gc :Gcommit<CR>
+noremap <leader>gs :Gstatus<CR>
+noremap <leader>gw :Gwrite<CR>
+noremap <leader>gb :Gblame<CR>
 
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 " }}}
-
-" == Unite ===
-nnoremap <leader>uf :call Unite_ctrlp()<cr>
 
 " == Omnisharp ===
 nnoremap <leader>sg :OmniSharpGotoDefinition<cr>
@@ -532,6 +530,7 @@ let g:ycm_auto_trigger = 1
 let g:ycm_key_list_select_completion = ['<tab>', '<up>']
 "let g:ycm_key_list_previous_completion = ['<s-tab>']
 let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
+let g:ycm_confirm_extra_conf = 0
 " }}} YouCompleteme
 
 " {{{ Neomake
@@ -544,6 +543,9 @@ let g:neomake_warning_sign = {
     \ 'texthl': 'None',
     \ }
 autocmd! BufWritePost * Neomake
+let g:neomake_cpp_enable_markers=['clang']
+let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g", "-lglfw", "-lgl"]
+
 " }}} Neomake
 
 " {{{ Airline
