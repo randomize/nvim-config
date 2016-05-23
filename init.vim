@@ -614,6 +614,10 @@ let g:ctrlp_extensions = ['autoignore']
 
 " }}}
 
+" {{{ Autos ==================================================
+autocmd BufEnter .git/index setlocal cursorline
+" }}}
+
 filetype plugin indent on
 syntax on
 
