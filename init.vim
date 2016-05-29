@@ -101,6 +101,9 @@ Plug 'mbbill/undotree'
 " Node js stuff
 Plug 'ternjs/tern_for_vim'
 
+" Rust
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
 " Plug 'junegunn/vim-easy-align'
 " Add plugins to &runtimepath
 call plug#end()
@@ -610,6 +613,10 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " {{{ CtrlP
 let g:ctrlp_extensions = ['autoignore']
+" }}}
+
+" {{{ Rust
+let g:ycm_rust_src_path = '/usr/src/rust/src'
 " }}}
 
 " }}}
