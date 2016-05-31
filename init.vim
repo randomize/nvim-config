@@ -55,7 +55,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer ' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
@@ -622,7 +622,16 @@ let g:ycm_rust_src_path = '/usr/src/rust/src'
 " }}}
 
 " {{{ Autos ==================================================
+" Gitgutter buffer auto - enable nice cursorline for this type of buffer
 autocmd BufEnter .git/index setlocal cursorline
+
+" Exclude quickfix and (not yet - TODO) scratch from bn/bp
+augroup qf
+    autocmd!
+    autocmd FileType qf set nobuflisted
+augroup END
+
+autocmd BufCreate [Scratch] set nobuflisted
 " }}}
 
 filetype plugin indent on
