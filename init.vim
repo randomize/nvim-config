@@ -57,7 +57,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer ' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
@@ -675,6 +675,14 @@ let g:eighties_bufname_additional_patterns = ['Tagbar']
 
 " Gstatus to have nice cursor
 autocmd BufEnter .git/index setlocal cursorline
+
+" Exclude quickfix and (not yet - TODO) scratch from bn/bp
+augroup qf
+    autocmd!
+    autocmd FileType qf set nobuflisted
+augroup END
+
+autocmd BufCreate [Scratch] set nobuflisted
 
 " }}}
 
