@@ -48,6 +48,8 @@ Plug 'tpope/vim-repeat'
 Plug 'easymotion/vim-easymotion'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'mileszs/ack.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'vim-scripts/restore_view.vim'
 
 " TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
@@ -59,9 +61,6 @@ Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer 
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
-" C# support
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
-
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
 Plug 'BullyEntertainment/cg.vim', { 'for': 'cg' }
@@ -72,6 +71,10 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" IDE features
+Plug 'xuhdev/SingleCompile'
+Plug 'mbbill/undotree'
 
 " Unite
 Plug 'Shougo/unite.vim'
@@ -87,22 +90,33 @@ Plug 'tsukkee/unite-tag'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-ctrlp-autoignore'
 
-" Tags for C++/C and others
+" Tags
 Plug 'demelev/tagbar'
+Plug 'vim-scripts/taglist.vim'
 
 " Session save/restore
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
+Plug 'mhinz/vim-startify'
 
-" Undo visual tree
-Plug 'mbbill/undotree'
+" {{{ Language specific
 
+" C# support
+Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
 
 " Node js stuff
 Plug 'ternjs/tern_for_vim'
+Plug 'pangloss/vim-javascript'
+Plug 'moll/vim-node'
 
 " Rust
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+" Ruby support
+Plug 'tpope/vim-rails', { 'for': 'ruby' }
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+
+" }}}
 
 " Plug 'junegunn/vim-easy-align'
 " Add plugins to &runtimepath
@@ -182,21 +196,6 @@ map <A-m> :CtrlPBufTag<cr>
 map <c-Tab> :tabn<cr>
 nnoremap <leader>un vi}<<<esc>
 
-" OmniSharp bindings TODO: compare with Eugene's - CS only!
-nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-nnoremap <leader>ft :OmniSharpFindType<cr>
-nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-nnoremap <leader>fu :OmniSharpFindUsages<cr>
-nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
-nnoremap <leader><space> :OmniSharpFindMembersInBuffer<cr>
-
-" cursor can be anywhere on the line containing an issue for this one
-nnoremap <leader>x  :OmniSharpFixIssue<cr>
-nnoremap <leader>fx :OmniSharpFixUsings<cr>
-nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-nnoremap <leader>dc :OmniSharpDocumentation<cr>
-nnoremap <leader>gd :OmniSharpGotoDefinition<cr>
-
 " Session workflow
 nmap <leader>so :OpenSession<space>
 nmap <leader>ss :SaveSession<space>
@@ -221,7 +220,6 @@ nmap <leader>3 :TlistToggle<CR>
 nmap <leader>4 :TagbarToggle<CR>
 nmap <leader>5 :NERDTreeToggle<CR>
 nmap <leader>6 :BuffergatorToggle<CR>
-"nmap <silent> <leader>6 :ConqueTermSplit bash<CR><Esc>:setlocal nolist<CR>a
 
 " Make p in Visual mode replace the selected text with the \" register.
 vmap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
@@ -401,39 +399,57 @@ vmap <c-v> <Plug>(expand_region_shrink)
 " }}}
 
 " == Omnisharp ===
-nnoremap <leader>sg :OmniSharpGotoDefinition<cr>
-nnoremap <leader>si :OmniSharpFindImplementations<cr>
-nnoremap <leader>st :OmniSharpFindType<cr>
-nnoremap <leader>ss :OmniSharpFindSymbol<cr>
-nnoremap <leader>su :OmniSharpFindUsages<cr>
-nnoremap <leader>sm :OmniSharpFindMembers<cr>
-nnoremap <leader>sx  :OmniSharpFixIssue<cr>
-nnoremap <leader>sxu :OmniSharpFixUsings<cr>
-nnoremap <leader>st :OmniSharpTypeLookup<cr>
-nnoremap <leader>sd :OmniSharpDocumentation<cr>
-nnoremap <leader>sk :OmniSharpNavigateUp<cr>
-nnoremap <leader>sj :OmniSharpNavigateDown<cr>
-nnoremap <leader>sl :OmniSharpReloadSolution<cr>
-nnoremap <leader>sf :OmniSharpCodeFormat<cr>
-nnoremap <leader>sa :OmniSharpAddToProject<cr>
+autocmd FileType cs call s:omnisharp_settings()
+function! s:omnisharp_settings()
+  nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
+  nnoremap <buffer> <leader>si :OmniSharpFindImplementations<cr>
+  nnoremap <buffer> <leader>st :OmniSharpFindType<cr>
+  nnoremap <buffer> <leader>ss :OmniSharpFindSymbol<cr>
+  nnoremap <buffer> <leader>su :OmniSharpFindUsages<cr>
+  nnoremap <buffer> <leader>sm :OmniSharpFindMembers<cr>
+  nnoremap <buffer> <leader>sx  :OmniSharpFixIssue<cr>
+  nnoremap <buffer> <leader>sxu :OmniSharpFixUsings<cr>
+  nnoremap <buffer> <leader>st :OmniSharpTypeLookup<cr>
+  nnoremap <buffer> <leader>sd :OmniSharpDocumentation<cr>
+  nnoremap <buffer> <leader>sk :OmniSharpNavigateUp<cr>
+  nnoremap <buffer> <leader>sj :OmniSharpNavigateDown<cr>
+  nnoremap <buffer> <leader>sl :OmniSharpReloadSolution<cr>
+  nnoremap <buffer> <leader>sf :OmniSharpCodeFormat<cr>
+  nnoremap <buffer> <leader>sa :OmniSharpAddToProject<cr>
+  
+  " Contextual code actions (requires CtrlP or unite.vim)
+  nnoremap <buffer> <leader><space> :OmniSharpGetCodeActions<cr>
+  " Run code actions with text selected in visual mode to extract method
+  vnoremap <buffer> <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+  
+  " rename with dialog
+  nnoremap <buffer> <leader>sr :OmniSharpRename<cr>
+  " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
+  command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+  
+  " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
+  nnoremap <buffer> <leader>ss :OmniSharpStartServer<cr>
+  nnoremap <buffer> <leader>sp :OmniSharpStopServer<cr>
+  
+  " Add syntax highlighting for types and interfaces
+  nnoremap <buffer> <leader>sh :OmniSharpHighlightTypes<cr>
 
-" Contextual code actions (requires CtrlP or unite.vim)
-nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-" Run code actions with text selected in visual mode to extract method
-vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+  " OmniSharp bindings from demelev
+  nnoremap <buffer> <leader>fi :OmniSharpFindImplementations<cr>
+  nnoremap <buffer> <leader>ft :OmniSharpFindType<cr>
+  nnoremap <buffer> <leader>fs :OmniSharpFindSymbol<cr>
+  nnoremap <buffer> <leader>fu :OmniSharpFindUsages<cr>
+  nnoremap <buffer> <leader>fm :OmniSharpFindMembersInBuffer<cr>
+  " nnoremap <buffer> <leader><space> :OmniSharpFindMembersInBuffer<cr>
+  
+  " cursor can be anywhere on the line containing an issue for this one
+  " nnoremap <buffer> <leader>x  :OmniSharpFixIssue<cr>
+  " nnoremap <buffer> <leader>fx :OmniSharpFixUsings<cr>
+  " nnoremap <buffer> <leader>tt :OmniSharpTypeLookup<cr>
+  nnoremap <buffer> <leader>dc :OmniSharpDocumentation<cr>
+  nnoremap <buffer> <leader>gd :OmniSharpGotoDefinition<cr>
 
-" rename with dialog
-nnoremap <leader>sr :OmniSharpRename<cr>
-" rename without dialog - with cursor on the symbol to rename... ':Rename newname'
-command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-
-" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-nnoremap <leader>ss :OmniSharpStartServer<cr>
-nnoremap <leader>sp :OmniSharpStopServer<cr>
-
-" Add syntax highlighting for types and interfaces
-nnoremap <leader>sh :OmniSharpHighlightTypes<cr>
-
+endfunction
 
 " }}} ===========================================================
 
@@ -619,10 +635,47 @@ let g:ctrlp_extensions = ['autoignore']
 let g:ycm_rust_src_path = '/usr/src/rust/src'
 " }}}
 
+" {{{ Startify
+let g:startify_bookmarks = ['~/.vimrc','~/.zshrc','~/nfo/commands.txt',]
+let g:startify_change_to_dir = 0
+let g:startify_files_number = 8
+
+if has('unix')
+    let g:startify_custom_header =
+                \ map(split(system('fortune | cowsay -W 60'), '\n') , '"   ". v:val') + ['','']
+endif
+" }}}
+
+" {{{ Session
+let g:session_directory = "~/.vim/session"
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
+" }}}
+
+" {{{ Undo tree
+let g:undotree_SplitWidth = 40
+" }}}
+
+" {{{ Buffergator
+let g:buffergator_suppress_keymaps = 1
+" }}}
+
+" {{{ NERD Tree
+let NERDTreeWinPos='right'
+" }}}
+
+" {{{ Eighties settings
+let g:eighties_bufname_additional_patterns = ['Tagbar']
+" }}}
+
 " }}}
 
 " {{{ Autos ==================================================
+
+" Gstatus to have nice cursor
 autocmd BufEnter .git/index setlocal cursorline
+
 " }}}
 
 filetype plugin indent on
