@@ -76,7 +76,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 
-" Unite
+" {{{ Unite
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ujihisa/unite-colorscheme'
@@ -85,6 +85,7 @@ Plug 'Shougo/neomru.vim'
 Plug 'unite-yarm'
 Plug 'Shougo/unite-outline'
 Plug 'tsukkee/unite-tag'
+" }}}
 
 " CtrlP
 Plug 'ctrlpvim/ctrlp.vim'
@@ -133,14 +134,14 @@ let g:maplocalleader='\\'
 " {{{ Key mappings
 
 " Faster command access
-nmap <silent> <space> <NOP>
+nmap <silent><space> <NOP>
 nmap <space>; :
 nmap <space><space> :
 nmap <silent><space>w :w<CR>
 nmap <silent><space>q :q<CR>
 nmap <silent><space>] :bn<CR>
 nmap <silent><space>[ :bp<CR>
-nmap <silent> <space>c :bd<CR>
+nmap <silent><space>c :bd<CR>
 
 " Quick jump out of insert mode
 imap jj <esc>
@@ -180,21 +181,11 @@ nmap <silent> <F12> :NERDTreeToggle<CR>
 
 " }}}
 
-" Folds
-" Mappings to easily toggle fold levels
-nnoremap z0 :set foldlevel=0<cr>
-nnoremap z1 :set foldlevel=1<cr>
-nnoremap z2 :set foldlevel=2<cr>
-nnoremap z3 :set foldlevel=3<cr>
-nnoremap z4 :set foldlevel=4<cr>
-nnoremap z5 :set foldlevel=5<cr>
-
 " CtrlP maps
 " TODO: clear it
 map <A-b> :CtrlPBuffer<cr>
 map <A-m> :CtrlPBufTag<cr>
-map <c-Tab> :tabn<cr>
-nnoremap <leader>un vi}<<<esc>
+"map <c-Tab> :tabn<cr>
 
 " Session workflow
 nmap <leader>so :OpenSession<space>
@@ -202,15 +193,6 @@ nmap <leader>ss :SaveSession<space>
 nmap <leader>sd :DeleteSession<CR>
 nmap <leader>sc :CloseSession<CR>
 
-
-"TODO: clear there.
-vmap <leader>wr :WrapWithRegion<cr>
-vmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
-vmap <leader>ifedd :WrapWithIf 'UNITY_EDITOR \|\| DEVELOPMENT'<cr>
-
-
-nmap <leader>wr :WrapWithRegion<cr>
-nmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
 
 " Toggle things
 " nmap <leader>1 :GundoToggle<CR>
@@ -236,13 +218,6 @@ nmap <c-k> ddkP
 vmap <c-j> dp'[V']
 vmap <c-k> dkP'[V']
 
-" Duplications
-" TODO: prevent register wipe
-vmap <silent> <leader>= yP
-nmap <silent> <leader>= YP
-
-" move stuff to the right of cursor to next line
-nmap <silent> <leader><CR> i<CR><ESC>k$
 
 " cd to the directory containing the file in the buffer
 nmap <silent> <leader>cd :lcd %:h<CR>
@@ -272,7 +247,7 @@ nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 
 " Buffers
 
-" == Space mappings ==
+" {{{ Space mappings ==
 
 " Openbrowser maps
 "nmap <leader>qu <Plug>(openbrowser-search)
@@ -280,6 +255,12 @@ nmap <space>sg :OpenBrowserSearch -google <c-r>=expand("<cword>")<cr><cr>
 nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
 nmap <space>ag :OpenBrowserSearch -google 
 nmap <space>au :OpenBrowserSearch -unity3d 
+" Search
+" nnoremap gb :OpenURL <cfile><CR>
+" nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
+" nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
+" nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+
 
 " Faster command access
 nmap <silent> <space> <NOP>
@@ -303,16 +284,23 @@ nmap <silent> <space>pp "*p
 nmap <silent> <space>P "+P
 nmap <silent> <space>PP "*P
 
+" Duplications
+vmap <silent> <space>= "dy"dP
+nmap <silent> <space>= "dyy"dP
+" }}}
+
+" move stuff to the right of cursor to next line
+nmap <silent> <leader><CR> i<CR><ESC>k$
 
 " Search the current file for the word under the cursor and display matches
 nmap <silent> <leader>gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 
-" Edit the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" Edit shortcuts
+nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <silent> <leader>eg :vsplit ~/.gitconfig<cr>
 
 " Yank to end (like D and C)
-nmap Y y$
+nnoremap Y y$
 
 " When entering command, press %% to quickly insert current path
 cmap %% <C-R>=expand('%:h').'/'<cr>
@@ -330,12 +318,6 @@ nmap <leader>a :Ack<space>
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
-" Search
-nnoremap gb :OpenURL <cfile><CR>
-nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
-nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
-nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-
 " Folds
 " Mappings to easily toggle fold levels
 nnoremap z0 :set foldlevel=0<cr>
@@ -347,14 +329,13 @@ nnoremap z5 :set foldlevel=5<cr>
 
 
 " === YCM =====
-nmap <leader>yy :YcmForceCompileAndDiagnostics<cr>
 nmap <leader>yg :YcmCompleter GoToDefinitionElseDeclaration<cr>
 nmap <leader>yd :YcmCompleter GoToDefinition<cr>
 nmap <leader>yc :YcmCompleter GoToDeclaration<cr>
 nmap <leader>yt :YcmCompleter GetType<cr>
 
 
-" == Unite =====
+" {{{ == Unite =====
 let g:unite_source_history_yank_enable = 1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
@@ -366,9 +347,11 @@ nnoremap <leader>uo :<C-u>Unite -buffer-name=outline -start-insert outline<cr>
 nnoremap <leader>uy :<C-u>Unite -buffer-name=yank    history/yank<cr>
 nnoremap <leader>ub :<C-u>Unite -buffer-name=buffer  buffer<cr>
 nnoremap <leader>ul :<C-u>Unite -buffer-name=lines  line<cr>
+nnoremap <leader>ut :<C-u>Unite -buffer-name=tags  tag:%<cr>
 nnoremap <leader>um :<C-u>Unite -buffer-name=bookmarks  bookmark<cr>
 nnoremap <leader>uc :<C-u>Unite colorscheme<cr>
 nnoremap <leader>uh :<C-u>Unite resume<cr>
+nnoremap <space>/ :Unite grep:.<cr>
 
 " Custom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
@@ -379,13 +362,14 @@ function! s:unite_settings()
   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
 endfunction
+" }}}
 
 " Tab in normal mode is useless - use it to %
-nmap <Tab> %
-vmap <Tab> %
+nnoremap <Tab> %
+vnoremap <Tab> %
 
 " == Ack ===========
-nmap <leader>a :Ack<space>
+nnoremap <leader>a :Ack<space>
 
 " == Fugitive =======
 noremap <leader>gd :Gdiff<CR>
@@ -398,7 +382,7 @@ vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 " }}}
 
-" == Omnisharp ===
+" {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
 function! s:omnisharp_settings()
   nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
@@ -446,10 +430,21 @@ function! s:omnisharp_settings()
   " nnoremap <buffer> <leader>x  :OmniSharpFixIssue<cr>
   " nnoremap <buffer> <leader>fx :OmniSharpFixUsings<cr>
   " nnoremap <buffer> <leader>tt :OmniSharpTypeLookup<cr>
-  nnoremap <buffer> <leader>dc :OmniSharpDocumentation<cr>
-  nnoremap <buffer> <leader>gd :OmniSharpGotoDefinition<cr>
+  " nnoremap <buffer> <leader>dc :OmniSharpDocumentation<cr>
+  " nnoremap <buffer> <leader>gd :OmniSharpGotoDefinition<cr>
+
+  " Unindent (used for namespaces)
+  nnoremap <leader>un vi}<<<esc>
+
+  " Wrappers for Unity
+  vmap <leader>wr :WrapWithRegion<cr>
+  vmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
+  vmap <leader>ifedd :WrapWithIf 'UNITY_EDITOR \|\| DEVELOPMENT'<cr>
+  nmap <leader>wr :WrapWithRegion<cr>
+  nmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
 
 endfunction
+" }}}
 
 " }}} ===========================================================
 
@@ -609,6 +604,9 @@ let g:unite_winheight = 10
 let g:unite_candidate_icon="▷"
 let g:unite_source_rec_async_command= ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
 let g:unite_source_history_yank_enable = 1
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
+let g:unite_source_grep_recursive_opt = ''
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
