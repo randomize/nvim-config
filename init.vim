@@ -523,6 +523,11 @@ let g:ycm_csharp_server_port = 20001
 let g:OmniSharp_timeout = 1
 let g:OmniSharp_server_type = 'v1'
 let g:OmniSharp_server_type = 'roslyn'
+" If you prefer the Omni-Completion tip window to close when a selection is
+" made, these lines close it on movement in insert mode or when leaving
+" insert mode
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " }}} OmniSharp
 
 " {{{ YouCompleteme
