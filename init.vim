@@ -48,6 +48,13 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " }}}
 
+" {{{ Personal settings  ==================================================
+let profile_filePath = $XDG_CONFIG_HOME.'/nvim/profiles/'.$bully_dev.'.vim'
+if filereadable(profile_filePath)
+    exec "source ".profile_filePath
+endif
+" }}}
+"
 " {{{ Plugins
 
 call plug#begin('~/.config/nvim/plugged')
@@ -72,8 +79,8 @@ Plug 'tpope/vim-repeat'
 Plug 'easymotion/vim-easymotion'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'mileszs/ack.vim'
-Plug 'tomtom/tcomment_vim'
 Plug 'vim-scripts/restore_view.vim'
+Plug 'Raimondi/delimitMate'
 
 " Tools
 Plug 'open-browser.vim'
@@ -146,6 +153,7 @@ Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
 " }}}
 
+call Profile_Plugins()
 " Plug 'junegunn/vim-easy-align'
 " Add plugins to &runtimepath
 call plug#end()
@@ -539,7 +547,7 @@ iabbrev mesite http://randomize.github.io/
 " {{{ Plugins
 
 " {{{ TagHighlight
-Plug 'demelev/TagHighlight'
+Plug 'demelev/TagHighlight', { 'for': 'cs'}
 " }}}
 
 " {{{ UltiSnips
@@ -743,9 +751,5 @@ autocmd BufCreate [Scratch] set nobuflisted
 filetype plugin indent on
 syntax on
 
-" {{{ Personal settings  ==================================================
-let profile_filePath = $XDG_CONFIG_HOME.'/nvim/profiles/'.$bully_dev.'.vim'
-if filereadable(profile_filePath)
-    exec "source ".profile_filePath
-endif
-" }}}
+call Profile_Settings()
+"
