@@ -35,3 +35,5 @@ exec ":set backupdir=".g:dev_temp
 
 set undofile
 exec ":set undodir=".g:dev_temp
+let g:ycm_rust_src_path = '~/.cargo/rustc-1.9.0/src/'
+let g:snips_author = 'Emeliov Dmitri <demelev1990@gmail.com>'

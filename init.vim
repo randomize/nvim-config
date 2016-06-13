@@ -75,11 +75,14 @@ Plug 'mileszs/ack.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'vim-scripts/restore_view.vim'
 
+" Tools
+Plug 'open-browser.vim'
 " TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
+"
 " You complete me
 Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
@@ -271,8 +274,10 @@ nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 "nmap <leader>qu <Plug>(openbrowser-search)
 nmap <space>sg :OpenBrowserSearch -google <c-r>=expand("<cword>")<cr><cr>
 nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
+nmap <space>sr :OpenBrowserSearch -rust <c-r><c-w><cr>
 nmap <space>ag :OpenBrowserSearch -google 
 nmap <space>au :OpenBrowserSearch -unity3d 
+nmap <space>ar :OpenBrowserSearch -rust 
 " Search
 " nnoremap gb :OpenURL <cfile><CR>
 " nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
@@ -533,6 +538,10 @@ iabbrev mesite http://randomize.github.io/
 
 " {{{ Plugins
 
+" {{{ TagHighlight
+Plug 'demelev/TagHighlight'
+" }}}
+
 " {{{ UltiSnips
 let g:snips_author = 'Eugene Mihailenco <mihailencoe@gmail.com>'
 let g:UltiSnipsEnableSnipMate = 1
@@ -704,6 +713,16 @@ let NERDTreeWinPos='right'
 let g:eighties_bufname_additional_patterns = ['Tagbar']
 " }}}
 
+" {{{ OpenBrowser settings
+let g:openbrowser_default_search = 'unity3d'
+let g:openbrowser_search_engines = extend(
+    \get(g:, 'openbrowser_search_engines', {}),
+    \{
+    \   'unity3d' : 'http://docs.unity3d.com/ScriptReference/30_search.html?q={query}',
+    \   'rust' : 'https://doc.rust-lang.org/std/?search={query}'
+    \})
+" }}}
+"
 " }}}
 
 " {{{ Autos ==================================================
