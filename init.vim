@@ -3,6 +3,30 @@
 "
 " Eugene Mihailenco, 2016
 
+" =========================================================================
+" OS Detector and global swithches
+" =========================================================================
+" {{{
+"
+
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    elseif  has('win32unix')
+        let g:os = "Cygwin"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+        " Darwin and Linux most common values for OSX and GNU/Linux
+    endif
+endif
+
+if !exists("g:bully_dev")
+    let g:bully_dev = $bully_dev
+    "let g:bully_dev = "dstavila"
+    " let g:bully_dev = "demelev"
+endif
+
+" }}}
 " {{{ Platform specific switches
 if has("unix")
 
@@ -123,12 +147,6 @@ Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 " Add plugins to &runtimepath
 call plug#end()
 
-" }}}
-
-
-" {{{ Behavior
-let g:mapleader=','
-let g:maplocalleader='\\'
 " }}}
 
 " {{{ Key mappings
@@ -654,6 +672,20 @@ let g:session_directory = "~/.vim/session"
 let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
+
+"Function for autoloading project's settings and highlight
+function! On_session_loaded()
+    if exists("g:project_settings_loaded")
+        return
+    endif
+
+    if filereadable('.vim/project_settings.vim')
+        exec "source ".expand('~/.vim/SimpleIDE/idecs.vim')
+        let g:project_settings_loaded = 1
+    endif
+endfunction
+autocmd SessionLoadPost * call On_session_loaded()
+
 " }}}
 
 " {{{ Undo tree
@@ -692,3 +724,9 @@ autocmd BufCreate [Scratch] set nobuflisted
 filetype plugin indent on
 syntax on
 
+" {{{ Personal settings  ==================================================
+let profile_filePath = $XDG_CONFIG_HOME.'/nvim/profiles/'.$bully_dev.'.vim'
+if filereadable(profile_filePath)
+    exec "source ".profile_filePath
+endif
+" }}}
