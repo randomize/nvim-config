@@ -48,6 +48,8 @@ Plug 'tpope/vim-repeat'
 Plug 'easymotion/vim-easymotion'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'mileszs/ack.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'vim-scripts/restore_view.vim'
 
 " TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
@@ -58,9 +60,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
-
-" C# support
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
@@ -73,7 +72,11 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-" Unite
+" IDE features
+Plug 'xuhdev/SingleCompile'
+Plug 'mbbill/undotree'
+
+" {{{ Unite
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ujihisa/unite-colorscheme'
@@ -82,27 +85,39 @@ Plug 'Shougo/neomru.vim'
 Plug 'unite-yarm'
 Plug 'Shougo/unite-outline'
 Plug 'tsukkee/unite-tag'
+" }}}
 
 " CtrlP
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-ctrlp-autoignore'
 
-" Tags for C++/C and others
+" Tags
 Plug 'demelev/tagbar'
+Plug 'vim-scripts/taglist.vim'
 
 " Session save/restore
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
+Plug 'mhinz/vim-startify'
 
-" Undo visual tree
-Plug 'mbbill/undotree'
+" {{{ Language specific
 
+" C# support
+Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
 
 " Node js stuff
 Plug 'ternjs/tern_for_vim'
+Plug 'pangloss/vim-javascript'
+Plug 'moll/vim-node'
 
 " Rust
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+" Ruby support
+Plug 'tpope/vim-rails', { 'for': 'ruby' }
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+
+" }}}
 
 " Plug 'junegunn/vim-easy-align'
 " Add plugins to &runtimepath
@@ -119,14 +134,14 @@ let g:maplocalleader='\\'
 " {{{ Key mappings
 
 " Faster command access
-nmap <silent> <space> <NOP>
+nmap <silent><space> <NOP>
 nmap <space>; :
 nmap <space><space> :
 nmap <silent><space>w :w<CR>
 nmap <silent><space>q :q<CR>
 nmap <silent><space>] :bn<CR>
 nmap <silent><space>[ :bp<CR>
-nmap <silent> <space>c :bd<CR>
+nmap <silent><space>c :bd<CR>
 
 " Quick jump out of insert mode
 imap jj <esc>
@@ -166,36 +181,11 @@ nmap <silent> <F12> :NERDTreeToggle<CR>
 
 " }}}
 
-" Folds
-" Mappings to easily toggle fold levels
-nnoremap z0 :set foldlevel=0<cr>
-nnoremap z1 :set foldlevel=1<cr>
-nnoremap z2 :set foldlevel=2<cr>
-nnoremap z3 :set foldlevel=3<cr>
-nnoremap z4 :set foldlevel=4<cr>
-nnoremap z5 :set foldlevel=5<cr>
-
 " CtrlP maps
 " TODO: clear it
 map <A-b> :CtrlPBuffer<cr>
 map <A-m> :CtrlPBufTag<cr>
-map <c-Tab> :tabn<cr>
-nnoremap <leader>un vi}<<<esc>
-
-" OmniSharp bindings TODO: compare with Eugene's - CS only!
-nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-nnoremap <leader>ft :OmniSharpFindType<cr>
-nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-nnoremap <leader>fu :OmniSharpFindUsages<cr>
-nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
-nnoremap <leader><space> :OmniSharpFindMembersInBuffer<cr>
-
-" cursor can be anywhere on the line containing an issue for this one
-nnoremap <leader>x  :OmniSharpFixIssue<cr>
-nnoremap <leader>fx :OmniSharpFixUsings<cr>
-nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-nnoremap <leader>dc :OmniSharpDocumentation<cr>
-nnoremap <leader>gd :OmniSharpGotoDefinition<cr>
+"map <c-Tab> :tabn<cr>
 
 " Session workflow
 nmap <leader>so :OpenSession<space>
@@ -203,15 +193,6 @@ nmap <leader>ss :SaveSession<space>
 nmap <leader>sd :DeleteSession<CR>
 nmap <leader>sc :CloseSession<CR>
 
-
-"TODO: clear there.
-vmap <leader>wr :WrapWithRegion<cr>
-vmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
-vmap <leader>ifedd :WrapWithIf 'UNITY_EDITOR \|\| DEVELOPMENT'<cr>
-
-
-nmap <leader>wr :WrapWithRegion<cr>
-nmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
 
 " Toggle things
 " nmap <leader>1 :GundoToggle<CR>
@@ -221,7 +202,6 @@ nmap <leader>3 :TlistToggle<CR>
 nmap <leader>4 :TagbarToggle<CR>
 nmap <leader>5 :NERDTreeToggle<CR>
 nmap <leader>6 :BuffergatorToggle<CR>
-"nmap <silent> <leader>6 :ConqueTermSplit bash<CR><Esc>:setlocal nolist<CR>a
 
 " Make p in Visual mode replace the selected text with the \" register.
 vmap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
@@ -238,13 +218,6 @@ nmap <c-k> ddkP
 vmap <c-j> dp'[V']
 vmap <c-k> dkP'[V']
 
-" Duplications
-" TODO: prevent register wipe
-vmap <silent> <leader>= yP
-nmap <silent> <leader>= YP
-
-" move stuff to the right of cursor to next line
-nmap <silent> <leader><CR> i<CR><ESC>k$
 
 " cd to the directory containing the file in the buffer
 nmap <silent> <leader>cd :lcd %:h<CR>
@@ -274,7 +247,7 @@ nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 
 " Buffers
 
-" == Space mappings ==
+" {{{ Space mappings ==
 
 " Openbrowser maps
 "nmap <leader>qu <Plug>(openbrowser-search)
@@ -282,6 +255,12 @@ nmap <space>sg :OpenBrowserSearch -google <c-r>=expand("<cword>")<cr><cr>
 nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
 nmap <space>ag :OpenBrowserSearch -google 
 nmap <space>au :OpenBrowserSearch -unity3d 
+" Search
+" nnoremap gb :OpenURL <cfile><CR>
+" nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
+" nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
+" nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+
 
 " Faster command access
 nmap <silent> <space> <NOP>
@@ -305,16 +284,23 @@ nmap <silent> <space>pp "*p
 nmap <silent> <space>P "+P
 nmap <silent> <space>PP "*P
 
+" Duplications
+vmap <silent> <space>= "dy"dP
+nmap <silent> <space>= "dyy"dP
+" }}}
+
+" move stuff to the right of cursor to next line
+nmap <silent> <leader><CR> i<CR><ESC>k$
 
 " Search the current file for the word under the cursor and display matches
 nmap <silent> <leader>gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 
-" Edit the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" Edit shortcuts
+nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <silent> <leader>eg :vsplit ~/.gitconfig<cr>
 
 " Yank to end (like D and C)
-nmap Y y$
+nnoremap Y y$
 
 " When entering command, press %% to quickly insert current path
 cmap %% <C-R>=expand('%:h').'/'<cr>
@@ -332,12 +318,6 @@ nmap <leader>a :Ack<space>
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
-" Search
-nnoremap gb :OpenURL <cfile><CR>
-nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
-nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
-nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-
 " Folds
 " Mappings to easily toggle fold levels
 nnoremap z0 :set foldlevel=0<cr>
@@ -349,14 +329,13 @@ nnoremap z5 :set foldlevel=5<cr>
 
 
 " === YCM =====
-nmap <leader>yy :YcmForceCompileAndDiagnostics<cr>
 nmap <leader>yg :YcmCompleter GoToDefinitionElseDeclaration<cr>
 nmap <leader>yd :YcmCompleter GoToDefinition<cr>
 nmap <leader>yc :YcmCompleter GoToDeclaration<cr>
 nmap <leader>yt :YcmCompleter GetType<cr>
 
 
-" == Unite =====
+" {{{ == Unite =====
 let g:unite_source_history_yank_enable = 1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
@@ -368,9 +347,11 @@ nnoremap <leader>uo :<C-u>Unite -buffer-name=outline -start-insert outline<cr>
 nnoremap <leader>uy :<C-u>Unite -buffer-name=yank    history/yank<cr>
 nnoremap <leader>ub :<C-u>Unite -buffer-name=buffer  buffer<cr>
 nnoremap <leader>ul :<C-u>Unite -buffer-name=lines  line<cr>
+nnoremap <leader>ut :<C-u>Unite -buffer-name=tags  tag:%<cr>
 nnoremap <leader>um :<C-u>Unite -buffer-name=bookmarks  bookmark<cr>
 nnoremap <leader>uc :<C-u>Unite colorscheme<cr>
 nnoremap <leader>uh :<C-u>Unite resume<cr>
+nnoremap <space>/ :Unite grep:.<cr>
 
 " Custom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
@@ -381,13 +362,14 @@ function! s:unite_settings()
   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
 endfunction
+" }}}
 
 " Tab in normal mode is useless - use it to %
-nmap <Tab> %
-vmap <Tab> %
+nnoremap <Tab> %
+vnoremap <Tab> %
 
 " == Ack ===========
-nmap <leader>a :Ack<space>
+nnoremap <leader>a :Ack<space>
 
 " == Fugitive =======
 noremap <leader>gd :Gdiff<CR>
@@ -400,40 +382,69 @@ vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 " }}}
 
-" == Omnisharp ===
-nnoremap <leader>sg :OmniSharpGotoDefinition<cr>
-nnoremap <leader>si :OmniSharpFindImplementations<cr>
-nnoremap <leader>st :OmniSharpFindType<cr>
-nnoremap <leader>ss :OmniSharpFindSymbol<cr>
-nnoremap <leader>su :OmniSharpFindUsages<cr>
-nnoremap <leader>sm :OmniSharpFindMembers<cr>
-nnoremap <leader>sx  :OmniSharpFixIssue<cr>
-nnoremap <leader>sxu :OmniSharpFixUsings<cr>
-nnoremap <leader>st :OmniSharpTypeLookup<cr>
-nnoremap <leader>sd :OmniSharpDocumentation<cr>
-nnoremap <leader>sk :OmniSharpNavigateUp<cr>
-nnoremap <leader>sj :OmniSharpNavigateDown<cr>
-nnoremap <leader>sl :OmniSharpReloadSolution<cr>
-nnoremap <leader>sf :OmniSharpCodeFormat<cr>
-nnoremap <leader>sa :OmniSharpAddToProject<cr>
+" {{{ C# and Unity
+autocmd FileType cs call s:omnisharp_settings()
+function! s:omnisharp_settings()
+  nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
+  nnoremap <buffer> <leader>si :OmniSharpFindImplementations<cr>
+  nnoremap <buffer> <leader>st :OmniSharpFindType<cr>
+  nnoremap <buffer> <leader>ss :OmniSharpFindSymbol<cr>
+  nnoremap <buffer> <leader>su :OmniSharpFindUsages<cr>
+  nnoremap <buffer> <leader>sm :OmniSharpFindMembers<cr>
+  nnoremap <buffer> <leader>sx  :OmniSharpFixIssue<cr>
+  nnoremap <buffer> <leader>sxu :OmniSharpFixUsings<cr>
+  nnoremap <buffer> <leader>st :OmniSharpTypeLookup<cr>
+  nnoremap <buffer> <leader>sd :OmniSharpDocumentation<cr>
+  nnoremap <buffer> <leader>sk :OmniSharpNavigateUp<cr>
+  nnoremap <buffer> <leader>sj :OmniSharpNavigateDown<cr>
+  nnoremap <buffer> <leader>sl :OmniSharpReloadSolution<cr>
+  nnoremap <buffer> <leader>sf :OmniSharpCodeFormat<cr>
+  nnoremap <buffer> <leader>sa :OmniSharpAddToProject<cr>
+  
+  " Contextual code actions (requires CtrlP or unite.vim)
+  nnoremap <buffer> <leader><space> :OmniSharpGetCodeActions<cr>
+  " Run code actions with text selected in visual mode to extract method
+  vnoremap <buffer> <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+  
+  " rename with dialog
+  nnoremap <buffer> <leader>sr :OmniSharpRename<cr>
+  " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
+  command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+  
+  " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
+  nnoremap <buffer> <leader>ss :OmniSharpStartServer<cr>
+  nnoremap <buffer> <leader>sp :OmniSharpStopServer<cr>
+  
+  " Add syntax highlighting for types and interfaces
+  nnoremap <buffer> <leader>sh :OmniSharpHighlightTypes<cr>
 
-" Contextual code actions (requires CtrlP or unite.vim)
-nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-" Run code actions with text selected in visual mode to extract method
-vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+  " OmniSharp bindings from demelev
+  nnoremap <buffer> <leader>fi :OmniSharpFindImplementations<cr>
+  nnoremap <buffer> <leader>ft :OmniSharpFindType<cr>
+  nnoremap <buffer> <leader>fs :OmniSharpFindSymbol<cr>
+  nnoremap <buffer> <leader>fu :OmniSharpFindUsages<cr>
+  nnoremap <buffer> <leader>fm :OmniSharpFindMembersInBuffer<cr>
+  " nnoremap <buffer> <leader><space> :OmniSharpFindMembersInBuffer<cr>
+  
+  " cursor can be anywhere on the line containing an issue for this one
+  " nnoremap <buffer> <leader>x  :OmniSharpFixIssue<cr>
+  " nnoremap <buffer> <leader>fx :OmniSharpFixUsings<cr>
+  " nnoremap <buffer> <leader>tt :OmniSharpTypeLookup<cr>
+  " nnoremap <buffer> <leader>dc :OmniSharpDocumentation<cr>
+  " nnoremap <buffer> <leader>gd :OmniSharpGotoDefinition<cr>
 
-" rename with dialog
-nnoremap <leader>sr :OmniSharpRename<cr>
-" rename without dialog - with cursor on the symbol to rename... ':Rename newname'
-command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+  " Unindent (used for namespaces)
+  nnoremap <leader>un vi}<<<esc>
 
-" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-nnoremap <leader>ss :OmniSharpStartServer<cr>
-nnoremap <leader>sp :OmniSharpStopServer<cr>
+  " Wrappers for Unity
+  vmap <leader>wr :WrapWithRegion<cr>
+  vmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
+  vmap <leader>ifedd :WrapWithIf 'UNITY_EDITOR \|\| DEVELOPMENT'<cr>
+  nmap <leader>wr :WrapWithRegion<cr>
+  nmap <leader>ifed :WrapWithIf "UNITY_EDITOR"<cr>
 
-" Add syntax highlighting for types and interfaces
-nnoremap <leader>sh :OmniSharpHighlightTypes<cr>
-
+endfunction
+" }}}
 
 " }}} ===========================================================
 
@@ -598,6 +609,9 @@ let g:unite_winheight = 10
 let g:unite_candidate_icon="▷"
 let g:unite_source_rec_async_command= ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
 let g:unite_source_history_yank_enable = 1
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
+let g:unite_source_grep_recursive_opt = ''
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -624,10 +638,45 @@ let g:ctrlp_extensions = ['autoignore']
 let g:ycm_rust_src_path = '/usr/src/rust/src'
 " }}}
 
+" {{{ Startify
+let g:startify_bookmarks = ['~/.vimrc','~/.zshrc','~/nfo/commands.txt',]
+let g:startify_change_to_dir = 0
+let g:startify_files_number = 8
+
+if has('unix')
+    let g:startify_custom_header =
+                \ map(split(system('fortune | cowsay -W 60'), '\n') , '"   ". v:val') + ['','']
+endif
+" }}}
+
+" {{{ Session
+let g:session_directory = "~/.vim/session"
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
+" }}}
+
+" {{{ Undo tree
+let g:undotree_SplitWidth = 40
+" }}}
+
+" {{{ Buffergator
+let g:buffergator_suppress_keymaps = 1
+" }}}
+
+" {{{ NERD Tree
+let NERDTreeWinPos='right'
+" }}}
+
+" {{{ Eighties settings
+let g:eighties_bufname_additional_patterns = ['Tagbar']
+" }}}
+
 " }}}
 
 " {{{ Autos ==================================================
-" Gitgutter buffer auto - enable nice cursorline for this type of buffer
+
+" Gstatus to have nice cursor
 autocmd BufEnter .git/index setlocal cursorline
 
 " Exclude quickfix and (not yet - TODO) scratch from bn/bp
@@ -637,6 +686,7 @@ augroup qf
 augroup END
 
 autocmd BufCreate [Scratch] set nobuflisted
+
 " }}}
 
 filetype plugin indent on
