@@ -3,11 +3,7 @@
 "
 " Eugene Mihailenco, 2016
 
-" =========================================================================
-" OS Detector and global swithches
-" =========================================================================
-" {{{
-"
+" {{{ 1.0 - OS Detector and global swithches
 
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
@@ -20,14 +16,7 @@ if !exists("g:os")
     endif
 endif
 
-if !exists("g:bully_dev")
-    let g:bully_dev = $bully_dev
-    "let g:bully_dev = "dstavila"
-    " let g:bully_dev = "demelev"
-endif
-
-" }}}
-" {{{ Platform specific switches
+" TODO rework
 if has("unix")
 
   let s:uname = substitute(system('uname'), '\n', '', 'g')
@@ -38,24 +27,25 @@ if has("unix")
 
 endif
 
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" }}}
+
+" {{{ 1.1 - Personal settings  ==================================================
+
 " Setup gloval dev variable
 if !exists("g:bully_dev")
     let g:bully_dev = $bully_dev
 endif
 
-" 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-" }}}
-
-" {{{ Personal settings  ==================================================
 let profile_filePath = $XDG_CONFIG_HOME.'/nvim/profiles/'.$bully_dev.'.vim'
 if filereadable(profile_filePath)
     exec "source ".profile_filePath
 endif
+
 " }}}
-"
-" {{{ Plugins
+
+" {{{ 2.0 - Plugins =========================================================
 
 call plug#begin('~/.config/nvim/plugged')
 
@@ -160,7 +150,10 @@ call plug#end()
 
 " }}}
 
-" {{{ Key mappings
+" Load profile settings
+call Profile_Prelude()
+
+" {{{ 3.0 - Key mappings ========================================================
 
 " Faster command access
 nmap <silent><space> <NOP>
@@ -411,7 +404,6 @@ noremap <leader>gb :Gblame<CR>
 
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
-" }}}
 
 " {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
@@ -479,7 +471,7 @@ endfunction
 
 " }}} ===========================================================
 
-" {{{ Options ====================================================
+" {{{ 4.0 - Options ====================================================
 
 set hlsearch     " Highlight search results
 set ignorecase   " no sensitive to case
@@ -532,19 +524,11 @@ set sidescrolloff=1
 
 " }}} ===========================================================
 
-" {{{ Appearence ================================================
+" {{{ 5.0 - Appearence ================================================
 colorscheme molokai
 " }}} ===========================================================
 
-" {{{ Abbrevs ===================================================
-iabbrev memail <mihailencoe@gmail.com>
-iabbrev mename Eugene Mihailenco
-iabbrev mefname Eugene
-iabbrev melname Mihailenco
-iabbrev mesite http://randomize.github.io/
-" }}} ===========================================================
-
-" {{{ Plugins
+" {{{ 6.0 - Plugins Settings =========================================
 
 " {{{ TagHighlight
 Plug 'demelev/TagHighlight', { 'for': 'cs'}
@@ -572,8 +556,8 @@ let g:OmniSharp_server_type = 'roslyn'
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
 " insert mode
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+" autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+" autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " }}} OmniSharp
 
 " {{{ YouCompleteme
@@ -739,17 +723,17 @@ let g:openbrowser_search_engines = extend(
 autocmd BufEnter .git/index setlocal cursorline
 
 " Exclude quickfix and (not yet - TODO) scratch from bn/bp
-augroup qf
-    autocmd!
-    autocmd FileType qf set nobuflisted
-augroup END
+" augroup qf
+    " autocmd!
+    " autocmd FileType qf set nobuflisted
+" augroup END
 
-autocmd BufCreate [Scratch] set nobuflisted
+" autocmd BufCreate [Scratch] set nobuflisted
 
 " }}}
 
 filetype plugin indent on
 syntax on
 
+" Load profile specific
 call Profile_Settings()
-"
