@@ -38,7 +38,7 @@ if !exists("g:bully_dev")
     let g:bully_dev = $bully_dev
 endif
 
-let profile_filePath = $XDG_CONFIG_HOME.'/nvim/profiles/'.$bully_dev.'.vim'
+let profile_filePath = fnamemodify(expand('<sfile>'), ':h').'/profiles/'.$bully_dev.'.vim'
 if filereadable(profile_filePath)
     exec "source ".profile_filePath
 endif
