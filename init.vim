@@ -522,6 +522,9 @@ set listchars+=tab:\|\
 " Keep some spacing.
 set sidescrolloff=1
 
+" Show command
+set showcmd
+
 " }}} ===========================================================
 
 " {{{ 5.0 - Appearence ================================================
