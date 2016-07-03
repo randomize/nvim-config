@@ -125,6 +125,9 @@ Plug 'xolox/vim-misc'
 Plug 'mhinz/vim-startify'
 
 " {{{ Language specific
+" C++
+" Formatting with clanfg format
+Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 
 " C# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
