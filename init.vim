@@ -59,6 +59,7 @@ Plug 'VisIncr'
 " Git support
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'gregsexton/gitv'
 
 " Syntastic replacer
 Plug 'benekastah/neomake'
@@ -143,6 +144,9 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " Ruby support
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+
+" Go
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 " }}}
 
