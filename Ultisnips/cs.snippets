@@ -166,6 +166,11 @@ snippet sc "StartCoroutine(Coroutine());"
 StartCoroutine(${1:Coroutine}());
 endsnippet
 
+snippet "wait (\d+\.\d+f?)" "yield return new WaitForSeconds(...);" r
+yield return new WaitForSeconds(`!p snip.rv = match.group(1)`);
+${0}
+endsnippet
+
 snippet wait "yield return new WaitForSeconds(...);"
 yield return new WaitForSeconds(${1:time});
 endsnippet

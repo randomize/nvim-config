@@ -1,7 +1,10 @@
 function! Profile_Plugins()
     Plug 'scrooloose/nerdcommenter'
-    Plug 'fatih/vim-go', { 'for': 'go' }
+    Plug 'godlygeek/tabular'
     Plug 'demelev/TagHighlight', { 'for': 'cs'}
+
+    " Go lang
+    Plug 'fatih/vim-go', { 'for': 'go' }
 endfunction
 
 function! Profile_Prelude()
@@ -36,6 +39,8 @@ function! Profile_Settings()
     nmap <space>l <c-w>l
     nmap <space>j <c-w>j
     nmap <space>k <c-w>k
+
+    nmap <leader>t= :Tabularize /=<cr>
 " }}}
 
     set virtualedit=block
@@ -57,7 +62,8 @@ function! Profile_Settings()
     let g:ycm_rust_src_path = '~/.cargo/rustc-1.9.0/src/'
     let g:snips_author = 'Emeliov Dmitri <demelev1990@gmail.com>'
 
-" {{{ Go lang settings
+
+" {{{ Go lang settings ================
     let g:go_highlight_functions = 1
     let g:go_highlight_methods = 1
     let g:go_highlight_fields = 1

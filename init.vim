@@ -154,6 +154,9 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
+" Go
+Plug 'fatih/vim-go', { 'for': 'go' }
+
 " }}}
 
 call Profile_Plugins()
