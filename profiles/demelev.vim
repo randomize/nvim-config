@@ -4,7 +4,7 @@ function! Profile_Plugins()
     Plug 'demelev/TagHighlight', { 'for': 'cs'}
 
     " Go lang
-    Plug 'fatih/vim-go', { 'for': 'go' }
+    "Plug 'fatih/vim-go', { 'for': 'go' }
 endfunction
 
 function! Profile_Prelude()
