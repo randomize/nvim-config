@@ -51,8 +51,13 @@ call plug#begin('~/.config/nvim/plugged')
 
 " NOTE: Make sure you use single quotes
 
-Plug 'Buffergator'
+" {{{ Colors
 Plug 'tomasr/molokai'
+Plug 'nanotech/jellybeans.vim'
+" }}}
+
+Plug 'Buffergator'
+
 " Super increment
 Plug 'VisIncr'
 
@@ -72,6 +77,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'mileszs/ack.vim'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'Raimondi/delimitMate'
+Plug 'tommcdo/vim-exchange'
 
 " Tools
 Plug 'open-browser.vim'

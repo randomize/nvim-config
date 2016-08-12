@@ -518,3 +518,8 @@ if ($1 != null)
 }
 endsnippet
 
+snippet editor
+#if UNITY_EDITOR
+	${0:${VISUAL:code}}
+#endif 
+endsnippet
