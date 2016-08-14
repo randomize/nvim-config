@@ -245,9 +245,17 @@ vmap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 vnoremap > ><CR>gv
 vnoremap < <<CR>gv
 
-" move current line up/down one
-nmap <c-j> ddp
-nmap <c-k> ddkP
+" move current line up/down one, can be repeated and accepts count as dist
+" nmap <c-k> :normal ddkP<CR>
+" nmap <c-j> :normal ddp<CR>
+
+nnoremap <silent> <Plug>MoveLineDown :normal ddp<CR>
+\:call repeat#set("\<Plug>MoveLineDown")<CR>
+nmap <c-j> <Plug>MoveLineDown
+
+nnoremap <silent> <Plug>MoveLineUp :normal ddkP<CR>
+\:call repeat#set("\<Plug>MoveLineUp")<CR>
+nmap <c-k> <Plug>MoveLineUp
 
 " move visual block up/down one
 vmap <c-j> dp'[V']
