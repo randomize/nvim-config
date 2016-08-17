@@ -17,15 +17,15 @@ if !exists("g:os")
 endif
 
 " TODO rework
-if has("unix")
-
-  let s:uname = substitute(system('uname'), '\n', '', 'g')
-  let g:python_host_prog='/usr/bin/python2'
-  if s:uname == "Darwin"
-    let g:python_host_prog='/usr/bin/python2.7'
-  endif
-
-endif
+" if has("unix")
+"
+"   let s:uname = substitute(system('uname'), '\n', '', 'g')
+"   let g:python_host_prog='/usr/bin/python2'
+"   if s:uname == "Darwin"
+"     let g:python_host_prog='/usr/bin/python2.7'
+"   endif
+"
+" endif
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -249,12 +249,10 @@ vnoremap < <<CR>gv
 " nmap <c-k> :normal ddkP<CR>
 " nmap <c-j> :normal ddp<CR>
 
-nnoremap <silent> <Plug>MoveLineDown :normal ddp<CR>
-\:call repeat#set("\<Plug>MoveLineDown")<CR>
+nnoremap <silent> <Plug>MoveLineDown :normal m+1<CR> :call repeat#set("\<Plug>MoveLineDown")<CR>
 nmap <c-j> <Plug>MoveLineDown
 
-nnoremap <silent> <Plug>MoveLineUp :normal ddkP<CR>
-\:call repeat#set("\<Plug>MoveLineUp")<CR>
+nnoremap <silent> <Plug>MoveLineUp :normal m-1<CR> :call repeat#set("\<Plug>MoveLineUp")<CR>
 nmap <c-k> <Plug>MoveLineUp
 
 " move visual block up/down one
