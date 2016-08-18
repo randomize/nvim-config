@@ -1,5 +1,8 @@
 function! Profile_Plugins()
     Plug 'tomtom/tcomment_vim'
+
+    " Go
+    Plug 'fatih/vim-go', { 'for': 'go' }
 endfunction
 
 function! Profile_Prelude()
