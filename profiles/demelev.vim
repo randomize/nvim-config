@@ -21,11 +21,16 @@ function! Profile_Settings()
       au BufWritePost *.bin set nomod | endif
     augroup END
 
+
+" {{{ Mappings
     if g:os == "Darwin"
         nmap µ <A-m>
         nmap ∫ <A-b>
         map \ <leader>
     endif
+    
+    nmap - :e %:h<cr>
+" }}}
 
     set virtualedit=block
 

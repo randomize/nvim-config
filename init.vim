@@ -100,8 +100,7 @@ Plug 'sheerun/vim-polyglot'
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 
 " IDE features
 Plug 'xuhdev/SingleCompile'
@@ -718,6 +717,7 @@ let g:buffergator_suppress_keymaps = 1
 
 " {{{ NERD Tree
 let NERDTreeWinPos='right'
+let NERDTreeIgnore = ['\.meta$']
 " }}}
 
 " {{{ Eighties settings
