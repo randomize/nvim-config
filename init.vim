@@ -56,6 +56,7 @@ Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
 " }}}
 
+" Buffers manager
 Plug 'Buffergator'
 
 " Super increment
