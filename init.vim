@@ -59,6 +59,9 @@ Plug 'nanotech/jellybeans.vim'
 " Buffers manager
 Plug 'Buffergator'
 
+" Code alignment tool
+Plug 'godlygeek/tabular'
+
 " Super increment
 Plug 'VisIncr'
 
