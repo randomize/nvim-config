@@ -31,6 +31,11 @@ function! Profile_Settings()
     endif
     
     nmap - :e %:h<cr>
+
+    nmap <space>h <c-w>h
+    nmap <space>l <c-w>l
+    nmap <space>j <c-w>j
+    nmap <space>k <c-w>k
 " }}}
 
     set virtualedit=block
