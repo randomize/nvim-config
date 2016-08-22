@@ -735,7 +735,7 @@ let g:openbrowser_search_engines = extend(
 " {{{ Autos ==================================================
 
 " Gstatus to have nice cursor
-autocmd BufEnter .git/index setlocal cursorline
+autocmd BufEnter *.git/index setlocal cursorline
 
 " Exclude quickfix and (not yet - TODO) scratch from bn/bp
 " augroup qf
