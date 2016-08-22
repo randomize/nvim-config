@@ -1,6 +1,7 @@
 function! Profile_Plugins()
     Plug 'scrooloose/nerdcommenter'
     Plug 'fatih/vim-go', { 'for': 'go' }
+    Plug 'demelev/TagHighlight', { 'for': 'cs'}
 endfunction
 
 function! Profile_Prelude()

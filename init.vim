@@ -548,10 +548,6 @@ colorscheme molokai
 
 " {{{ 6.0 - Plugins Settings =========================================
 
-" {{{ TagHighlight
-Plug 'demelev/TagHighlight', { 'for': 'cs'}
-" }}}
-
 " {{{ UltiSnips
 let g:snips_author = 'Eugene Mihailenco <mihailencoe@gmail.com>'
 let g:UltiSnipsEnableSnipMate = 1
