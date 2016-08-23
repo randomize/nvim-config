@@ -2,6 +2,7 @@ function! Profile_Plugins()
     Plug 'scrooloose/nerdcommenter'
     Plug 'godlygeek/tabular'
     Plug 'demelev/TagHighlight', { 'for': 'cs'}
+    Plug 'LucHermitte/SearchInRuntime' | Plug 'LucHermitte/lh-vim-lib'
 
     " Go lang
     "Plug 'fatih/vim-go', { 'for': 'go' }
