@@ -134,6 +134,9 @@ Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'mhinz/vim-startify'
 
+" Life coding
+Plug 'metakirby5/codi.vim'
+
 " {{{ Language specific
 " C++
 " Formatting with clanfg format
