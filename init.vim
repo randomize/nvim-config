@@ -100,6 +100,7 @@ Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer 
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
 Plug 'BullyEntertainment/cg.vim', { 'for': 'cg' }
 Plug 'sheerun/vim-polyglot'
+Plug 'elzr/vim-json', { 'for': 'json'}
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
