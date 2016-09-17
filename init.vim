@@ -82,6 +82,7 @@ Plug 'mileszs/ack.vim'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'tommcdo/vim-exchange'
+Plug 'airblade/vim-rooter'
 
 " Tools
 Plug 'open-browser.vim'
@@ -159,6 +160,9 @@ Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
 " Go
 Plug 'fatih/vim-go', { 'for': 'go' }
+
+" Java
+Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 
 " }}}
 
@@ -558,6 +562,11 @@ colorscheme molokai
 
 " {{{ 6.0 - Plugins Settings =========================================
 
+" {{{ Rooter
+let g:rooter_patterns = ['build.gradle', '.git/']
+
+" }}}
+
 " {{{ UltiSnips
 let g:snips_author = 'Eugene Mihailenco <mihailencoe@gmail.com>'
 let g:UltiSnipsEnableSnipMate = 1
@@ -739,7 +748,11 @@ let g:openbrowser_search_engines = extend(
     \   'rust' : 'https://doc.rust-lang.org/std/?search={query}'
     \})
 " }}}
-"
+
+" {{{ Java completion
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+" }}}
+
 " }}}
 
 " {{{ Autos ==================================================
