@@ -52,6 +52,7 @@ call plug#begin('~/.config/nvim/plugged')
 " NOTE: Make sure you use single quotes
 
 " {{{ Colors
+Plug 'eugen0329/vim-esearch'
 Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
 " }}}
