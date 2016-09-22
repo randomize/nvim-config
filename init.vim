@@ -189,6 +189,14 @@ nmap <silent><space>] :bn<CR>
 nmap <silent><space>[ :bp<CR>
 nmap <silent><space>c :bd<CR>
 
+" Better windows navigation
+nmap <space>h <c-w>h
+nmap <space>l <c-w>l
+nmap <space>j <c-w>j
+nmap <space>k <c-w>k
+
+nmap <leader>t :terminal tmux attach<cr>
+
 " Quick jump out of insert mode
 imap jj <esc>
 
