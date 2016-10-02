@@ -175,6 +175,28 @@ call plug#end()
 
 " }}}
 
+" {{{ 2.1 - Helper menus
+
+" Encodings
+menu Encoding.UTF-8          :e ++enc=utf-8
+menu Encoding.Unicode        :e ++enc=unicode
+menu Encoding.UCS-2          :e ++enc=ucs-2le<CR>
+menu Encoding.UCS-4          :e ++enc=ucs-4
+menu Encoding.KOI8-R         :e ++enc=koi8-r ++ff=unix <CR>
+menu Encoding.KOI8-U         :e ++enc=koi8-u ++ff=unix <CR>
+menu Encoding.CP1251         :e ++enc=cp1251
+menu Encoding.IBM-855        :e ++enc=ibm855
+menu Encoding.IBM-866        :e ++enc=ibm866 ++ff=dos <CR>
+menu Encoding.ISO-8859-5     :e ++enc=iso-8859-5
+menu Encoding.Latin-1        :e ++enc=latin1
+
+" File formats
+menu FileFormat.UNIX         :e ++ff=unix
+menu FileFormat.DOS          :e ++ff=dos
+menu FileFormat.Mac          :e ++ff=mac
+
+" }}}
+
 " Load profile settings
 call Profile_Prelude()
 
