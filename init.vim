@@ -94,7 +94,7 @@ Plug 'ryanoasis/vim-devicons'
 
 "
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer ' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
@@ -734,7 +734,8 @@ endif
 " }}}
 
 " {{{ Session
-let g:session_directory = "~/.vim/session"
+let g:startify_session_dir = "~/.config/nvim/session"
+let g:session_directory = "~/.config/nvim/session"
 let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
