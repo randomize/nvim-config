@@ -634,6 +634,8 @@ let g:ycm_key_list_select_completion = ['<tab>', '<up>']
 "let g:ycm_key_list_previous_completion = ['<s-tab>']
 let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
 let g:ycm_confirm_extra_conf = 0
+" Disable ycm error messages since NeomakeHandles that better
+" let g:ycm_show_diagnostics_ui = 0
 " }}} YouCompleteme
 
 " {{{ Neomake
@@ -645,9 +647,14 @@ let g:neomake_warning_sign = {
     \ 'text': '⚠',
     \ 'texthl': 'None',
     \ }
+" autocmd! BufWritePost * NeomakeProject
 autocmd! BufWritePost * Neomake
-let g:neomake_cpp_enable_markers=['clang']
-let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g", "-lglfw", "-lgl"]
+let g:neomake_cpp_enable_makers=['clang']
+let g:neomake_cpp_enabled_makers=['clang']
+let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g", "-lglfw", "-lgl", "-lvulkan"]
+let g:neomake_enabled_makers=['make']
+let g:neomake_make_maker = { 'exe': 'make'}
+let g:neomake_verbose = 0
 
 " }}} Neomake
 
