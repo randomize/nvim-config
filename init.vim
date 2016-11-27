@@ -647,8 +647,8 @@ let g:neomake_warning_sign = {
     \ 'text': '⚠',
     \ 'texthl': 'None',
     \ }
-" autocmd! BufWritePost * NeomakeProject
-autocmd! BufWritePost * Neomake
+
+" autocmd! BufWritePost * Neomake
 let g:neomake_cpp_enable_makers=['clang']
 let g:neomake_cpp_enabled_makers=['clang']
 let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g", "-lglfw", "-lgl", "-lvulkan"]
@@ -727,6 +727,11 @@ let g:ctrlp_extensions = ['autoignore']
 
 " {{{ Rust
 let g:ycm_rust_src_path = '/usr/src/rust/src'
+function! On_rust_session()
+    " Use cargo for neomake
+    autocmd! BufWritePost * NeomakeProject cargo
+endfunction
+autocmd FileType rust call On_rust_session()
 " }}}
 
 " {{{ Startify
