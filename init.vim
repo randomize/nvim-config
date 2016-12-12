@@ -451,6 +451,14 @@ function! s:unite_settings()
 endfunction
 " }}}
 
+" Custam mapping for file browser
+nmap - :e %:h<cr>
+
+autocmd FileType nerdtree call s:nerdtree_settings()
+function! s:nerdtree_settings()
+  nmap <buffer> - q
+endfunction
+
 " Tab in normal mode is useless - use it to %
 nnoremap <Tab> %
 vnoremap <Tab> %
