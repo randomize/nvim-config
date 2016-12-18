@@ -3,6 +3,9 @@ function! Profile_Plugins()
 
     " Go
     Plug 'fatih/vim-go', { 'for': 'go' }
+
+    " Web
+    Plug 'maksimr/vim-jsbeautify'
 endfunction
 
 function! Profile_Prelude()
