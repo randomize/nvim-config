@@ -28,13 +28,14 @@ if v:version >= 700
 		highlight SpellRare gui=undercurl
 	endif
 endif
+highlight NERDTreeFile guifg=#e29504
 highlight Cursor guifg=#272822 guibg=#f8f8f0 gui=NONE
 highlight CursorIM gui=NONE
 highlight DiffAdd guifg=#f8f8f2 guibg=#46830c gui=bold
 highlight DiffChange guifg=#f8f8f2 guibg=#243955 gui=NONE
 highlight DiffDelete guifg=#8b0807 guibg=DarkCyan gui=NONE
 highlight DiffText guifg=#f8f8f2 guibg=#204a87 gui=bold
-highlight Directory guifg=#ae81ff gui=NONE
+highlight Directory guifg=#007dc1 gui=NONE
 highlight ErrorMsg guifg=#f8f8f0 guibg=#f92672 gui=NONE
 highlight FoldColumn guifg=Cyan guibg=Grey gui=NONE
 highlight Folded guifg=#75715e guibg=#272822 gui=NONE
@@ -47,7 +48,8 @@ highlight MoreMsg guifg=SeaGreen gui=bold
 highlight NonText guifg=#49483e guibg=#31322c gui=NONE
 highlight Normal guifg=#f8f8f2 guibg=#272822 gui=NONE
 highlight Question guifg=Green gui=bold
-highlight Search guifg=#D0FF36 guibg=NONE gui=reverse,italic
+"highlight Search guifg=#D0FF36 guibg=NONE gui=reverse,italic
+highlight Search guifg=#8c7551
 highlight link SignColumn LineNr
 highlight SpecialKey guifg=#49483e guibg=#3c3d37 gui=NONE
 highlight StatusLine guifg=#f8f8f2 guibg=#64645e gui=bold
@@ -94,6 +96,7 @@ highlight Member guifg=#e6db74 gui=NONE
 highlight Field guifg=#ffffff gui=NONE
 highlight link Structure Type
 highlight Tag guifg=#f92672 gui=NONE
+hi ESearchMatch ctermfg=black ctermbg=white guifg=#000000 guibg=#E6E6FA
 highlight Todo guifg=Yellow guibg=NONE gui=NONE
 highlight SyntasticWarningSign guifg=Yellow guibg=#3c3d37 gui=NONE
 highlight SyntasticErrorLine guibg=#440000 gui=NONE
