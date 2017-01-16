@@ -303,8 +303,10 @@ vmap <c-j> dp'[V']
 vmap <c-k> dkP'[V']
 
 
-" cd to the directory containing the file in the buffer
+" cd to the directory containing the file in the buffer, or 
+" to root with cdp
 nmap <silent> <leader>cd :lcd %:h<CR>
+nmap <silent> <leader>cdp :Rooter<CR>
 
 " make directory
 nmap <silent> <leader>md :!mkdir -p %:p:h<CR>
@@ -467,9 +469,6 @@ noremap <leader>gb :Gblame<CR>
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
-" === vim-rooter ===
-nmap <leader>cd :cd %%
-nmap <leader>cdp :call FindRootDirectory()
 
 " {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
