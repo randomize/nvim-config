@@ -11,6 +11,15 @@ endfunction
 function! Profile_Prelude()
     let g:mapleader = ","
     let g:maplocalleader='\\'
+
+    " Custam mapping for file browser
+    nmap - :e %:h<cr>
+
+    autocmd FileType nerdtree call s:nerdtree_settings()
+    function! s:nerdtree_settings()
+      nmap <buffer> - q
+    endfunction
+
 endfunction
 
 function! Profile_Settings()
