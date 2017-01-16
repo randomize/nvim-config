@@ -468,6 +468,10 @@ noremap <leader>gb :Gblame<CR>
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
+" === vim-rooter ===
+nmap <leader>cd :cd %%
+nmap <leader>cdp :call FindRootDirectory()
+
 " {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
 function! s:omnisharp_settings()
@@ -598,6 +602,7 @@ colorscheme molokai
 
 " {{{ Rooter
 let g:rooter_patterns = ['build.gradle', '.git/']
+let g:rooter_manual_only = 1
 
 " }}}
 
