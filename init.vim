@@ -83,7 +83,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'mileszs/ack.vim'
 Plug 'vim-scripts/restore_view.vim'
-Plug 'Raimondi/delimitMate'
 Plug 'tommcdo/vim-exchange'
 Plug 'airblade/vim-rooter'
 
