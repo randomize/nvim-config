@@ -63,6 +63,13 @@ function! Profile_Settings()
     let g:ycm_rust_src_path = '~/.cargo/rustc-1.9.0/src/'
     let g:snips_author = 'Emeliov Dmitri <demelev1990@gmail.com>'
 
+    "let g:esearch = {
+      "\ 'adapter':    'ack',
+      "\ 'backend':    'vimproc',
+      "\ 'out':        'win',
+      "\ 'batch_size': 1000,
+      "\ 'use':        ['visual', 'hlsearch', 'last'],
+      "\}
 
 " {{{ Go lang settings ================
     let g:go_highlight_functions = 1
