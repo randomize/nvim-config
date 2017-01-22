@@ -279,7 +279,7 @@ set pastetoggle=<leader>2
 nmap <leader>3 :TlistToggle<CR>
 nmap <leader>4 :TagbarToggle<CR>
 nmap <leader>5 :NERDTreeToggle<CR>
-nmap <leader>6 :BuffergatorToggle<CR>
+nmap <leader>b :BuffergatorToggle<CR>
 
 " Make p in Visual mode replace the selected text with the \" register.
 vmap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
@@ -396,6 +396,9 @@ cmap %% <C-R>=expand('%:h').'/'<cr>
 " Mapping ,, to fast switch between buffers
 nmap <silent> <leader><leader><space> <c-^>
 
+" Map to close previews quicly
+nmap <silent> <leader>p <c-w><c-z>
+
 " Tab in normal mode is useless - use it to %
 nmap <Tab> %
 vmap <Tab> %
@@ -475,7 +478,7 @@ autocmd FileType cs call s:omnisharp_settings()
 function! s:omnisharp_settings()
   nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
   nnoremap <buffer> <leader>si :OmniSharpFindImplementations<cr>
-  nnoremap <buffer> <leader>st :OmniSharpFindType<cr>
+  " nnoremap <buffer> <leader>st :OmniSharpFindType<cr>
   nnoremap <buffer> <leader>ss :OmniSharpFindSymbol<cr>
   nnoremap <buffer> <leader>su :OmniSharpFindUsages<cr>
   nnoremap <buffer> <leader>sm :OmniSharpFindMembers<cr>
