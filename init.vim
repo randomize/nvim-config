@@ -469,7 +469,7 @@ vmap <c-v> <Plug>(expand_region_shrink)
 " {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
 function! s:omnisharp_settings()
-  nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
+  nnoremap <buffer> <space>g :OmniSharpGotoDefinition<cr>
   nnoremap <buffer> <leader>si :OmniSharpFindImplementations<cr>
   " nnoremap <buffer> <leader>st :OmniSharpFindType<cr>
   nnoremap <buffer> <leader>ss :OmniSharpFindSymbol<cr>
