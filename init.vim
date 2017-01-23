@@ -203,21 +203,6 @@ call Profile_Prelude()
 
 " {{{ 3.0 - Key mappings ========================================================
 
-" Faster command access
-nmap <silent><space> <NOP>
-nmap <space>; :
-nmap <space><space> :
-nmap <silent><space>w :w<CR>
-nmap <silent><space>q :q<CR>
-nmap <silent><space>] :bn<CR>
-nmap <silent><space>[ :bp<CR>
-nmap <silent><space>c :bd<CR>
-
-" Better windows navigation
-nmap <space>h <c-w>h
-nmap <space>l <c-w>l
-nmap <space>j <c-w>j
-nmap <space>k <c-w>k
 
 nmap <leader>t :terminal tmux attach<cr>
 
@@ -292,10 +277,10 @@ vnoremap < <<CR>gv
 " nmap <c-k> :normal ddkP<CR>
 " nmap <c-j> :normal ddp<CR>
 
-nnoremap <silent> <Plug>MoveLineDown :normal m+1<CR> :call repeat#set("\<Plug>MoveLineDown")<CR>
+nnoremap <silent> <Plug>MoveLineDown :m+1<CR> :call repeat#set("\<Plug>MoveLineDown")<CR>
 nmap <c-j> <Plug>MoveLineDown
 
-nnoremap <silent> <Plug>MoveLineUp :normal m-1<CR> :call repeat#set("\<Plug>MoveLineUp")<CR>
+nnoremap <silent> <Plug>MoveLineUp :m-2<CR> :call repeat#set("\<Plug>MoveLineUp")<CR>
 nmap <c-k> <Plug>MoveLineUp
 
 " move visual block up/down one
@@ -334,6 +319,16 @@ nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 " Buffers
 
 " {{{ Space mappings ==
+
+" Better windows navigation
+nmap <space>H <c-w>H
+nmap <space>L <c-w>L
+nmap <space>J <c-w>J
+nmap <space>K <c-w>K
+nmap <space>h <c-w>h
+nmap <space>l <c-w>l
+nmap <space>j <c-w>j
+nmap <space>k <c-w>k
 
 " Openbrowser maps
 "nmap <leader>qu <Plug>(openbrowser-search)
@@ -385,7 +380,6 @@ nmap <silent> <leader>gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohl
 
 " Edit shortcuts
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <silent> <leader>eg :vsplit ~/.gitconfig<cr>
 
 " Yank to end (like D and C)
 nnoremap Y y$
