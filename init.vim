@@ -114,8 +114,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 
-" {{{ Unite
-Plug 'Shougo/unite.vim'
+" {{{ Denite
+Plug 'Shougo/denite.nvim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ujihisa/unite-colorscheme'
 Plug 'Shougo/neoyank.vim'
@@ -422,21 +422,20 @@ nmap <leader>yt :YcmCompleter GetType<cr>
 
 " {{{ == Unite =====
 let g:unite_source_history_yank_enable = 1
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-nnoremap <leader>uf :<C-u>Unite -buffer-name=files   -start-insert file_rec/async <cr>
-nnoremap <leader>ug :<C-u>Unite -buffer-name=gitfiles   -start-insert file_rec/git <cr>
-nnoremap <leader>ut :<C-u>Unite -buffer-name=files   -start-insert file<cr>
-nnoremap <leader>ur :<C-u>Unite -buffer-name=mru     -start-insert file_mru<cr>
-nnoremap <leader>uo :<C-u>Unite -buffer-name=outline -start-insert outline<cr>
-nnoremap <leader>uy :<C-u>Unite -buffer-name=yank    history/yank<cr>
-nnoremap <leader>ub :<C-u>Unite -buffer-name=buffer  buffer<cr>
-nnoremap <leader>ul :<C-u>Unite -buffer-name=lines  line<cr>
-nnoremap <leader>ut :<C-u>Unite -buffer-name=tags  tag:%<cr>
-nnoremap <leader>um :<C-u>Unite -buffer-name=bookmarks  bookmark<cr>
-nnoremap <leader>uc :<C-u>Unite colorscheme<cr>
-nnoremap <leader>uh :<C-u>Unite resume<cr>
-nnoremap <space>/ :Unite grep:.<cr>
+nnoremap <leader>uf :<C-u>Denite -buffer-name=files   -start-insert file_rec/async <cr>
+nnoremap <leader>ug :<C-u>Denite -buffer-name=gitfiles   -start-insert file_rec/git <cr>
+nnoremap <leader>ut :<C-u>Denite -buffer-name=files   -start-insert file<cr>
+nnoremap <leader>ur :<C-u>Denite -buffer-name=mru     -start-insert file_mru<cr>
+nnoremap <leader>uo :<C-u>Denite -buffer-name=outline -start-insert outline<cr>
+nnoremap <leader>uy :<C-u>Denite -buffer-name=yank    history/yank<cr>
+nnoremap <leader>ub :<C-u>Denite -buffer-name=buffer  buffer<cr>
+nnoremap <leader>ul :<C-u>Denite -buffer-name=lines  line<cr>
+nnoremap <leader>ut :<C-u>Denite -buffer-name=tags  tag:%<cr>
+nnoremap <leader>um :<C-u>Denite -buffer-name=bookmarks  bookmark<cr>
+nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
+nnoremap <leader>uh :<C-u>Denite resume<cr>
+nnoremap <space>/ :Denite grep:.<cr>
 
 " Custom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
@@ -538,6 +537,7 @@ endfunction
 set hlsearch     " Highlight search results
 set ignorecase   " no sensitive to case
 set incsearch    " enable incremental search
+set inccommand=split
 set smartcase    " When meet uppercase -> sensitive
 "set infercase
 
@@ -706,9 +706,9 @@ let g:unite_source_grep_command = 'ag'
 let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
 let g:unite_source_grep_recursive_opt = ''
 
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+call denite#filters#matcher_default#use(['matcher_fuzzy'])
+call denite#filters#sorter_default#use(['sorter_rank'])
+call denite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
 \ 'ignore_pattern', join([
 \ '.class$', '\.jar$',
 \ '\.jpg$', '\.jpeg$', '\.bmp$', '\.png$', '\.gif$',

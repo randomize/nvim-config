@@ -3,7 +3,8 @@ function! Profile_Plugins()
     Plug 'godlygeek/tabular'
     Plug 'demelev/TagHighlight', { 'for': 'cs'}
     Plug 'LucHermitte/SearchInRuntime' | Plug 'LucHermitte/lh-vim-lib'
-
+    Plug 'pangloss/vim-javascript'
+    Plug 'mxw/vim-jsx'
     " Go lang
     "Plug 'fatih/vim-go', { 'for': 'go' }
 endfunction
