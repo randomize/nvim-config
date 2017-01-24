@@ -70,7 +70,7 @@ Plug 'VisIncr'
 
 " Git support
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+Plug 'demelev/vim-fugitive', { 'branch' : 'feature/gs_diff' }
 Plug 'gregsexton/gitv'
 
 " Syntastic replacer
