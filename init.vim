@@ -434,7 +434,7 @@ nnoremap <leader>ub :<C-u>Denite -buffer-name=buffer  buffer<cr>
 nnoremap <leader>ul :<C-u>Denite -buffer-name=lines  line<cr>
 nnoremap <leader>ut :<C-u>Denite -buffer-name=tags  tag:%<cr>
 " nnoremap <leader>um :<C-u>Denite -buffer-name=bookmarks  bookmark<cr>
-" nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
+nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
 " nnoremap <leader>uh :<C-u>Denite resume<cr>
 " nnoremap <space>/ :Denite grep:.<cr>
 
