@@ -117,11 +117,11 @@ Plug 'mbbill/undotree'
 " {{{ Denite
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'ujihisa/unite-colorscheme'
+" Plug 'ujihisa/unite-colorscheme'
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'unite-yarm'
-Plug 'Shougo/unite-outline'
+" Plug 'Shougo/unite-outline'
 Plug 'tsukkee/unite-tag'
 " }}}
 
