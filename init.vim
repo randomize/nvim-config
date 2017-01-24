@@ -247,10 +247,10 @@ map <A-m> :CtrlPBufTag<cr>
 "map <c-Tab> :tabn<cr>
 
 " Session workflow
-nmap <leader>so :OpenSession<space>
+nmap <leader>os :OpenSession<space>
 nmap <leader>ss :SaveSession<space>
-nmap <leader>sd :DeleteSession<CR>
-nmap <leader>sc :CloseSession<CR>
+nmap <leader>ds :DeleteSession<CR>
+nmap <leader>cs :CloseSession<CR>
 
 
 " Toggle things
@@ -460,10 +460,6 @@ autocmd FileType cs call s:omnisharp_settings()
 function! s:omnisharp_settings()
   nnoremap <buffer> <space>g :OmniSharpGotoDefinition<cr>
   nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
-  nnoremap <buffer> <leader>si :OmniSharpFindImplementations<cr>
-  nnoremap <buffer> <leader>ss :OmniSharpFindSymbol<cr>
-  nnoremap <buffer> <leader>su :OmniSharpFindUsages<cr>
-  nnoremap <buffer> <leader>sm :OmniSharpFindMembers<cr>
   nnoremap <buffer> <leader>sx  :OmniSharpFixIssue<cr>
   nnoremap <buffer> <leader>sxu :OmniSharpFixUsings<cr>
   nnoremap <buffer> <leader>st :OmniSharpTypeLookup<cr>
@@ -473,21 +469,17 @@ function! s:omnisharp_settings()
   nnoremap <buffer> <leader>sl :OmniSharpReloadSolution<cr>
   nnoremap <buffer> <leader>sf :OmniSharpCodeFormat<cr>
   nnoremap <buffer> <leader>sa :OmniSharpAddToProject<cr>
-  
+
   " Contextual code actions (requires CtrlP or unite.vim)
   nnoremap <buffer> <leader><space> :OmniSharpGetCodeActions<cr>
   " Run code actions with text selected in visual mode to extract method
   vnoremap <buffer> <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-  
+
   " rename with dialog
   nnoremap <buffer> <leader>sr :OmniSharpRename<cr>
   " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
   command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-  
-  " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-  nnoremap <buffer> <leader>ss :OmniSharpStartServer<cr>
-  nnoremap <buffer> <leader>sp :OmniSharpStopServer<cr>
-  
+
   " Add syntax highlighting for types and interfaces
   nnoremap <buffer> <leader>sh :OmniSharpHighlightTypes<cr>
 
@@ -496,16 +488,8 @@ function! s:omnisharp_settings()
   nnoremap <buffer> <leader>ft :OmniSharpFindType<cr>
   nnoremap <buffer> <leader>fs :OmniSharpFindSymbol<cr>
   nnoremap <buffer> <leader>fu :OmniSharpFindUsages<cr>
-  nnoremap <buffer> <leader>fm :OmniSharpFindMembersInBuffer<cr>
-  " nnoremap <buffer> <leader><space> :OmniSharpFindMembersInBuffer<cr>
+  nnoremap <buffer> <leader>fm :OmniSharpFindMembers<cr>
   
-  " cursor can be anywhere on the line containing an issue for this one
-  " nnoremap <buffer> <leader>x  :OmniSharpFixIssue<cr>
-  " nnoremap <buffer> <leader>fx :OmniSharpFixUsings<cr>
-  " nnoremap <buffer> <leader>tt :OmniSharpTypeLookup<cr>
-  " nnoremap <buffer> <leader>dc :OmniSharpDocumentation<cr>
-  " nnoremap <buffer> <leader>gd :OmniSharpGotoDefinition<cr>
-
   " Unindent (used for namespaces)
   nnoremap <leader>un vi}<<<esc>
 
