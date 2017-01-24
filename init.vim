@@ -423,29 +423,30 @@ nmap <leader>yt :YcmCompleter GetType<cr>
 " {{{ == Unite =====
 let g:unite_source_history_yank_enable = 1
 
-nnoremap <leader>uf :<C-u>Denite -buffer-name=files   -start-insert file_rec/async <cr>
-nnoremap <leader>ug :<C-u>Denite -buffer-name=gitfiles   -start-insert file_rec/git <cr>
-nnoremap <leader>ut :<C-u>Denite -buffer-name=files   -start-insert file<cr>
-nnoremap <leader>ur :<C-u>Denite -buffer-name=mru     -start-insert file_mru<cr>
-nnoremap <leader>uo :<C-u>Denite -buffer-name=outline -start-insert outline<cr>
-nnoremap <leader>uy :<C-u>Denite -buffer-name=yank    history/yank<cr>
+nnoremap <leader>uf :<C-u>Denite -input=\\*.cs$\  -buffer-name=files -mode=insert file_rec <cr>
+nnoremap <leader>ug :<C-u>Denite -input=\\*.cs$\  -buffer-name=gitfiles -mode=insert file_rec/git <cr>
+nnoremap <leader>up :<C-u>DeniteProjectDir -input=\\*.cs$\  -buffer-name=projectfiles -mode=insert file_rec <cr>
+" nnoremap <leader>ut :<C-u>Denite -buffer-name=files   -mode-insert file<cr>
+nnoremap <leader>ur :<C-u>Denite -buffer-name=mru     -mode=insert file_mru<cr>
+nnoremap <leader>uo :<C-u>Denite -buffer-name=outline -mode=insert outline<cr>
+" nnoremap <leader>uy :<C-u>Denite -buffer-name=yank    history/yank<cr>
 nnoremap <leader>ub :<C-u>Denite -buffer-name=buffer  buffer<cr>
 nnoremap <leader>ul :<C-u>Denite -buffer-name=lines  line<cr>
 nnoremap <leader>ut :<C-u>Denite -buffer-name=tags  tag:%<cr>
-nnoremap <leader>um :<C-u>Denite -buffer-name=bookmarks  bookmark<cr>
-nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
-nnoremap <leader>uh :<C-u>Denite resume<cr>
-nnoremap <space>/ :Denite grep:.<cr>
+" nnoremap <leader>um :<C-u>Denite -buffer-name=bookmarks  bookmark<cr>
+" nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
+" nnoremap <leader>uh :<C-u>Denite resume<cr>
+" nnoremap <space>/ :Denite grep:.<cr>
 
 " Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
+" autocmd FileType unite call s:unite_settings()
+" function! s:unite_settings()
   " Play nice with supertab
-  let b:SuperTabDisabled=1
+  " let b:SuperTabDisabled=1
   " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction
+  " imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  " imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+" endfunction
 " }}}
 
 " Tab in normal mode is useless - use it to %
@@ -695,26 +696,47 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 " }}}
 
 " {{{ Unite
-let g:unite_enable_start_insert = 1
-let g:unite_split_rule = "botright"
-let g:unite_force_overwrite_statusline = 0
-let g:unite_winheight = 10
-let g:unite_candidate_icon="▷"
-let g:unite_source_rec_async_command= ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-let g:unite_source_history_yank_enable = 1
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
-let g:unite_source_grep_recursive_opt = ''
+" let g:unite_enable_start_insert = 1
+" let g:unite_split_rule = "botright"
+" let g:unite_force_overwrite_statusline = 0
+" let g:unite_winheight = 10
+" let g:unite_candidate_icon="▷"
+" let g:unite_source_rec_async_command= ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
+" let g:unite_source_history_yank_enable = 1
+" let g:unite_source_grep_command = 'ag'
+" let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
+" let g:unite_source_grep_recursive_opt = ''
 
-call denite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-\ 'ignore_pattern', join([
-\ '.class$', '\.jar$',
-\ '\.jpg$', '\.jpeg$', '\.bmp$', '\.png$', '\.gif$',
-\ '\.o$', '\.so$', '\.lo$', '\.lib$', '\.out$', '\.obj$', 
-\ '\.zip$', '\.tar\.gz$', '\.tar\.bz2$', '\.rar$', '\.tar\.xz$',
-\ '\.ac$', '\.cache$', '\.0$', '\.meta$',
-\ '\.anim$', '\.controller$'
-\ ], '\|'))
+
+call denite#custom#source(
+    \ 'file_rec', 'matchers', ['matcher_regexp'])
+
+
+    " \ 'file_rec', 'matchers', ['matcher_fuzzy', 'matcher_regexp'])
+" call denite#custom#filter('matcher_regexp', 'ignore_globs',
+    " \ [ \ 'Library/' ])
+
+" call denite#custom#source(
+    " \ 'file_rec', 'matchers', ['matcher_fuzzy', 'matcher_ignore_globs'])
+" call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+    " \ [
+    " \ '.git/',
+    " \ '*.meta', '*.prefab', '*.asset', '*.anim', '*.controller', '*.mat', '*.unity', '*.cubemap',
+    " \ 'Library/' ])
+"     \ '*.png', '*.jpg', '*.jpeg', '*.bmp', '*.tga', '*.git', '*.tif', '*.tiff', '*.psd',
+"     \ '*.mp3', '*.wav', '*.avi', '*.mpeg', '*.ogv', '*.oga', '*.opus', '*.mkv',
+"     \ '*.doc', '*.pdf', '*.docx', '*.chm',
+"     \ '*.fbx', '*.mb', '*.ma', '*.3ds', '*.obj',
+"     \ '*.rar', '*.zip', '*.tar.gz', '*.tar.xz', '*.tar.bz2', 
+"     \ 'Library/' ])
+
+ 	" Define alias
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+    \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+call denite#custom#option('default', 'prompt', '▷')
+
 " }}}
 
 " {{{ Ack
