@@ -35,13 +35,17 @@ highlight DiffAdd guifg=#f8f8f2 guibg=#46830c gui=bold
 highlight DiffChange guifg=#f8f8f2 guibg=#243955 gui=NONE
 highlight DiffDelete guifg=#8b0807 guibg=DarkCyan gui=NONE
 highlight DiffText guifg=#f8f8f2 guibg=#204a87 gui=bold
+highlight diffAdded guifg=Green
+highlight diffRemoved guifg=Red
+"highlight default link diffAdded DiffAdd
+"highlight default link diffRemoved DiffDelete
 highlight Directory guifg=#007dc1 gui=NONE
 highlight ErrorMsg guifg=#f8f8f0 guibg=#f92672 gui=NONE
 highlight FoldColumn guifg=Cyan guibg=Grey gui=NONE
 highlight Folded guifg=#75715e guibg=#272822 gui=NONE
 highlight IncSearch guifg=#272822 guibg=#e6db74 gui=NONE
 highlight LineNr guifg=#90908a guibg=#3c3d37 gui=NONE
-highlight CursorLineNr guifg=#9BFF00 guibg=#292929 gui=NONE
+highlight CursorLineNr guifg=#dadada  guibg=#eb423f gui=NONE
 highlight MatchParen guifg=#f92672 guibg=DarkCyan gui=underline
 highlight ModeMsg gui=bold
 highlight MoreMsg guifg=SeaGreen gui=bold
