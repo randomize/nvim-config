@@ -24,6 +24,8 @@ endfunction
 
 function! Profile_Settings()
 
+    colorscheme Molokai_Eugene
+
     iabbrev memail <mihailencoe@gmail.com>
     iabbrev mename Eugene Mihailenco
     iabbrev mefname Eugene
