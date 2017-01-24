@@ -389,13 +389,6 @@ nmap <silent> <leader><leader><space> <c-^>
 " Map to close previews quicly
 nmap <silent> <leader>p <c-w><c-z>
 
-" Tab in normal mode is useless - use it to %
-nmap <Tab> %
-vmap <Tab> %
-
-" Ack on ,a
-nmap <leader>a :Ack<space>
-
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
