@@ -119,8 +119,6 @@ Plug 'Shougo/denite.nvim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
-Plug 'unite-yarm'
-Plug 'tsukkee/unite-tag'
 " }}}
 
 " CtrlP
@@ -436,15 +434,7 @@ nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
 " nnoremap <leader>uh :<C-u>Denite resume<cr>
 " nnoremap <space>/ :Denite grep:.<cr>
 
-" Custom mappings for the unite buffer
-" autocmd FileType unite call s:unite_settings()
-" function! s:unite_settings()
-  " Play nice with supertab
-  " let b:SuperTabDisabled=1
-  " Enable navigation with control-j and control-k in insert mode
-  " imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  " imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-" endfunction
+
 " }}}
 
 " Tab in normal mode is useless - use it to %
@@ -696,14 +686,26 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 " {{{ Denite
 
 call denite#custom#source(
-    \ 'file_rec', 'matchers', ['matcher_regexp'])
+    \ 'file_rec,buffer,line,outline', 'matchers', ['matcher_regexp'])
 
- 	" Define alias
+" Define alias example (from Denite doc)
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#var('file_rec/git', 'command',
     \ ['git', 'ls-files', '-co', '--exclude-standard'])
 
+" Just fancy cursor for command line
 call denite#custom#option('default', 'prompt', '▷')
+
+" Since pt and ag does better job searching sources, ignoring
+" .git stuff and .gitignore things we configure file_rec to
+" use them if any found on system
+if executable('pt')
+    call denite#custom#var('file_rec', 'command',
+        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g:', ''])
+elseif executable('ag')
+    call denite#custom#var('file_rec', 'command',
+        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+endif
 
 " }}}
 
