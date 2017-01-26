@@ -5,6 +5,7 @@ function! Profile_Plugins()
     Plug 'LucHermitte/SearchInRuntime' | Plug 'LucHermitte/lh-vim-lib'
     Plug 'pangloss/vim-javascript'
     Plug 'mxw/vim-jsx'
+    Plug 'Raimondi/delimitMate'
     " Go lang
     "Plug 'fatih/vim-go', { 'for': 'go' }
 endfunction
@@ -34,7 +35,7 @@ function! Profile_Settings()
         nmap ∫ <A-b>
         map \ <leader>
     endif
-    
+
     nmap - :e %:h<cr>
 
     nmap <space>h <c-w>h
@@ -45,6 +46,7 @@ function! Profile_Settings()
 " }}}
 
     set virtualedit=block
+    set list
 
     if g:os == "Linux" || g:os == "Darwin"
         let g:dev_temp='/tmp'
