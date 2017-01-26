@@ -534,7 +534,7 @@ set showbreak=↪
 
 " Visual cues when in 'list' model.
 set nolist
-set listchars+=eol:¶
+"set listchars+=eol:¶
 set listchars+=extends:❯
 set listchars+=precedes:❮
 set listchars+=trail:⋅
