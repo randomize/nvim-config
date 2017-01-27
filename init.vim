@@ -200,7 +200,7 @@ call Profile_Prelude()
 " {{{ 3.0 - Key mappings ========================================================
 
 
-nmap <leader>t :terminal tmux attach<cr>
+" nmap <leader>t :terminal tmux attach<cr>
 
 " Quick jump out of insert mode
 imap jj <esc>
@@ -408,6 +408,10 @@ nmap <leader>yd :YcmCompleter GoToDefinition<cr>
 nmap <leader>yc :YcmCompleter GoToDeclaration<cr>
 nmap <leader>yt :YcmCompleter GetType<cr>
 
+" === Tabular ===
+
+nmap <leader>tf :Tabularize / \w\+;/l0<CR>
+nmap <leader>t= :Tabularize /=<cr>
 
 " {{{ == Unite =====
 let g:unite_source_history_yank_enable = 1

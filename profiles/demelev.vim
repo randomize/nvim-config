@@ -42,7 +42,6 @@ function! Profile_Settings()
     nmap <space>j <c-w>j
     nmap <space>k <c-w>k
 
-    nmap <leader>t= :Tabularize /=<cr>
 " }}}
 
     set virtualedit=block
