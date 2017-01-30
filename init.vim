@@ -416,9 +416,10 @@ nmap <leader>t= :Tabularize /=<cr>
 " {{{ == Unite =====
 let g:unite_source_history_yank_enable = 1
 
-nnoremap <leader>uf :<C-u>Denite -input=\.cs$\  -buffer-name=csfiles -mode=insert file_rec <cr>
+nnoremap <leader>uf :<C-u>Denite -buffer-name=csfiles -mode=insert file_rec <cr>
 nnoremap <leader>ug :<C-u>Denite -buffer-name=gitfiles -mode=insert file_rec/git <cr>
-nnoremap <leader>up :<C-u>DeniteProjectDir -input=\.cs$\  -buffer-name=projectfiles -mode=insert file_rec <cr>
+nnoremap <leader>up :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec/source <cr>
+nnoremap <leader>ua :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec <cr>
 nnoremap <leader>ut :<C-u>Denite -buffer-name=files file_rec <cr>
 " nnoremap <leader>ut :<C-u>Denite -buffer-name=files   -mode-insert file<cr>
 nnoremap <leader>ur :<C-u>Denite -buffer-name=mru     -mode=insert file_mru<cr>
@@ -667,12 +668,12 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 " {{{ Denite
 
 call denite#custom#source(
-    \ 'file_rec,buffer,line,outline', 'matchers', ['matcher_regexp'])
+    \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
 
 " Define alias example (from Denite doc)
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#var('file_rec/git', 'command',
-    \ ['git', 'ls-files', '-co', '--exclude-standard'])
+    \ ['git', '--work-tree=.', 'ls-files', '-co', '--exclude-standard'])
 
 " Just fancy cursor for command line
 call denite#custom#option('default', 'prompt', '▷')
@@ -686,6 +687,9 @@ if executable('pt')
 elseif executable('ag')
     call denite#custom#var('file_rec', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
+    call denite#custom#var('file_rec/source', 'command',
+        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
 endif
 
 " }}}
