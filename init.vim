@@ -27,20 +27,22 @@ endif
 "
 " endif
 
+let g:python_host_prog = 'C:\Python27\python.exe'
+let g:python3_host_prog = 'C:\Program Files\Python36\python.exe'
+
 
 " Enable true color
 set termguicolors
+
 
 " }}}
 
 " {{{ 1.1 - Personal settings  ==================================================
 
 " Setup gloval dev variable
-if !exists("g:bully_dev")
-    let g:bully_dev = $bully_dev
-endif
+let g:bully_dev = 'eugene'
 
-let profile_filePath = fnamemodify(expand('<sfile>'), ':h').'/profiles/'.$bully_dev.'.vim'
+let g:profile_filePath = fnamemodify(expand('<sfile>'), ':h').'/profiles/'.g:bully_dev.'.vim'
 if filereadable(profile_filePath)
     exec "source ".profile_filePath
 endif
@@ -49,7 +51,7 @@ endif
 
 " {{{ 2.0 - Plugins =========================================================
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/vimfiles/bundle')
 
 " NOTE: Make sure you use single quotes
 
@@ -61,6 +63,8 @@ Plug 'nanotech/jellybeans.vim'
 
 " Buffers manager
 Plug 'Buffergator'
+Plug 'equalsraf/neovim-gui-shim'
+
 
 " Code alignment tool
 Plug 'godlygeek/tabular'
@@ -91,11 +95,12 @@ Plug 'open-browser.vim'
 " TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons'
+"Plug 'ryanoasis/vim-devicons'
 
 "
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
+Plug 'Valloric/YouCompleteMe'
+" {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
@@ -116,7 +121,8 @@ Plug 'mbbill/undotree'
 
 " {{{ Denite
 Plug 'Shougo/denite.nvim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/vimproc.vim'
+", { 'do': 'make' }
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
 " }}}
@@ -135,33 +141,34 @@ Plug 'xolox/vim-misc'
 Plug 'mhinz/vim-startify'
 
 " Life coding
-Plug 'metakirby5/codi.vim'
+"Plug 'metakirby5/codi.vim'
 
 " {{{ Language specific
 " C++
 " Formatting with clanfg format
-Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
+"Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 
 " C# support
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
+Plug 'OmniSharp/omnisharp-vim'
+", { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
 
 " Node js stuff
-Plug 'ternjs/tern_for_vim'
-Plug 'pangloss/vim-javascript'
-Plug 'moll/vim-node'
+"Plug 'ternjs/tern_for_vim'
+"Plug 'pangloss/vim-javascript'
+"Plug 'moll/vim-node'
 
 " Rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+"Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 " Ruby support
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+"Plug 'tpope/vim-rails', { 'for': 'ruby' }
+"Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
 " Go
-Plug 'fatih/vim-go', { 'for': 'go' }
+"Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Java
-Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+"Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 
 " }}}
 
@@ -171,6 +178,11 @@ call Profile_Plugins()
 call plug#end()
 
 " }}}
+"
+"
+
+autocmd VimResized * call GuiFont('Consolas:h10')
+
 
 " {{{ 2.1 - Helper menus
 
@@ -440,6 +452,11 @@ noremap <leader>gb :Gblame<CR>
 
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
+
+
+" == guttor =======
+" ingnore line ends
+let g:gitgutter_diff_args = '-w'
 
 
 " {{{ C# and Unity

@@ -2,10 +2,10 @@ function! Profile_Plugins()
     Plug 'tomtom/tcomment_vim'
 
     " Go
-    Plug 'fatih/vim-go', { 'for': 'go' }
+    "Plug 'fatih/vim-go', { 'for': 'go' }
 
     " Web
-    Plug 'maksimr/vim-jsbeautify'
+    "Plug 'maksimr/vim-jsbeautify'
 endfunction
 
 function! Profile_Prelude()
