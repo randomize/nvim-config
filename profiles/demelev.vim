@@ -14,7 +14,8 @@ function! Profile_Prelude()
 endfunction
 
 function! Profile_Settings()
-    colorscheme Monokai_next
+    "colorscheme Monokai_next
+    colorscheme gruvbox
 
     " vim -b : edit binary using xxd-format!
     augroup Binary

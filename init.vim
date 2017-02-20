@@ -57,8 +57,10 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'eugen0329/vim-esearch'
 Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
+Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
+Plug 'critiqjo/lldb.nvim'
 " Buffers manager
 Plug 'Buffergator'
 
