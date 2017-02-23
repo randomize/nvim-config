@@ -64,6 +64,8 @@ Plug 'critiqjo/lldb.nvim'
 " Buffers manager
 Plug 'Buffergator'
 
+Plug 'thinca/vim-quickrun'
+
 " Code alignment tool
 Plug 'godlygeek/tabular'
 
