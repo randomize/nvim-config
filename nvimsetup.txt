@@ -1,0 +1,105 @@
+Python 3 and 2 both installed, 3 is in path, 2 isnt (maybe need???)
+Python 3 installer has all stuff included (debug symbols, precompiled etc)
+Python 3 installed pip install neovim - it was failing, Python 2 was needed for pyuv
+after installing both it went well
+set both pythons path in init.vim
+ -qwindowgeometry 1024x800 for neovim-qt to avoid stupid window
+
+>set PATH=C:\Python27;C:\Python27\Scripts;%PATH%
+in cmd to install pip install neovim for python2 because its not in path (3 is)
+
+installed ruby https://rubyinstaller.org/downloads/
+and gem install neovim just in case, needs reboot
+uninstalled ruby because nvim has gem hardcoded instead of gem.exe and windows is crap
+
+After that :CheckHealth shows
+
+
+
+
+
+
+Plug was failing with some path errers
+https://github.com/junegunn/vim-plug/issues/583
+Used this fix and pathed vim-plugjj
+
+Vimproc is a bit tricky
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+SET CPU=AMD64
+SET SDK_INCLUDE_DIR=C:\Program Files ^(x86^)\Microsoft SDKs\Windows\v7.1A\Include
+nmake -f make_msvc.mak
+
+
+
+Font problem - added
+Plug 'equalsraf/neovim-gui-shim'
+and
+autocmd VimResized * call GuiFont('Consolas:h10')
+because 
+Guifont Consolas:h10
+was never executed or everrided
+
+
+Omnisharp went well
+
+YCM
+Add msbuild to path: set PATH=%PATH%;C:\Windows\Microsoft.NET\Framework\v4.0.30319
+Install cmake and add to path (during install)
+python install.py --omnisharp-completer
+will use python3 because its in path, will build with latest studio, or use --vs
+
+
+
+GitGutter - not workitg
+Fugitivo - not working
+
+
+
+
+Plug was failing with some path errers
+https://github.com/junegunn/vim-plug/issues/583
+Used this fix and pathed vim-plugjj
+
+Vimproc is a bit tricky
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+SET CPU=AMD64
+SET SDK_INCLUDE_DIR=C:\Program Files ^(x86^)\Microsoft SDKs\Windows\v7.1A\Include
+nmake -f make_msvc.mak
+
+
+
+Font problem - added
+Plug 'equalsraf/neovim-gui-shim'
+and
+autocmd VimResized * call GuiFont('Consolas:h10')
+because 
+Guifont Consolas:h10
+was never executed or everrided
+
+
+* GitGutter - not workitg - fixed by setting CRLF eols 
+Fugitivo - not working
+
+[[ -s /home/emihailenco/.autojump/etc/profile.d/autojump.sh ]] && source /home/emihailenco/.                                           autojump/etc/profile.d/autojump.sh
+
+        autoload -U compinit && compinit -u
+
+
+
+building with vcvars runned from cmd.exe
+
+Omnisharp - just goto ./server and msbuild - runs fine with 3 warnings
+
+
+installed winclip.exe to windir
+
+
+Unity command line - choose pythonw.exe and this args:
+"C:\Program Files\Python36\Scripts\nvr" --servername 127.0.0.1:7777  "$(File)" -c "$(Line)"  --remote-send <esc>zz
+
+
+
+
+
+
+
