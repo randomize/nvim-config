@@ -59,12 +59,16 @@ call plug#begin('~/vimfiles/bundle')
 Plug 'eugen0329/vim-esearch'
 Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
+Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
+Plug 'critiqjo/lldb.nvim'
 " Buffers manager
 Plug 'Buffergator'
 Plug 'equalsraf/neovim-gui-shim'
 
+
+Plug 'thinca/vim-quickrun'
 
 " Code alignment tool
 Plug 'godlygeek/tabular'
@@ -351,6 +355,9 @@ nmap <silent> <space>q  :q<CR>
 nmap <silent> <space>]  :bn<CR>
 nmap <silent> <space>[  :bp<CR>
 nmap <silent> <space>c  :bd<CR>
+nmap <silent> <space>d  :bp\|bd #<CR>
+nmap <silent> <space>(  :lne<CR>
+nmap <silent> <space>)  :lp<CR>
 
 " Remove trailing whitespaces
 nmap <silent> <leader>rtw :%s/\s\+$//e<CR>:nohl<CR>
@@ -551,7 +558,7 @@ set showbreak=↪
 
 " Visual cues when in 'list' model.
 set nolist
-set listchars+=eol:¶
+"set listchars+=eol:¶
 set listchars+=extends:❯
 set listchars+=precedes:❮
 set listchars+=trail:⋅
@@ -613,6 +620,8 @@ let g:ycm_key_list_select_completion = ['<tab>', '<up>']
 "let g:ycm_key_list_previous_completion = ['<s-tab>']
 let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_always_populate_location_list = 1
+
 " Disable ycm error messages since NeomakeHandles that better
 " let g:ycm_show_diagnostics_ui = 0
 " }}} YouCompleteme
