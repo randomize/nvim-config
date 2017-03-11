@@ -118,6 +118,9 @@ Plug 'scrooloose/nerdtree'
 Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 
+" Generates .ycm_extra_conf.py using cmake/make/other build systems
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+
 " {{{ Denite
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
