@@ -477,13 +477,13 @@ endsnippet
 # Big fat template
 #`!v ExpandSnippet("hhh")` TODO: find a way for expandiing snippet from snippet
 snippet temp "public class FileName : MonoBehaviour"
-hhh${1}
 
-using UnityEngine;
-using System.Collections;
+using UnityEngine;${50:using BullyFramework;}${51:using System.Collections;}
 
-public class `!p snip.rv = snip.basename or "Untitled"` : MonoBehaviour
+namespace ${1:Namespace}
 {
+	public class `!p snip.rv = snip.basename or "Untitled"` : MonoBehaviour
+	{
 
 
 #region Serializable data
@@ -502,17 +502,10 @@ public class `!p snip.rv = snip.basename or "Untitled"` : MonoBehaviour
 
 
 #region MonoBehaviour methods
-
-    void Start ()
-    {
-    }
-
-    void Update ()
-    {
-    }
-
 #endregion
 
+
+	}
 }
 endsnippet
 
@@ -528,4 +521,17 @@ snippet ife
 #if UNITY_EDITOR
 	${0:${VISUAL:code}}
 #endif 
+endsnippet
+
+snippet sotemp
+using UnityEngine;${49:using UnityEditor;}${50:using System;} ${51:using BullyFramework;}${52:using System.Collections;}
+
+[CreateAssetMenuAttribute(fileName = "$2", menuName = "$1/DataModel/$2")]
+namespace ${1:NameSpace}
+{
+	public class ${2:`!v expand("%:t:r")`}: ScriptableObject
+	{
+		${0}
+	}
+}
 endsnippet
