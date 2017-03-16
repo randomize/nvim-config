@@ -60,6 +60,7 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
+Plug 'wellle/targets.vim'
 Plug 'critiqjo/lldb.nvim'
 " Buffers manager
 Plug 'Buffergator'
