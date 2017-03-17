@@ -60,7 +60,7 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
-Plug 'AndrewRadev/switch.vim'
+Plug 'randomize/switch.vim'
 Plug 'wellle/targets.vim'
 Plug 'critiqjo/lldb.nvim'
 " Buffers manager
@@ -574,7 +574,7 @@ colorscheme molokai
 
 " {{{ Switch
 let g:switch_mapping = ""
-
+let g:switch_find_fistright_match = 1
 " }}}
 
 
