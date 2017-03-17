@@ -6,6 +6,9 @@ function! Profile_Plugins()
 
     " Web
     Plug 'maksimr/vim-jsbeautify'
+
+    " Search Replace
+    Plug 'brooth/far.vim'
 endfunction
 
 function! Profile_Prelude()
