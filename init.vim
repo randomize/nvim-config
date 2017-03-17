@@ -60,6 +60,7 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
+Plug 'AndrewRadev/switch.vim'
 Plug 'wellle/targets.vim'
 Plug 'critiqjo/lldb.nvim'
 " Buffers manager
@@ -144,6 +145,7 @@ Plug 'mhinz/vim-startify'
 
 " Life coding
 Plug 'metakirby5/codi.vim'
+
 
 " {{{ Language specific
 " C++
@@ -452,6 +454,10 @@ noremap <leader>gb :Gblame<CR>
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
+" == Switch ========
+
+nmap <silent> <space>t :Switch<CR>
+
 
 " {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
@@ -565,6 +571,12 @@ colorscheme molokai
 " }}} ===========================================================
 
 " {{{ 6.0 - Plugins Settings =========================================
+
+" {{{ Switch
+let g:switch_mapping = ""
+
+" }}}
+
 
 " {{{ Rooter
 let g:rooter_patterns = ['build.gradle', '.git/']
