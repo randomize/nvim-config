@@ -574,7 +574,18 @@ colorscheme molokai
 
 " {{{ Switch
 let g:switch_mapping = ""
-let g:switch_find_fistright_match = 1
+let g:switch_find_fallback_match_cursor_right = 1
+let g:switch_find_fallback_match_line_start = 1
+
+autocmd FileType cs let b:switch_custom_definitions =
+    \ [
+    \   [  '+=' , '-='  ],
+    \   [  'private' , 'public', 'protected'  ],
+    \   [  'struct' , 'class'  ],
+    \   [  'OnDisable()' , 'OnEnable()' ],
+    \   [  'Update()' , 'FixedUpdate()' ],
+    \   [  'Debug.Log(' , 'Debug.LogError(' ]
+    \ ]
 " }}}
 
 
