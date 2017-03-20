@@ -354,8 +354,9 @@ nmap <silent> <space>(  :lne<CR>
 nmap <silent> <space>)  :lp<CR>
 
 " Remove trailing whitespaces
-nmap <silent> <leader>rtw :%s/\s\+$//e<CR>:nohl<CR>
-nmap <silent> <leader>rrt :%s/\t/    /g<CR>:nohl<CR>
+nmap <silent> <leader>rtw :call TrimShitOutOfFile()<CR>
+" nmap <silent> <leader>rtw :%s/\s\+$//e<CR>:nohl<CR>
+" nmap <silent> <leader>rrt :%s/\t/    /g<CR>:nohl<CR> " use :retab
 
 " Copy paste to + register
 nmap <silent> <space>y "+yy
@@ -804,6 +805,16 @@ autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " {{{ Autos ==================================================
 
+function TrimShitOutOfFile()
+" trim and go back to last place
+    " %s/\s*$//
+    :%s/\s\+$//e
+    :nohl
+    :retab
+    ''
+" kill tabs
+endfunction
+
 " Gstatus to have nice cursor
 autocmd BufEnter *.git/index setlocal cursorline
 
@@ -814,6 +825,8 @@ autocmd BufEnter *.git/index setlocal cursorline
 " augroup END
 
 " autocmd BufCreate [Scratch] set nobuflisted
+
+" autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
 
 " }}}
 
