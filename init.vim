@@ -805,14 +805,18 @@ autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " {{{ Autos ==================================================
 
-function TrimShitOutOfFile()
 " trim and go back to last place
-    " %s/\s*$//
+" TODO: how to substitute internally without spoiling / 
+" register
+function TrimShitOutOfFile()
+  let saved_cursor = getpos('.')
+  try
     :%s/\s\+$//e
     :nohl
     :retab
-    ''
-" kill tabs
+  finally
+    call setpos('.', saved_cursor)
+  endtry
 endfunction
 
 " Gstatus to have nice cursor

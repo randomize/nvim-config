@@ -558,3 +558,16 @@ endsnippet
 snippet "ann (\w+)" r
 Assert.IsNotNull(`!p snip.rv = match.group(1)`, " `!p snip.rv = match.group(1)` is null at " + name );
 endsnippet
+
+
+snippet hr
+[Header("${0:Description goes here}")]
+endsnippet
+
+snippet sp
+[Space]
+endsnippet
+
+snippet tt
+[Tooltip("${0:Description goes here}")]
+endsnippet
