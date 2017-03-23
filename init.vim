@@ -99,9 +99,14 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
+Plug 'Shougo/deoplete.nvim'
+Plug 'Robzz/deoplete-omnisharp'
+Plug 'ervandew/supertab'
+Plug 'sebastianmarkow/deoplete-rust'
+
 "
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
+" Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
@@ -614,7 +619,7 @@ let g:OmniSharp_host="http://localhost:20001"
 let g:ycm_csharp_server_port = 20001
 let g:OmniSharp_timeout = 1
 let g:OmniSharp_server_type = 'v1'
-let g:OmniSharp_server_type = 'roslyn'
+"let g:OmniSharp_server_type = 'roslyn'
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
 " insert mode
@@ -623,20 +628,28 @@ let g:OmniSharp_server_type = 'roslyn'
 " }}} OmniSharp
 
 " {{{ YouCompleteme
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_auto_trigger = 1
-" let g:ycm_key_invoke_completion = '<c-Tab>'
-let g:ycm_key_list_select_completion = ['<tab>', '<up>']
-"let g:ycm_key_list_previous_completion = ['<s-tab>']
-let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_always_populate_location_list = 1
+"let g:ycm_python_binary_path = '/usr/bin/python3'
+"let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+"let g:ycm_auto_trigger = 1
+"" let g:ycm_key_invoke_completion = '<c-Tab>'
+"let g:ycm_key_list_select_completion = ['<tab>', '<up>']
+""let g:ycm_key_list_previous_completion = ['<s-tab>']
+"let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
+"let g:ycm_confirm_extra_conf = 0
+"let g:ycm_always_populate_location_list = 1
 
 " Disable ycm error messages since NeomakeHandles that better
 " let g:ycm_show_diagnostics_ui = 0
 " }}} YouCompleteme
 
+" {{{ SuperTab
+"Super tab settings - uncomment the next 4 lines
+let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabContextDefaultCompletionType = ""
+let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:","&completefunc:"]
+let g:SuperTabClosePreviewOnPopupClose = 1
+" }}}
+"
 " {{{ Neomake
 let g:neomake_error_sign = {
     \ 'text': '✖',
@@ -839,3 +852,5 @@ syntax on
 
 " Load profile specific
 call Profile_Settings()
+
+call deoplete#enable()
