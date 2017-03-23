@@ -60,7 +60,8 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
-Plug 'randomize/switch.vim'
+Plug 'terryma/vim-expand-region'
+
 Plug 'wellle/targets.vim'
 Plug 'critiqjo/lldb.nvim'
 " Buffers manager
@@ -392,6 +393,7 @@ nmap <silent> <leader><leader><space> <c-^>
 " Map to close previews quicly
 nmap <silent> <leader>p <c-w><c-z>
 
+" Vim expand region mappings.
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
