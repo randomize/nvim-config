@@ -54,19 +54,21 @@ call plug#begin('~/.config/nvim/plugged')
 " NOTE: Make sure you use single quotes
 
 " {{{ Colors
-Plug 'eugen0329/vim-esearch'
 Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
-Plug 'randomize/switch.vim'
+Plug 'terryma/vim-expand-region'
+
 Plug 'wellle/targets.vim'
 Plug 'critiqjo/lldb.nvim'
 " Buffers manager
 Plug 'Buffergator'
 
 Plug 'thinca/vim-quickrun'
+
+Plug 'eugen0329/vim-esearch'
 
 " Code alignment tool
 Plug 'godlygeek/tabular'
@@ -118,6 +120,7 @@ Plug 'elzr/vim-json', { 'for': 'json'}
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'reconquest/vim-pythonx'
 
 Plug 'scrooloose/nerdtree'
 
@@ -397,6 +400,7 @@ nmap <silent> <leader><leader><space> <c-^>
 " Map to close previews quicly
 nmap <silent> <leader>p <c-w><c-z>
 
+" Vim expand region mappings.
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 

@@ -6,6 +6,9 @@ function! Profile_Plugins()
     Plug 'pangloss/vim-javascript'
     Plug 'mxw/vim-jsx'
     Plug 'Raimondi/delimitMate'
+    Plug 'junegunn/limelight.vim'
+    Plug 'rafi/awesome-vim-colorschemes'
+
     " Go lang
     "Plug 'fatih/vim-go', { 'for': 'go' }
 endfunction

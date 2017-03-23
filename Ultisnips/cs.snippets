@@ -524,11 +524,12 @@ snippet ife
 endsnippet
 
 snippet sotemp
+
 using UnityEngine;${49:using UnityEditor;}${50:using System;} ${51:using BullyFramework;}${52:using System.Collections;}
 
-[CreateAssetMenuAttribute(fileName = "$2", menuName = "$1/DataModel/$2")]
 namespace ${1:NameSpace}
 {
+	[CreateAssetMenuAttribute(fileName = "$2", menuName = "$1/DataModel/$2")]
 	public class ${2:`!v expand("%:t:r")`}: ScriptableObject
 	{
 		${0}
