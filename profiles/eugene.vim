@@ -36,4 +36,7 @@ function! Profile_Settings()
     iabbrev mesite http://randomize.github.io/
 
     let g:snips_author = 'Eugene Mihailenco <mihailencoe@gmail.com>'
+
+    autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
+
 endfunction
