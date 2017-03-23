@@ -54,7 +54,6 @@ call plug#begin('~/.config/nvim/plugged')
 " NOTE: Make sure you use single quotes
 
 " {{{ Colors
-Plug 'eugen0329/vim-esearch'
 Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rafi/awesome-vim-colorschemes'
@@ -68,6 +67,8 @@ Plug 'critiqjo/lldb.nvim'
 Plug 'Buffergator'
 
 Plug 'thinca/vim-quickrun'
+
+Plug 'eugen0329/vim-esearch'
 
 " Code alignment tool
 Plug 'godlygeek/tabular'
