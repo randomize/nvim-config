@@ -65,9 +65,8 @@ Plug 'wellle/targets.vim'
 Plug 'critiqjo/lldb.nvim'
 " Buffers manager
 Plug 'Buffergator'
-
+Plug 'randomize/switch.vim'
 Plug 'thinca/vim-quickrun'
-
 Plug 'eugen0329/vim-esearch'
 
 " Code alignment tool
