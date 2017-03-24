@@ -9,6 +9,9 @@ function! Profile_Plugins()
     Plug 'junegunn/limelight.vim'
     Plug 'rafi/awesome-vim-colorschemes'
 
+    " Search Replace
+    Plug 'brooth/far.vim'
+
     " Go lang
     "Plug 'fatih/vim-go', { 'for': 'go' }
 endfunction
