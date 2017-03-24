@@ -61,13 +61,12 @@ Plug 'rafi/awesome-vim-colorschemes'
 
 Plug 'terryma/vim-expand-region'
 
-Plug 'wellle/targets.vim'
 Plug 'critiqjo/lldb.nvim'
+
 " Buffers manager
 Plug 'Buffergator'
 Plug 'randomize/switch.vim'
 Plug 'thinca/vim-quickrun'
-Plug 'eugen0329/vim-esearch'
 
 " Code alignment tool
 Plug 'godlygeek/tabular'
@@ -84,11 +83,17 @@ Plug 'gregsexton/gitv'
 Plug 'benekastah/neomake'
 
 " Other musthave
+Plug 'mileszs/ack.vim'
+Plug 'eugen0329/vim-esearch'
+
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+
 Plug 'easymotion/vim-easymotion'
+Plug 'wellle/targets.vim'
+Plug 'kana/vim-textobj-user'
+
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'mileszs/ack.vim'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'airblade/vim-rooter'
@@ -125,6 +130,7 @@ Plug 'mbbill/undotree'
 " Generates .ycm_extra_conf.py using cmake/make/other build systems
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 
+
 " {{{ Denite
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
@@ -135,6 +141,8 @@ Plug 'Shougo/neomru.vim'
 " CtrlP
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-ctrlp-autoignore'
+
+Plug 'junegunn/fzf.vim'
 
 " Tags
 Plug 'demelev/tagbar'
@@ -156,6 +164,7 @@ Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 
 " C# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
+Plug 'OrangeT/vim-csharp'
 
 " Node js stuff
 Plug 'ternjs/tern_for_vim'
