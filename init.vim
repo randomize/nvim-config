@@ -616,8 +616,8 @@ let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " }}} UltiSnips
 
 " {{{ OmniSharp
-let g:Omnisharp_start_server = 0
-let g:Omnisharp_stop_server  = 0
+let g:Omnisharp_start_server = 1
+let g:Omnisharp_stop_server  = 1
 let g:OmniSharp_host="http://localhost:20001"
 let g:ycm_csharp_server_port = 20001
 let g:OmniSharp_timeout = 1
@@ -853,7 +853,13 @@ autocmd BufEnter *.git/index setlocal cursorline
 filetype plugin indent on
 syntax on
 
+let g:deoplete#enable_at_startup = 1
+
+"Super tab settings - uncomment the next 4 lines
+let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:<c-x><c-o>","&completefunc:<c-x><c-n>"]
+let g:SuperTabClosePreviewOnPopupClose = 1
+
 " Load profile specific
 call Profile_Settings()
-
-call deoplete#enable()
