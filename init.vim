@@ -645,6 +645,9 @@ let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
 
+let g:ycm_error_symbol = '✖'
+let g:ycm_warning_symbol = '⚠'
+
 " Disable ycm error messages since NeomakeHandles that better
 " let g:ycm_show_diagnostics_ui = 0
 " }}} YouCompleteme
