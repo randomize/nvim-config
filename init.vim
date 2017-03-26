@@ -723,6 +723,8 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 
 " {{{ Denite
 
+" if exists('g:loaded_denite') " for some reason this var is not alive here yet
+
 call denite#custom#source(
     \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
 
@@ -733,6 +735,10 @@ call denite#custom#var('file_rec/git', 'command',
 
 " Just fancy cursor for command line
 call denite#custom#option('default', 'prompt', '▷')
+
+" Do not sort file_mru sicne it is already sorted by time
+call denite#custom#source(
+            \ 'file_mru', 'sorters', [])
 
 " Since pt and ag does better job searching sources, ignoring
 " .git stuff and .gitignore things we configure file_rec to
@@ -747,6 +753,30 @@ elseif executable('ag')
     call denite#custom#var('file_rec/source', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
 endif
+
+" KEY MAPPINGS
+let insert_mode_mappings = [
+	\  ['jj', '<denite:enter_mode:normal>', 'noremap'],
+	\  ['<c-y>', '<denite:redraw>', 'noremap'],
+	\ ]
+
+let normal_mode_mappings = [
+	\   ["'", '<denite:toggle_select_down>', 'noremap'],
+	\   ['st', '<denite:do_action:tabopen>', 'noremap'],
+	\   ['sg', '<denite:do_action:vsplit>', 'noremap'],
+	\   ['sv', '<denite:do_action:split>', 'noremap'],
+	\   ['sc', '<denite:quit>', 'noremap'],
+	\   ['r', '<denite:redraw>', 'noremap'],
+	\ ]
+
+for m in insert_mode_mappings
+	call denite#custom#map('insert', m[0], m[1], m[2])
+endfor
+for m in normal_mode_mappings
+	call denite#custom#map('normal', m[0], m[1], m[2])
+endfor
+
+" endif
 
 " }}}
 
