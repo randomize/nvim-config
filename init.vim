@@ -422,6 +422,10 @@ nmap <leader>yg :YcmCompleter GoToDefinitionElseDeclaration<cr>
 nmap <leader>yd :YcmCompleter GoToDefinition<cr>
 nmap <leader>yc :YcmCompleter GoToDeclaration<cr>
 nmap <leader>yt :YcmCompleter GetType<cr>
+nmap <leader>yf :YcmCompleter FixIt<cr>
+nmap <leader>yi :YcmCompleter GoToImplementation<cr>
+nmap <leader>ys :YcmCompleter SolutionFile<cr>
+nmap <leader>yh :YcmCompleter GetDoc<cr>
 
 " === Tabular ===
 
@@ -645,9 +649,20 @@ let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
 
+" Preview
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+
 let g:ycm_error_symbol = '✖'
 let g:ycm_warning_symbol = '⚠'
 
+let g:ycm_filter_diagnostics = {
+  \ "cs": {
+  \      "regex": [ ".*Fields.*"]
+  \    }
+  \ }
 " Disable ycm error messages since NeomakeHandles that better
 " let g:ycm_show_diagnostics_ui = 0
 " }}} YouCompleteme
