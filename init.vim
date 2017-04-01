@@ -65,7 +65,6 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'critiqjo/lldb.nvim'
 " Buffers manager
 Plug 'Buffergator'
-Plug 'equalsraf/neovim-gui-shim'
 
 
 Plug 'thinca/vim-quickrun'
@@ -185,7 +184,6 @@ call plug#end()
 "
 "
 
-autocmd VimResized * call GuiFont('Consolas:h10')
 
 
 " {{{ 2.1 - Helper menus
