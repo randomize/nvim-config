@@ -56,17 +56,18 @@ call plug#begin('~/vimfiles/bundle')
 " NOTE: Make sure you use single quotes
 
 " {{{ Colors
-Plug 'eugen0329/vim-esearch'
 Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
+Plug 'terryma/vim-expand-region'
+
 Plug 'critiqjo/lldb.nvim'
+
 " Buffers manager
 Plug 'Buffergator'
-
-
+Plug 'randomize/switch.vim'
 Plug 'thinca/vim-quickrun'
 
 " Code alignment tool
@@ -84,11 +85,17 @@ Plug 'gregsexton/gitv'
 Plug 'benekastah/neomake'
 
 " Other musthave
+Plug 'mileszs/ack.vim'
+Plug 'eugen0329/vim-esearch'
+
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+
 Plug 'easymotion/vim-easymotion'
+Plug 'wellle/targets.vim'
+Plug 'kana/vim-textobj-user'
+
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'mileszs/ack.vim'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'airblade/vim-rooter'
@@ -115,12 +122,17 @@ Plug 'elzr/vim-json', { 'for': 'json'}
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'reconquest/vim-pythonx'
 
 Plug 'scrooloose/nerdtree'
 
 " IDE features
 Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
+
+" Generates .ycm_extra_conf.py using cmake/make/other build systems
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+
 
 " {{{ Denite
 Plug 'Shougo/denite.nvim'
@@ -134,6 +146,8 @@ Plug 'Shougo/neomru.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-ctrlp-autoignore'
 
+Plug 'junegunn/fzf.vim'
+
 " Tags
 Plug 'demelev/tagbar'
 Plug 'vim-scripts/taglist.vim'
@@ -146,6 +160,7 @@ Plug 'mhinz/vim-startify'
 " Life coding
 "Plug 'metakirby5/codi.vim'
 
+
 " {{{ Language specific
 " C++
 " Formatting with clanfg format
@@ -154,6 +169,7 @@ Plug 'mhinz/vim-startify'
 " C# support
 Plug 'OmniSharp/omnisharp-vim'
 ", { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
+Plug 'OrangeT/vim-csharp'
 
 " Node js stuff
 "Plug 'ternjs/tern_for_vim'
@@ -358,8 +374,9 @@ nmap <silent> <space>(  :lne<CR>
 nmap <silent> <space>)  :lp<CR>
 
 " Remove trailing whitespaces
-nmap <silent> <leader>rtw :%s/\s\+$//e<CR>:nohl<CR>
-nmap <silent> <leader>rrt :%s/\t/    /g<CR>:nohl<CR>
+nmap <silent> <leader>rtw :call TrimShitOutOfFile()<CR>
+" nmap <silent> <leader>rtw :%s/\s\+$//e<CR>:nohl<CR>
+" nmap <silent> <leader>rrt :%s/\t/    /g<CR>:nohl<CR> " use :retab
 
 " Copy paste to + register
 nmap <silent> <space>y "+yy
@@ -395,6 +412,7 @@ nmap <silent> <leader><leader><space> <c-^>
 " Map to close previews quicly
 nmap <silent> <leader>p <c-w><c-z>
 
+" Vim expand region mappings.
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
@@ -413,6 +431,10 @@ nmap <leader>yg :YcmCompleter GoToDefinitionElseDeclaration<cr>
 nmap <leader>yd :YcmCompleter GoToDefinition<cr>
 nmap <leader>yc :YcmCompleter GoToDeclaration<cr>
 nmap <leader>yt :YcmCompleter GetType<cr>
+nmap <leader>yf :YcmCompleter FixIt<cr>
+nmap <leader>yi :YcmCompleter GoToImplementation<cr>
+nmap <leader>ys :YcmCompleter SolutionFile<cr>
+nmap <leader>yh :YcmCompleter GetDoc<cr>
 
 " === Tabular ===
 
@@ -457,6 +479,10 @@ noremap <leader>gb :Gblame<CR>
 
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
+
+" == Switch ========
+
+nmap <silent> <space>t :Switch<CR>
 
 
 " == guttor =======
@@ -577,6 +603,23 @@ colorscheme molokai
 
 " {{{ 6.0 - Plugins Settings =========================================
 
+" {{{ Switch
+let g:switch_mapping = ""
+let g:switch_find_fallback_match_cursor_right = 1
+let g:switch_find_fallback_match_line_start = 1
+
+autocmd FileType cs let b:switch_custom_definitions =
+    \ [
+    \   [  '+=' , '-='  ],
+    \   [  'private' , 'public', 'protected'  ],
+    \   [  'struct' , 'class'  ],
+    \   [  'OnDisable()' , 'OnEnable()' ],
+    \   [  'Update()' , 'FixedUpdate()' ],
+    \   [  'Debug.Log(' , 'Debug.LogError(' ]
+    \ ]
+" }}}
+
+
 " {{{ Rooter
 let g:rooter_patterns = ['build.gradle', '.git/']
 let g:rooter_manual_only = 1
@@ -620,6 +663,20 @@ let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
 
+" Preview
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+
+let g:ycm_error_symbol = '✖'
+let g:ycm_warning_symbol = '⚠'
+
+let g:ycm_filter_diagnostics = {
+  \ "cs": {
+  \      "regex": [ ".*Fields.*"]
+  \    }
+  \ }
 " Disable ycm error messages since NeomakeHandles that better
 " let g:ycm_show_diagnostics_ui = 0
 " }}} YouCompleteme
@@ -680,6 +737,8 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 
 " {{{ Denite
 
+" if exists('g:loaded_denite') " for some reason this var is not alive here yet
+
 call denite#custom#source(
     \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
 
@@ -690,6 +749,10 @@ call denite#custom#var('file_rec/git', 'command',
 
 " Just fancy cursor for command line
 call denite#custom#option('default', 'prompt', '▷')
+
+" Do not sort file_mru sicne it is already sorted by time
+call denite#custom#source(
+            \ 'file_mru', 'sorters', [])
 
 " Since pt and ag does better job searching sources, ignoring
 " .git stuff and .gitignore things we configure file_rec to
@@ -704,6 +767,30 @@ elseif executable('ag')
     call denite#custom#var('file_rec/source', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
 endif
+
+" KEY MAPPINGS
+let insert_mode_mappings = [
+	\  ['jj', '<denite:enter_mode:normal>', 'noremap'],
+	\  ['<c-y>', '<denite:redraw>', 'noremap'],
+	\ ]
+
+let normal_mode_mappings = [
+	\   ["'", '<denite:toggle_select_down>', 'noremap'],
+	\   ['st', '<denite:do_action:tabopen>', 'noremap'],
+	\   ['sg', '<denite:do_action:vsplit>', 'noremap'],
+	\   ['sv', '<denite:do_action:split>', 'noremap'],
+	\   ['sc', '<denite:quit>', 'noremap'],
+	\   ['r', '<denite:redraw>', 'noremap'],
+	\ ]
+
+for m in insert_mode_mappings
+	call denite#custom#map('insert', m[0], m[1], m[2])
+endfor
+for m in normal_mode_mappings
+	call denite#custom#map('normal', m[0], m[1], m[2])
+endfor
+
+" endif
 
 " }}}
 
@@ -792,6 +879,20 @@ autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " {{{ Autos ==================================================
 
+" trim and go back to last place
+" TODO: how to substitute internally without spoiling / 
+" register
+function TrimShitOutOfFile()
+  let saved_cursor = getpos('.')
+  try
+    :%s/\s\+$//e
+    :nohl
+    :retab
+  finally
+    call setpos('.', saved_cursor)
+  endtry
+endfunction
+
 " Gstatus to have nice cursor
 autocmd BufEnter *.git/index setlocal cursorline
 
@@ -802,6 +903,8 @@ autocmd BufEnter *.git/index setlocal cursorline
 " augroup END
 
 " autocmd BufCreate [Scratch] set nobuflisted
+
+" autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
 
 " }}}
 

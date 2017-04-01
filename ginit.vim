@@ -1,2 +1,1 @@
-
-GuiFont Consolas:h10
+GuiFont Pragmata Pro Mono:h11
