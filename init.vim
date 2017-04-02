@@ -105,11 +105,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
-"
-" You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
@@ -127,8 +122,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 
-" Generates .ycm_extra_conf.py using cmake/make/other build systems
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 
 
 " {{{ Denite
@@ -417,16 +410,6 @@ nnoremap z4 :set foldlevel=4<cr>
 nnoremap z5 :set foldlevel=5<cr>
 
 
-" === YCM =====
-nmap <leader>yg :YcmCompleter GoToDefinitionElseDeclaration<cr>
-nmap <leader>yd :YcmCompleter GoToDefinition<cr>
-nmap <leader>yc :YcmCompleter GoToDeclaration<cr>
-nmap <leader>yt :YcmCompleter GetType<cr>
-nmap <leader>yf :YcmCompleter FixIt<cr>
-nmap <leader>yi :YcmCompleter GoToImplementation<cr>
-nmap <leader>ys :YcmCompleter SolutionFile<cr>
-nmap <leader>yh :YcmCompleter GetDoc<cr>
-
 " === Tabular ===
 
 nmap <leader>tf :Tabularize / \w\+;/l0<CR>
@@ -638,35 +621,6 @@ let g:OmniSharp_server_type = 'roslyn'
 " autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " }}} OmniSharp
 
-" {{{ YouCompleteme
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_auto_trigger = 1
-" let g:ycm_key_invoke_completion = '<c-Tab>'
-let g:ycm_key_list_select_completion = ['<tab>', '<up>']
-"let g:ycm_key_list_previous_completion = ['<s-tab>']
-let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_always_populate_location_list = 1
-
-" Preview
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_completion = 0
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-
-let g:ycm_error_symbol = '✖'
-let g:ycm_warning_symbol = '⚠'
-
-let g:ycm_filter_diagnostics = {
-  \ "cs": {
-  \      "regex": [ ".*Fields.*"]
-  \    }
-  \ }
-" Disable ycm error messages since NeomakeHandles that better
-" let g:ycm_show_diagnostics_ui = 0
-" }}} YouCompleteme
-
 " {{{ Neomake
 let g:neomake_error_sign = {
     \ 'text': '✖',
@@ -789,7 +743,6 @@ let g:ctrlp_extensions = ['autoignore']
 " }}}
 
 " {{{ Rust
-let g:ycm_rust_src_path = '/usr/src/rust/src'
 function! On_rust_session()
     " Use cargo for neomake
     autocmd! BufWritePost * NeomakeProject cargo
