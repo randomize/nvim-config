@@ -676,7 +676,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 
 " {{{ Denite
 
-if exists('denite#custom#source') " check if denite is available
+if exists('*denite#custom#source') " check if denite is available
 
 call denite#custom#source(
     \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
