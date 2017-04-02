@@ -156,7 +156,7 @@ Plug 'metakirby5/codi.vim'
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 
 " C# support
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
+Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
 Plug 'OrangeT/vim-csharp'
 
 " Node js stuff
@@ -609,10 +609,10 @@ let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " {{{ OmniSharp
 let g:Omnisharp_start_server = 0
 let g:Omnisharp_stop_server  = 0
-let g:OmniSharp_host="http://localhost:20001"
-let g:ycm_csharp_server_port = 20001
-let g:OmniSharp_timeout = 1
-let g:OmniSharp_server_type = 'v1'
+" let g:OmniSharp_host="http://localhost:20001"
+" let g:ycm_csharp_server_port = 20001
+" let g:OmniSharp_timeout = 1
+" let g:OmniSharp_server_type = 'v1'
 let g:OmniSharp_server_type = 'roslyn'
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
