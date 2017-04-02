@@ -157,6 +157,7 @@ Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 " C# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
 Plug 'OrangeT/vim-csharp'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Node js stuff
 Plug 'ternjs/tern_for_vim'
@@ -606,8 +607,9 @@ let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " }}} UltiSnips
 
 " {{{ OmniSharp
-let g:Omnisharp_start_server = 0
-let g:Omnisharp_stop_server  = 0
+let g:Omnisharp_start_server = 1
+let g:Omnisharp_stop_server  = 1
+let g:OmniSharp_selector_ui = 'ctrlp' 
 " let g:OmniSharp_host="http://localhost:20001"
 " let g:ycm_csharp_server_port = 20001
 " let g:OmniSharp_timeout = 1
@@ -619,6 +621,10 @@ let g:OmniSharp_server_type = 'roslyn'
 " autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 " autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " }}} OmniSharp
+
+" {{{ Deoplete
+let g:deoplete#enable_at_startup = 1
+" }}}
 
 " {{{ Neomake
 let g:neomake_error_sign = {
