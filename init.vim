@@ -791,7 +791,7 @@ let g:ctrlp_extensions = ['autoignore']
 let g:ycm_rust_src_path = '/usr/src/rust/src'
 function! On_rust_session()
     " Use cargo for neomake
-    autocmd! BufWritePost * NeomakeProject cargo
+    autocmd! BufWritePost * Neomake cargo
 endfunction
 autocmd FileType rust call On_rust_session()
 " }}}
