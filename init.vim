@@ -722,7 +722,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 
 " {{{ Denite
 
-if exists('*denite#custom#source') " check if denite is available
+try
 
 call denite#custom#source(
     \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
@@ -742,9 +742,18 @@ call denite#custom#source(
 " Since pt and ag does better job searching sources, ignoring
 " .git stuff and .gitignore things we configure file_rec to
 " use them if any found on system
-if executable('pt')
+if executable('rg')
+    call denite#custom#var('file_rec', 'command',
+        \ ['rg', '--files', '--follow', '--color', 'never','--type', 'cs'])
+    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
+    call denite#custom#var('file_rec/source', 'command',
+        \ ['rg', '--files', '--follow', '--color', 'never', '--type', 'cs'])
+elseif executable('pt')
     call denite#custom#var('file_rec', 'command',
         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g:', ''])
+    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
+    call denite#custom#var('file_rec/source', 'command',
+        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
 elseif executable('ag')
     call denite#custom#var('file_rec', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
@@ -775,7 +784,8 @@ for m in normal_mode_mappings
 	call denite#custom#map('normal', m[0], m[1], m[2])
 endfor
 
-endif
+catch
+endtry
 
 " }}}
 
