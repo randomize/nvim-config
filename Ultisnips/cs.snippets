@@ -175,8 +175,41 @@ snippet wait "yield return new WaitForSeconds(...);"
 yield return new WaitForSeconds(${1:time});
 endsnippet
 
+#snippet "waitp (\w(\w+|.|\(.*\)))" "yield return promise.Wait()" r
+snippet "waitp (.*)" "yield return promise.Wait()" r
+yield return `!p snip.rv = match.group(1)`.Wait();
+endsnippet
+
+snippet yr "yield return"
+yield return
+endsnippet
+
 snippet yn "yield return null;"
 yield return null;
+endsnippet
+
+snippet ya "yield return audioController.VO.WaitPlayVO();"
+yield return audioController.VO.WaitPlayVO("${0}");
+endsnippet
+
+snippet yuc "yield return new WaitUntil"
+yield return new WaitUntil( () => ${0} );
+endsnippet
+
+snippet "eepm (\w+)" "Enable position marker" r
+environmentController.EnablePosMarker("`!p snip.rv = match.group(1)`");
+endsnippet
+
+snippet "egpm (\w+)" "Get position marker" r
+var ${1:`!p snip.rv = match.group(1).lower()`} = environmentController.GetXf("`!p snip.rv = match.group(1)`");
+endsnippet
+
+snippet "uie (\w+)" "uiController[Button.Name] = true;" r
+uiController[Button.`!p snip.rv = match.group(1)`] = true;
+endsnippet
+
+snippet "uid (\w+)" "uiController[Button.Name] = true;" r
+uiController[Button.`!p snip.rv = match.group(1)`] = false;
 endsnippet
 
 snippet but "if (GUILayout.Button(...)) { ... } "
