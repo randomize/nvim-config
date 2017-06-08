@@ -605,3 +605,20 @@ endsnippet
 snippet tt
 [Tooltip("${0:Description goes here}")]
 endsnippet
+
+
+snippet lazyp
+private ${2:Type} ${1:fieldname}_f;
+private $2 $1
+{
+	get
+	{
+		if($1_f == null)
+		{
+			$1_f = new $2 ();
+			${0}
+		}
+		return $1_f;
+	}
+}
+endsnippet
