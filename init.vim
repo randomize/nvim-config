@@ -67,6 +67,7 @@ Plug 'critiqjo/lldb.nvim'
 Plug 'Buffergator'
 Plug 'randomize/switch.vim'
 Plug 'thinca/vim-quickrun'
+Plug 'simeji/winresizer'
 
 " Code alignment tool
 Plug 'godlygeek/tabular'
@@ -604,6 +605,9 @@ autocmd FileType cs let b:switch_custom_definitions =
     \ ]
 " }}}
 
+" {{{ Git gutter
+let g:gitgutter_diff_args = '-w'
+" }}}
 
 " {{{ Rooter
 let g:rooter_patterns = ['build.gradle', '.git/']
