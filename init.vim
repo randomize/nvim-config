@@ -55,13 +55,10 @@ call plug#begin('~/.config/nvim/plugged')
 
 " {{{ Colors
 Plug 'tomasr/molokai'
-Plug 'nanotech/jellybeans.vim'
-Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
 Plug 'terryma/vim-expand-region'
 
-Plug 'critiqjo/lldb.nvim'
 
 " Buffers manager
 Plug 'Buffergator'
@@ -103,13 +100,10 @@ Plug 'airblade/vim-rooter'
 Plug 'open-browser.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons'
 
 "
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer ' }
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
@@ -158,31 +152,10 @@ Plug 'metakirby5/codi.vim'
 
 
 " {{{ Language specific
-" C++
-" Formatting with clanfg format
-Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 
 " C# support
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
+Plug 'OmniSharp/omnisharp-vim'
 Plug 'OrangeT/vim-csharp'
-
-" Node js stuff
-Plug 'ternjs/tern_for_vim'
-Plug 'pangloss/vim-javascript'
-Plug 'moll/vim-node'
-
-" Rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-
-" Ruby support
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-
-" Go
-Plug 'fatih/vim-go', { 'for': 'go' }
-
-" Java
-Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 
 " }}}
 
