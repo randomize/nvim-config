@@ -64,7 +64,8 @@ Plug 'terryma/vim-expand-region'
 Plug 'critiqjo/lldb.nvim'
 
 " Buffers manager
-Plug 'Buffergator'
+Plug 'vim-scripts/Buffergator'
+Plug 'vim-scripts/BufOnly.vim'
 Plug 'randomize/switch.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'simeji/winresizer'
@@ -73,7 +74,7 @@ Plug 'simeji/winresizer'
 Plug 'godlygeek/tabular'
 
 " Super increment
-Plug 'VisIncr'
+Plug 'vim-scripts/VisIncr'
 
 " Git support
 Plug 'airblade/vim-gitgutter'
@@ -100,10 +101,11 @@ Plug 'tommcdo/vim-exchange'
 Plug 'airblade/vim-rooter'
 
 " Tools
-Plug 'open-browser.vim'
+Plug 'vim-scripts/open-browser.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
+Plug 'jmcantrell/vim-virtualenv'
 
 "
 " You complete me
@@ -126,6 +128,7 @@ Plug 'scrooloose/nerdtree'
 " IDE features
 Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
+Plug 'lervag/vimtex'
 
 " Generates .ycm_extra_conf.py using cmake/make/other build systems
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
@@ -142,7 +145,7 @@ Plug 'Shougo/neomru.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-ctrlp-autoignore'
 
-Plug 'junegunn/fzf.vim'
+Plug '/usr/share/vim/vimfiles/plugin/fzf.vim' | Plug 'junegunn/fzf.vim'
 
 " Tags
 Plug 'demelev/tagbar'
@@ -163,7 +166,7 @@ Plug 'metakirby5/codi.vim'
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 
 " C# support
-Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs', 'do': './omnisharp-roslyn/build.sh' }
+Plug 'OmniSharp/omnisharp-vim'
 Plug 'OrangeT/vim-csharp'
 
 " Node js stuff
@@ -436,6 +439,7 @@ nmap <leader>t= :Tabularize /=<cr>
 let g:unite_source_history_yank_enable = 1
 
 nnoremap <leader>uf :<C-u>Denite -buffer-name=csfiles -mode=insert file_rec <cr>
+nnoremap <leader>ue :<C-u>Denite -buffer-name=register -mode=insert register <cr>
 nnoremap <leader>ug :<C-u>Denite -buffer-name=gitfiles -mode=insert file_rec/git <cr>
 nnoremap <leader>up :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec/source <cr>
 nnoremap <leader>ua :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec <cr>
@@ -479,6 +483,7 @@ nmap <silent> <space>t :Switch<CR>
 " {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
 function! s:omnisharp_settings()
+  set foldmethod=syntax
   nnoremap <buffer> <space>g :OmniSharpGotoDefinition<cr>
   nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
   nnoremap <buffer> <leader>sx  :OmniSharpFixIssue<cr>
@@ -629,10 +634,11 @@ let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " {{{ OmniSharp
 let g:Omnisharp_start_server = 0
 let g:Omnisharp_stop_server  = 0
-let g:OmniSharp_host="http://localhost:20001"
+" let g:OmniSharp_host="http://localhost:20001"
+let g:OmniSharp_host="http://localhost:2000"
 let g:ycm_csharp_server_port = 20001
 let g:OmniSharp_timeout = 1
-let g:OmniSharp_server_type = 'v1'
+" let g:OmniSharp_server_type = 'v1'
 let g:OmniSharp_server_type = 'roslyn'
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
@@ -802,7 +808,7 @@ let g:ctrlp_extensions = ['autoignore']
 " }}}
 
 " {{{ Rust
-let g:ycm_rust_src_path = '/usr/src/rust/src'
+let g:ycm_rust_src_path = '/home/randy/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 function! On_rust_session()
     " Use cargo for neomake
     autocmd! BufWritePost * Neomake cargo
@@ -874,6 +880,16 @@ let g:openbrowser_search_engines = extend(
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 " }}}
 
+" ZFZ rg
+
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 " }}}
 
 " {{{ Autos ==================================================
@@ -904,6 +920,20 @@ autocmd BufEnter *.git/index setlocal cursorline
 " autocmd BufCreate [Scratch] set nobuflisted
 
 " autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
+
+function! s:fasd_update() abort
+  if empty(&buftype) || &filetype ==# 'dirvish'
+    call jobstart(['fasd', '-A', expand('%:p')])
+  endif
+endfunction
+
+augroup fasd
+  autocmd!
+  autocmd BufWinEnter,BufFilePost * call s:fasd_update()
+augroup END
+
+command! FASD call fzf#run(fzf#wrap({'source': 'fasd -al', 'options': '--no-sort --tac --tiebreak=index'}))
+nnoremap <silent> <Leader>ef :FASD<CR>
 
 " }}}
 
