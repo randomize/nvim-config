@@ -1,3 +1,5 @@
 " Neovim-qt config
 
-GuiFont Pragmata Pro Mono:h11
+" GuiFont PragmataPro Mono:h11
+GuiFont Iosevka Nerd Font Mono:h11
+set visualbell
