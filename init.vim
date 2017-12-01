@@ -149,7 +149,13 @@ Plug 'Shougo/neomru.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-ctrlp-autoignore'
 
-Plug '/usr/share/vim/vimfiles/plugin/fzf.vim' | Plug 'junegunn/fzf.vim'
+" fzf on Linux and OSX
+if g:os == "Darwin"
+    Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+elseif g:os == "Linux"
+    Plug '/usr/share/vim/vimfiles/plugin/fzf.vim' | Plug 'junegunn/fzf.vim'
+endif
+
 
 " Tags
 Plug 'demelev/tagbar'
@@ -757,6 +763,15 @@ call denite#custom#source(
 " .git stuff and .gitignore things we configure file_rec to
 " use them if any found on system
 if executable('rg')
+ 	" Ripgrep command on grep source
+	call denite#custom#var('grep', 'command', ['rg'])
+	call denite#custom#var('grep', 'default_opts',
+			\ ['--vimgrep', '--no-heading'])
+	call denite#custom#var('grep', 'recursive_opts', [])
+	call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+	call denite#custom#var('grep', 'separator', ['--'])
+	call denite#custom#var('grep', 'final_opts', [])
+    " Ripgrep filerec source
     call denite#custom#var('file_rec', 'command',
         \ ['rg', '--files', '--follow', '--color', 'never','--type', 'cs'])
     call denite#custom#alias('source', 'file_rec/source', 'file_rec')
@@ -889,10 +904,11 @@ autocmd FileType java setlocal omnifunc=javacomplete#Complete
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-heading --color=always -g "*.cs" <args> ', 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
+  " \ echomsg 'rg --column --line-number --no-heading --color=always -g "*.cs" <args>'
 
 " }}}
 
