@@ -1,1 +1,1 @@
-GuiFont Pragmata Pro Mono:h11
+GuiFont Iosevka\ NF:h11

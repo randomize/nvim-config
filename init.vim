@@ -66,7 +66,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'critiqjo/lldb.nvim'
 
 " Buffers manager
-Plug 'Buffergator'
+Plug 'vim-scripts/Buffergator'
 Plug 'randomize/switch.vim'
 Plug 'thinca/vim-quickrun'
 
@@ -74,7 +74,7 @@ Plug 'thinca/vim-quickrun'
 Plug 'godlygeek/tabular'
 
 " Super increment
-Plug 'VisIncr'
+Plug 'vim-scripts/VisIncr'
 
 " Git support
 Plug 'airblade/vim-gitgutter'
@@ -101,7 +101,7 @@ Plug 'tommcdo/vim-exchange'
 Plug 'airblade/vim-rooter'
 
 " Tools
-Plug 'open-browser.vim'
+Plug 'vim-scripts/open-browser.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "Plug 'ryanoasis/vim-devicons'
