@@ -102,7 +102,6 @@ Plug 'airblade/vim-rooter'
 
 " Tools
 Plug 'open-browser.vim'
-" TODO: why not bling/vim-airline ?
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "Plug 'ryanoasis/vim-devicons'
@@ -598,7 +597,7 @@ set showcmd
 " }}} ===========================================================
 
 " {{{ 5.0 - Appearence ================================================
-colorscheme molokai
+silent! colorscheme molokai
 " }}} ===========================================================
 
 " {{{ 6.0 - Plugins Settings =========================================
@@ -737,7 +736,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 
 " {{{ Denite
 
-" if exists('g:loaded_denite') " for some reason this var is not alive here yet
+if exists('*denite#custom#source') " check if denite is available
 
 call denite#custom#source(
     \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
@@ -790,7 +789,7 @@ for m in normal_mode_mappings
 	call denite#custom#map('normal', m[0], m[1], m[2])
 endfor
 
-" endif
+endif
 
 " }}}
 
@@ -806,7 +805,7 @@ let g:ctrlp_extensions = ['autoignore']
 let g:ycm_rust_src_path = '/usr/src/rust/src'
 function! On_rust_session()
     " Use cargo for neomake
-    autocmd! BufWritePost * NeomakeProject cargo
+    autocmd! BufWritePost * Neomake cargo
 endfunction
 autocmd FileType rust call On_rust_session()
 " }}}
