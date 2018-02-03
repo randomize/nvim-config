@@ -173,7 +173,7 @@ Plug 'metakirby5/codi.vim'
 " {{{ Language specific
 " C++
 " Formatting with clanfg format
-Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
+Plug 'rhysd/vim-clang-format'
 
 " C# support
 Plug 'OmniSharp/omnisharp-vim'
