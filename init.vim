@@ -49,6 +49,8 @@ Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
 Plug 'terryma/vim-expand-region'
+Plug 'Floobits/floobits-neovim'
+Plug 'dzhou121/gonvim-fuzzy'
 
 Plug 'critiqjo/lldb.nvim'
 
