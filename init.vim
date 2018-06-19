@@ -73,7 +73,7 @@ Plug 'demelev/vim-fugitive', { 'branch' : 'feature/gs_diff' }
 Plug 'gregsexton/gitv'
 
 " Syntastic replacer
-Plug 'benekastah/neomake'
+" Plug 'benekastah/neomake'
 
 " Other musthave
 Plug 'mileszs/ack.vim'
@@ -103,10 +103,14 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'jmcantrell/vim-virtualenv'
 
 "
-" You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
+" Completers
+"Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py --cs-completer' }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+Plug 'roxma/nvim-completion-manager'
+
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
@@ -481,6 +485,46 @@ vmap <c-v> <Plug>(expand_region_shrink)
 nmap <silent> <space>t :Switch<CR>
 
 
+" {{{ Rust
+"
+nnoremap <buffer> <space>g :call LanguageClient_textDocument_definition()<CR>
+nnoremap <buffer> <leader>sg :call LanguageClient_textDocument_definition()<CR>
+nnoremap <buffer> <leader>st :call LanguageClient_textDocument_hover()<CR>
+nnoremap <buffer> <leader>sr :call LanguageClient_textDocument_rename()<CR>
+nnoremap <buffer> <leader>fu :call LanguageClient_textDocument_references()<CR>
+
+autocmd FileType rust call s:rust_settings()
+function! s:rust_settings()
+  set foldmethod=syntax
+  "nnoremap <buffer> <leader>sd :OmniSharpDocumentation<cr>
+  "nnoremap <buffer> <leader>sx  :OmniSharpFixIssue<cr>
+  "nnoremap <buffer> <leader>sxu :OmniSharpFixUsings<cr>
+  "nnoremap <buffer> <leader>sk :OmniSharpNavigateUp<cr>
+  "nnoremap <buffer> <leader>sj :OmniSharpNavigateDown<cr>
+  "nnoremap <buffer> <leader>sl :OmniSharpReloadSolution<cr>
+  "nnoremap <buffer> <leader>sf :OmniSharpCodeFormat<cr>
+  "nnoremap <buffer> <leader>sa :OmniSharpAddToProject<cr>
+
+  "" Contextual code actions (requires CtrlP or unite.vim)
+  "nnoremap <buffer> <leader><space> :OmniSharpGetCodeActions<cr>
+  "" Run code actions with text selected in visual mode to extract method
+  "vnoremap <buffer> <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+
+  "" rename without dialog - with cursor on the symbol to rename... ':Rename newname'
+  "command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+
+  "" Add syntax highlighting for types and interfaces
+  "nnoremap <buffer> <leader>sh :OmniSharpHighlightTypes<cr>
+
+  "" OmniSharp bindings from demelev
+  "nnoremap <buffer> <leader>fi :OmniSharpFindImplementations<cr>
+  "nnoremap <buffer> <leader>ft :OmniSharpFindType<cr>
+  "nnoremap <buffer> <leader>fs :OmniSharpFindSymbol<cr>
+  "nnoremap <buffer> <leader>fm :OmniSharpFindMembers<cr>
+  
+endfunction
+" }}}
+
 " {{{ C# and Unity
 autocmd FileType cs call s:omnisharp_settings()
 function! s:omnisharp_settings()
@@ -678,23 +722,23 @@ let g:ycm_filter_diagnostics = {
 " }}} YouCompleteme
 
 " {{{ Neomake
-let g:neomake_error_sign = {
-    \ 'text': '✖',
-    \ 'texthl': 'ErrorMsg',
-    \ }
-let g:neomake_warning_sign = {
-    \ 'text': '⚠',
-    \ 'texthl': 'None',
-    \ }
-
-" autocmd! BufWritePost * Neomake
-let g:neomake_cpp_enable_makers=['clang']
-let g:neomake_cpp_enabled_makers=['clang']
-let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g", "-lglfw", "-lgl", "-lvulkan"]
-let g:neomake_enabled_makers=['make']
-let g:neomake_make_maker = { 'exe': 'make'}
-let g:neomake_verbose = 0
-
+"let g:neomake_error_sign = {
+"    \ 'text': '✖',
+"    \ 'texthl': 'ErrorMsg',
+"    \ }
+"let g:neomake_warning_sign = {
+"    \ 'text': '⚠',
+"    \ 'texthl': 'None',
+"    \ }
+"
+"" autocmd! BufWritePost * Neomake
+"let g:neomake_cpp_enable_makers=['clang']
+"let g:neomake_cpp_enabled_makers=['clang']
+"let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g", "-lglfw", "-lgl", "-lvulkan"]
+"let g:neomake_enabled_makers=['make']
+"let g:neomake_make_maker = { 'exe': 'make'}
+"let g:neomake_verbose = 0
+"
 " }}} Neomake
 
 " {{{ Airline
@@ -817,15 +861,6 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:ctrlp_extensions = ['autoignore']
 " }}}
 
-" {{{ Rust
-let g:ycm_rust_src_path = '/home/randy/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
-function! On_rust_session()
-    " Use cargo for neomake
-    autocmd! BufWritePost * Neomake cargo
-endfunction
-autocmd FileType rust call On_rust_session()
-" }}}
-
 " {{{ Startify
 let g:startify_bookmarks = ['~/.vimrc','~/.zshrc','~/nfo/commands.txt',]
 let g:startify_change_to_dir = 0
@@ -835,6 +870,22 @@ if has('unix')
     let g:startify_custom_header =
                 \ map(split(system('fortune | cowsay -W 60'), '\n') , '"   ". v:val') + ['','']
 endif
+" }}}
+"
+" {{{ LSP
+"
+Plug 'roxma/nvim-completion-manager'
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+    \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+    \'python' : ['pyls']
+    \ }
+let g:LanguageClient_loadSettings = 1
+"
 " }}}
 
 " {{{ Session
