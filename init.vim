@@ -69,7 +69,7 @@ Plug 'vim-scripts/VisIncr'
 
 " Git support
 Plug 'airblade/vim-gitgutter'
-Plug 'demelev/vim-fugitive', { 'branch' : 'feature/gs_diff' }
+Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv'
 
 " Syntastic replacer
@@ -104,7 +104,7 @@ Plug 'jmcantrell/vim-virtualenv'
 
 "
 " You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer ' }
+Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer  ' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
 " Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
 
@@ -149,7 +149,7 @@ endif
 
 
 " Tags
-Plug 'demelev/tagbar'
+Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/taglist.vim'
 
 " Session save/restore
