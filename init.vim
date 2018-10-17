@@ -72,9 +72,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv'
 
-" Syntastic replacer
-Plug 'benekastah/neomake'
-
 " Other musthave
 Plug 'mileszs/ack.vim'
 Plug 'eugen0329/vim-esearch'
@@ -103,10 +100,12 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'jmcantrell/vim-virtualenv'
 
 "
-" You complete me
-Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer  ' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python2 install.py --omnisharp-completer --racer-completer --tern-completer' }
-" Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --clang-completer --system-boost --system-libclang --omnisharp-completer --racer-completer --tern-completer' }
+" Completion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
@@ -124,9 +123,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 Plug 'lervag/vimtex'
-
-" Generates .ycm_extra_conf.py using cmake/make/other build systems
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 
 
 " {{{ Denite
@@ -167,7 +163,6 @@ Plug 'metakirby5/codi.vim'
 Plug 'rhysd/vim-clang-format'
 
 " C# support
-Plug 'OmniSharp/omnisharp-vim'
 Plug 'OrangeT/vim-csharp'
 
 " Node js stuff
@@ -224,8 +219,12 @@ call Profile_Prelude()
 
 " {{{ 3.0 - Key mappings ========================================================
 
-
-" nmap <leader>t :terminal tmux attach<cr>
+" Language client commands
+nnoremap <buffer> <space>g :call LanguageClient_textDocument_definition()<CR>
+nnoremap <buffer> <leader>sg :call LanguageClient_textDocument_definition()<CR>
+nnoremap <buffer> <leader>st :call LanguageClient_textDocument_hover()<CR>
+nnoremap <buffer> <leader>sr :call LanguageClient_textDocument_rename()<CR>
+nnoremap <buffer> <leader>fu :call LanguageClient_textDocument_references()<CR>
 
 " Quick jump out of insert mode
 imap jj <esc>
@@ -421,16 +420,6 @@ nnoremap z4 :set foldlevel=4<cr>
 nnoremap z5 :set foldlevel=5<cr>
 
 
-" === YCM =====
-nmap <leader>yg :YcmCompleter GoToDefinitionElseDeclaration<cr>
-nmap <leader>yd :YcmCompleter GoToDefinition<cr>
-nmap <leader>yc :YcmCompleter GoToDeclaration<cr>
-nmap <leader>yt :YcmCompleter GetType<cr>
-nmap <leader>yf :YcmCompleter FixIt<cr>
-nmap <leader>yi :YcmCompleter GoToImplementation<cr>
-nmap <leader>ys :YcmCompleter SolutionFile<cr>
-nmap <leader>yh :YcmCompleter GetDoc<cr>
-
 " === Tabular ===
 
 nmap <leader>tf :Tabularize / \w\+;/l0<CR>
@@ -481,41 +470,11 @@ vmap <c-v> <Plug>(expand_region_shrink)
 nmap <silent> <space>t :Switch<CR>
 
 
-" {{{ C# and Unity
-autocmd FileType cs call s:omnisharp_settings()
-function! s:omnisharp_settings()
+" {{{ C# and Unity, TODO: detect Unity project too
+autocmd FileType cs call s:csharp_unity_settings()
+function! s:csharp_unity_settings()
+
   set foldmethod=syntax
-  nnoremap <buffer> <space>g :OmniSharpGotoDefinition<cr>
-  nnoremap <buffer> <leader>sg :OmniSharpGotoDefinition<cr>
-  nnoremap <buffer> <leader>sx  :OmniSharpFixIssue<cr>
-  nnoremap <buffer> <leader>sxu :OmniSharpFixUsings<cr>
-  nnoremap <buffer> <leader>st :OmniSharpTypeLookup<cr>
-  nnoremap <buffer> <leader>sd :OmniSharpDocumentation<cr>
-  nnoremap <buffer> <leader>sk :OmniSharpNavigateUp<cr>
-  nnoremap <buffer> <leader>sj :OmniSharpNavigateDown<cr>
-  nnoremap <buffer> <leader>sl :OmniSharpReloadSolution<cr>
-  nnoremap <buffer> <leader>sf :OmniSharpCodeFormat<cr>
-  nnoremap <buffer> <leader>sa :OmniSharpAddToProject<cr>
-
-  " Contextual code actions (requires CtrlP or unite.vim)
-  nnoremap <buffer> <leader><space> :OmniSharpGetCodeActions<cr>
-  " Run code actions with text selected in visual mode to extract method
-  vnoremap <buffer> <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-
-  " rename with dialog
-  nnoremap <buffer> <leader>sr :OmniSharpRename<cr>
-  " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
-  command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-
-  " Add syntax highlighting for types and interfaces
-  nnoremap <buffer> <leader>sh :OmniSharpHighlightTypes<cr>
-
-  " OmniSharp bindings from demelev
-  nnoremap <buffer> <leader>fi :OmniSharpFindImplementations<cr>
-  nnoremap <buffer> <leader>ft :OmniSharpFindType<cr>
-  nnoremap <buffer> <leader>fs :OmniSharpFindSymbol<cr>
-  nnoremap <buffer> <leader>fu :OmniSharpFindUsages<cr>
-  nnoremap <buffer> <leader>fm :OmniSharpFindMembers<cr>
   
   " Unindent (used for namespaces)
   nnoremap <leader>un vi}<<<esc>
@@ -632,70 +591,28 @@ let g:UltiSnipsJumpForwardTrigger = '<c-k>'
 let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " }}} UltiSnips
 
-" {{{ OmniSharp
-let g:Omnisharp_start_server = 0
-let g:Omnisharp_stop_server  = 0
-" let g:OmniSharp_host="http://localhost:20001"
-let g:OmniSharp_host="http://localhost:2000"
-let g:ycm_csharp_server_port = 20001
-let g:OmniSharp_timeout = 1
-" let g:OmniSharp_server_type = 'v1'
-let g:OmniSharp_server_type = 'roslyn'
-" If you prefer the Omni-Completion tip window to close when a selection is
-" made, these lines close it on movement in insert mode or when leaving
-" insert mode
-" autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-" autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-" }}} OmniSharp
+" {{{ Deoplete and LSP
+let g:deoplete#enable_at_startup = 1
 
-" {{{ YouCompleteme
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_auto_trigger = 1
-" let g:ycm_key_invoke_completion = '<c-Tab>'
-let g:ycm_key_list_select_completion = ['<tab>', '<up>']
-"let g:ycm_key_list_previous_completion = ['<s-tab>']
-let g:ycm_extra_conf_globlist = ['~/rdev/cpp/*']
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_always_populate_location_list = 1
-
-" Preview
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_completion = 0
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-
-let g:ycm_error_symbol = '✖'
-let g:ycm_warning_symbol = '⚠'
-
-let g:ycm_filter_diagnostics = {
-  \ "cs": {
-  \      "regex": [ ".*Fields.*"]
-  \    }
-  \ }
-" Disable ycm error messages since NeomakeHandles that better
-" let g:ycm_show_diagnostics_ui = 0
-" }}} YouCompleteme
-
-" {{{ Neomake
-let g:neomake_error_sign = {
-    \ 'text': '✖',
-    \ 'texthl': 'ErrorMsg',
-    \ }
-let g:neomake_warning_sign = {
-    \ 'text': '⚠',
-    \ 'texthl': 'None',
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+    \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+    \ 'cs': ['mono', '/opt/omnisharp-roslyn/OmniSharp.exe', '--languageserver', '--verbose'],
+    \ 'python' : ['pyls']
     \ }
 
-" autocmd! BufWritePost * Neomake
-let g:neomake_cpp_enable_makers=['clang']
-let g:neomake_cpp_enabled_makers=['clang']
-let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g", "-lglfw", "-lgl", "-lvulkan"]
-let g:neomake_enabled_makers=['make']
-let g:neomake_make_maker = { 'exe': 'make'}
-let g:neomake_verbose = 0
+let g:LanguageClient_rootMarkers = {
+    \ 'cs': ['.git', '*.csproj'],
+\ }
 
-" }}} Neomake
+let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_loadSettings = 1
+
+" }}} Deoplete
+
 
 " {{{ Airline
 let g:airline_theme = 'tomorrow'
@@ -817,15 +734,6 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:ctrlp_extensions = ['autoignore']
 " }}}
 
-" {{{ Rust
-let g:ycm_rust_src_path = '/home/randy/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
-function! On_rust_session()
-    " Use cargo for neomake
-    autocmd! BufWritePost * Neomake cargo
-endfunction
-autocmd FileType rust call On_rust_session()
-" }}}
-
 " {{{ Startify
 let g:startify_bookmarks = ['~/.vimrc','~/.zshrc','~/nfo/commands.txt',]
 let g:startify_change_to_dir = 0
@@ -884,10 +792,6 @@ let g:openbrowser_search_engines = extend(
     \   'unity3d' : 'http://docs.unity3d.com/ScriptReference/30_search.html?q={query}',
     \   'rust' : 'https://doc.rust-lang.org/std/?search={query}'
     \})
-" }}}
-
-" {{{ Java completion
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
 " }}}
 
 " ZFZ rg
