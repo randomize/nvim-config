@@ -116,6 +116,8 @@ Plug 'elzr/vim-json', { 'for': 'json'}
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'reconquest/vim-pythonx'
+Plug 'szymonmaszke/vimpyter'
+"Plug 'broesler/jupyter-vim'
 
 Plug 'scrooloose/nerdtree'
 
