@@ -598,18 +598,20 @@ let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log', '--init={"cacheDirectory":"/tmp/cquery/"}'],
     \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
-    \ 'cs': ['mono', '/opt/omnisharp-roslyn/OmniSharp.exe', '--languageserver', '--verbose'],
-    \ 'python' : ['pyls']
+    \ 'cs': ['mono', '/home/randy/Downloads/omnisharp-mono/OmniSharp.exe', '-lsp'],
+    \ 'python' : ['pyls', '--log-file','/tmp/pyls.log','-v']
     \ }
 
 let g:LanguageClient_rootMarkers = {
     \ 'cs': ['.git', '*.csproj'],
 \ }
 
-let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_loggingLevel = 'INFO'
+let g:LanguageClient_loggingFile = '/tmp/lc.log'
+let g:LanguageClient_serverStderr = '/tmp/ls.log'
 
 " }}} Deoplete
 
