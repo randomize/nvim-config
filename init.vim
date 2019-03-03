@@ -44,15 +44,15 @@ call plug#begin('~/.config/nvim/plugged')
 
 " {{{ Colors
 Plug 'tomasr/molokai'
-Plug 'nanotech/jellybeans.vim'
-Plug 'rafi/awesome-vim-colorschemes'
+"Plug 'nanotech/jellybeans.vim'
+"Plug 'rafi/awesome-vim-colorschemes'
 " }}}
 
 Plug 'terryma/vim-expand-region'
 "Plug 'Floobits/floobits-neovim'
 Plug 'dzhou121/gonvim-fuzzy'
 
-Plug 'critiqjo/lldb.nvim'
+"Plug 'critiqjo/lldb.nvim'
 
 " Buffers manager
 Plug 'vim-scripts/Buffergator'
@@ -70,7 +70,7 @@ Plug 'vim-scripts/VisIncr'
 " Git support
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
-Plug 'gregsexton/gitv'
+"Plug 'gregsexton/gitv'
 
 " Other musthave
 Plug 'mileszs/ack.vim'
@@ -115,14 +115,14 @@ Plug 'elzr/vim-json', { 'for': 'json'}
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'reconquest/vim-pythonx'
-Plug 'szymonmaszke/vimpyter'
+"Plug 'reconquest/vim-pythonx'
+"Plug 'szymonmaszke/vimpyter'
 "Plug 'broesler/jupyter-vim'
 
 Plug 'scrooloose/nerdtree'
 
 " IDE features
-Plug 'xuhdev/SingleCompile'
+"Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 Plug 'lervag/vimtex'
 
@@ -133,10 +133,6 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
 " }}}
-
-" CtrlP
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ludovicchabant/vim-ctrlp-autoignore'
 
 " fzf on Linux and OSX
 if g:os == "Darwin"
@@ -156,7 +152,7 @@ Plug 'xolox/vim-misc'
 Plug 'mhinz/vim-startify'
 
 " Life coding
-Plug 'metakirby5/codi.vim'
+"Plug 'metakirby5/codi.vim'
 
 
 " {{{ Language specific
@@ -168,22 +164,22 @@ Plug 'rhysd/vim-clang-format'
 Plug 'OrangeT/vim-csharp'
 
 " Node js stuff
-Plug 'ternjs/tern_for_vim'
-Plug 'pangloss/vim-javascript'
-Plug 'moll/vim-node'
+"Plug 'ternjs/tern_for_vim'
+"Plug 'pangloss/vim-javascript'
+"Plug 'moll/vim-node'
 
 " Rust
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 " Ruby support
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+"Plug 'tpope/vim-rails', { 'for': 'ruby' }
+"Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
 " Go
-Plug 'fatih/vim-go', { 'for': 'go' }
+"Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Java
-Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+"Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 
 " }}}
 
@@ -265,12 +261,6 @@ nmap <silent> <S-F11> :emenu FileFormat.<Tab><Tab>
 nmap <silent> <F12> :NERDTreeToggle<CR>
 
 " }}}
-
-" CtrlP maps
-" TODO: clear it
-map <A-b> :CtrlPBuffer<cr>
-map <A-m> :CtrlPBufTag<cr>
-"map <c-Tab> :tabn<cr>
 
 " Session workflow
 nmap <leader>os :OpenSession<space>
@@ -732,10 +722,6 @@ endtry
 
 " {{{ Ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
-" }}}
-
-" {{{ CtrlP
-let g:ctrlp_extensions = ['autoignore']
 " }}}
 
 " {{{ Startify
