@@ -1,0 +1,11 @@
+{
+    "languageserver": {
+        "omnisharp": {
+            "command": "mono",
+            "args": ["/home/randy/Downloads/omnisharp-mono/OmniSharp.exe", "-lsp"],
+            //"trace.server": "verbose",
+            "filetypes": ["cs"],
+            "rootPatterns": [".sln"]
+        }
+    }
+}

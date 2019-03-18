@@ -94,18 +94,14 @@ Plug 'airblade/vim-rooter'
 
 " Tools
 Plug 'vim-scripts/open-browser.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'jmcantrell/vim-virtualenv'
 
-"
 " Completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
@@ -143,8 +139,8 @@ endif
 
 
 " Tags
-Plug 'majutsushi/tagbar'
-Plug 'vim-scripts/taglist.vim'
+" Plug 'majutsushi/tagbar'
+" Plug 'vim-scripts/taglist.vim'
 
 " Session save/restore
 Plug 'xolox/vim-session'
@@ -217,13 +213,6 @@ call Profile_Prelude()
 
 " {{{ 3.0 - Key mappings ========================================================
 
-" Language client commands
-nnoremap <buffer> <space>g :call LanguageClient_textDocument_definition()<CR>
-nnoremap <buffer> <leader>sg :call LanguageClient_textDocument_definition()<CR>
-nnoremap <buffer> <leader>st :call LanguageClient_textDocument_hover()<CR>
-nnoremap <buffer> <leader>sr :call LanguageClient_textDocument_rename()<CR>
-nnoremap <buffer> <leader>fu :call LanguageClient_textDocument_references()<CR>
-
 " Quick jump out of insert mode
 imap jj <esc>
 
@@ -286,9 +275,6 @@ vnoremap > ><CR>gv
 vnoremap < <<CR>gv
 
 " move current line up/down one, can be repeated and accepts count as dist
-" nmap <c-k> :normal ddkP<CR>
-" nmap <c-j> :normal ddp<CR>
-
 nnoremap <silent> <Plug>MoveLineDown :m+1<CR> :call repeat#set("\<Plug>MoveLineDown")<CR>
 nmap <c-j> <Plug>MoveLineDown
 
@@ -538,6 +524,10 @@ set sidescrolloff=1
 " Show command
 set showcmd
 
+" Use rg
+set grepprg=rg\ --vimgrep
+set grepformat^=%f:%l:%c:%m
+
 " }}} ===========================================================
 
 " {{{ 5.0 - Appearence ================================================
@@ -545,6 +535,120 @@ silent! colorscheme molokai
 " }}} ===========================================================
 
 " {{{ 6.0 - Plugins Settings =========================================
+
+"{{{ Coc 
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Better display for messages
+set cmdheight=2
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" lightlin no show
+set noshowmode
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> <space>g <Plug>(coc-definition)
+nmap <silent> <space>gd <Plug>(coc-type-definition)
+nmap <silent> <space>gi <Plug>(coc-implementation)
+nmap <silent> <space>gr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> <space>gk :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+vmap <leader><leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader><leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader><leader>l  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader><leader>f  <Plug>(coc-fix-current)
+
+" Use `:Format` for format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` for fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'cocstatus', 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
+      \ },
+      \ 'component_function': {
+      \   'cocstatus': 'coc#status',
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ 'component': {
+      \   'charvaluehex': '0x%B'
+      \ },
+      \ }
+
+" }}}
 
 " {{{ Switch
 let g:switch_mapping = ""
@@ -583,54 +687,29 @@ let g:UltiSnipsJumpForwardTrigger = '<c-k>'
 let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " }}} UltiSnips
 
-" {{{ Deoplete and LSP
-let g:deoplete#enable_at_startup = 1
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log', '--init={"cacheDirectory":"/tmp/cquery/"}'],
-    \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
-    \ 'cs': ['mono', '/home/randy/Downloads/omnisharp-mono/OmniSharp.exe', '-lsp'],
-    \ 'python' : ['pyls', '--log-file','/tmp/pyls.log','-v']
-    \ }
-
-let g:LanguageClient_rootMarkers = {
-    \ 'cs': ['.git', '*.csproj'],
-\ }
-
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_loggingLevel = 'INFO'
-let g:LanguageClient_loggingFile = '/tmp/lc.log'
-let g:LanguageClient_serverStderr = '/tmp/ls.log'
-
-" }}} Deoplete
-
-
 " {{{ Airline
-let g:airline_theme = 'tomorrow'
-let g:airline_detected_modified = 1
-let g:airline_powerline_fonts = 1
-let g:airline_detect_iminsert = 0
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#whitespace#enabled = 1
-let g:airline#extensions#whitespace#mixed_indent_algo = 1
-let g:airline#extensions#whitespace#show_message = 1
-let g:airline#extensions#whitespace#trailing_format = 's:[%s]'
-let g:airline#extensions#whitespace#mixed_indent_format = 'i:[%s]'
-let g:airline#extensions#tagbar#flags = 'f'
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'v'  : 'V',
-      \ 'V'  : 'B'
-      \ }
+"let g:airline_theme = 'tomorrow'
+"let g:airline_detected_modified = 1
+"let g:airline_powerline_fonts = 1
+"let g:airline_detect_iminsert = 0
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#hunks#non_zero_only = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#branch#enabled = 1
+"let g:airline#extensions#whitespace#enabled = 1
+"let g:airline#extensions#whitespace#mixed_indent_algo = 1
+"let g:airline#extensions#whitespace#show_message = 1
+"let g:airline#extensions#whitespace#trailing_format = 's:[%s]'
+"let g:airline#extensions#whitespace#mixed_indent_format = 'i:[%s]'
+"let g:airline#extensions#tagbar#flags = 'f'
+"let g:airline_mode_map = {
+"      \ '__' : '-',
+"      \ 'n'  : 'N',
+"      \ 'i'  : 'I',
+"      \ 'R'  : 'R',
+"      \ 'v'  : 'V',
+"      \ 'V'  : 'B'
+"      \ }
 " }}}
 
 " {{{ Indent guides
@@ -784,7 +863,7 @@ let g:openbrowser_search_engines = extend(
     \})
 " }}}
 
-" ZFZ rg
+" {{{ ZFZ rg
 
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag
 command! -bang -nargs=* Rg
@@ -794,6 +873,7 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
   " \ echomsg 'rg --column --line-number --no-heading --color=always -g "*.cs" <args>'
+" }}}
 
 " }}}
 
