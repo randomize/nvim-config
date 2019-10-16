@@ -640,6 +640,7 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction',
       \   'gitbranch': 'fugitive#head'
       \ },
       \ 'component': {
@@ -779,6 +780,11 @@ catch
     echomsg "Denite conf failed"
 endtry
 
+" }}}
+
+
+" {{{ Rustfmt
+" let g:rustfmt_options = ''
 " }}}
 
 " {{{ Ack
