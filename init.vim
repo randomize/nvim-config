@@ -101,7 +101,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'jmcantrell/vim-virtualenv'
 
 " Completion
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
@@ -121,6 +121,10 @@ Plug 'scrooloose/nerdtree'
 "Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 Plug 'lervag/vimtex'
+Plug 'posva/vim-vue'
+Plug 'ap/vim-css-color'
+Plug 'leafgarland/typescript-vim'
+
 
 
 " {{{ Denite
