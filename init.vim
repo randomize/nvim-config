@@ -410,22 +410,21 @@ nmap <leader>t= :Tabularize /=<cr>
 " {{{ == Unite =====
 let g:unite_source_history_yank_enable = 1
 
-nnoremap <leader>uf :<C-u>Denite -buffer-name=csfiles -mode=insert file_rec <cr>
-nnoremap <leader>ue :<C-u>Denite -buffer-name=register -mode=insert register <cr>
-nnoremap <leader>ug :<C-u>Denite -buffer-name=gitfiles -mode=insert file_rec/git <cr>
-nnoremap <leader>up :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec/source <cr>
-nnoremap <leader>ua :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec <cr>
-nnoremap <leader>ut :<C-u>Denite -buffer-name=files file_rec <cr>
-" nnoremap <leader>ut :<C-u>Denite -buffer-name=files   -mode-insert file<cr>
-nnoremap <leader>ur :<C-u>Denite -buffer-name=mru     -mode=insert file_mru<cr>
-nnoremap <leader>uo :<C-u>Denite -buffer-name=outline -mode=insert outline<cr>
-" nnoremap <leader>uy :<C-u>Denite -buffer-name=yank    history/yank<cr>
-nnoremap <leader>ub :<C-u>Denite -buffer-name=buffer  buffer<cr>
-nnoremap <leader>ul :<C-u>Denite -buffer-name=lines  line<cr>
-" nnoremap <leader>um :<C-u>Denite -buffer-name=bookmarks  bookmark<cr>
-nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
-" nnoremap <leader>uh :<C-u>Denite resume<cr>
-" nnoremap <space>/ :Denite grep:.<cr>
+nnoremap <leader>up :<C-u>DeniteProjectDir -start-filter file/rec/code <cr>
+nnoremap <leader>ua :<C-u>DeniteProjectDir -start-filter file/rec <cr>
+nnoremap <leader>uf :<C-u>Denite -start-filter file/rec <cr>
+nnoremap <leader>ue :<C-u>Denite -start-filter register <cr>
+nnoremap <leader>ug :<C-u>Denite -start-filter file/rec/git <cr>
+nnoremap <leader>ut :<C-u>Denite -start-filter file<cr>
+nnoremap <leader>ur :<C-u>Denite -start-filter file_mru<cr>
+nnoremap <leader>uo :<C-u>Denite -start-filter outline<cr>
+nnoremap <leader>uy :<C-u>Denite -start-filter history/yank<cr>
+nnoremap <leader>ub :<C-u>Denite -start-filter buffer<cr>
+nnoremap <leader>ul :<C-u>Denite -start-filter line<cr>
+nnoremap <leader>um :<C-u>Denite -start-filter bookmark<cr>
+nnoremap <leader>uc :<C-u>Denite -start-filter colorscheme<cr>
+nnoremap <leader>uh :<C-u>Denite -start-filter resume<cr>
+nnoremap <space>/ :Denite -start-filter grep:.<cr>
 
 
 " }}}
@@ -645,6 +644,7 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction',
       \   'gitbranch': 'fugitive#head'
       \ },
       \ 'component': {
@@ -729,78 +729,66 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 
 try
 
-call denite#custom#source(
-    \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
-
-" Define alias example (from Denite doc)
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-    \ ['git', '--work-tree=.', 'ls-files', '-co', '--exclude-standard'])
-
-" Just fancy cursor for command line
-call denite#custom#option('default', 'prompt', '▷')
-
-" Do not sort file_mru sicne it is already sorted by time
-call denite#custom#source(
-            \ 'file_mru', 'sorters', [])
-
-" Since pt and ag does better job searching sources, ignoring
-" .git stuff and .gitignore things we configure file_rec to
-" use them if any found on system
 if executable('rg')
  	" Ripgrep command on grep source
 	call denite#custom#var('grep', 'command', ['rg'])
-	call denite#custom#var('grep', 'default_opts',
-			\ ['--vimgrep', '--no-heading'])
+	call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
 	call denite#custom#var('grep', 'recursive_opts', [])
 	call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
 	call denite#custom#var('grep', 'separator', ['--'])
 	call denite#custom#var('grep', 'final_opts', [])
-    " Ripgrep filerec source
-    call denite#custom#var('file_rec', 'command',
-        \ ['rg', '--files', '--follow', '--color', 'never','--type', 'cs'])
-    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
-    call denite#custom#var('file_rec/source', 'command',
-        \ ['rg', '--files', '--follow', '--color', 'never', '--type', 'cs'])
-elseif executable('pt')
-    call denite#custom#var('file_rec', 'command',
-        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g:', ''])
-    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
-    call denite#custom#var('file_rec/source', 'command',
-        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
-elseif executable('ag')
-    call denite#custom#var('file_rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
-    call denite#custom#var('file_rec/source', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
+
+    " Repace file/rec with rg
+    call denite#custom#var('file/rec', 'command',  ['rg', '--files', '-g', '!.tox', '-g', '!.git', '-g', '!.venv'])
+
+    " Define new source as file/rec/code for C# files only
+    call denite#custom#alias('source', 'file/rec/code', 'file/rec')
+    call denite#custom#var('file/rec/code', 'command',  ['rg', '--files', '--follow', '--color', 'never', '--type', 'cs'])
 endif
 
-" KEY MAPPINGS
-let insert_mode_mappings = [
-	\  ['jj', '<denite:enter_mode:normal>', 'noremap'],
-	\  ['<c-y>', '<denite:redraw>', 'noremap'],
-	\ ]
+" Just fancy cursor for command line
+call denite#custom#option('default', 'prompt', '▷')
 
-let normal_mode_mappings = [
-	\   ["'", '<denite:toggle_select_down>', 'noremap'],
-	\   ['st', '<denite:do_action:tabopen>', 'noremap'],
-	\   ['sg', '<denite:do_action:vsplit>', 'noremap'],
-	\   ['sv', '<denite:do_action:split>', 'noremap'],
-	\   ['sc', '<denite:quit>', 'noremap'],
-	\   ['r', '<denite:redraw>', 'noremap'],
-	\ ]
 
-for m in insert_mode_mappings
-	call denite#custom#map('insert', m[0], m[1], m[2])
-endfor
-for m in normal_mode_mappings
-	call denite#custom#map('normal', m[0], m[1], m[2])
-endfor
+" Define alias file/rec/git to search gited files
+call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+call denite#custom#var('file/rec/git', 'command',  ['git', 'ls-files', '-co', '--exclude-standard'])
+
+" Set regexp matcher for most things
+call denite#custom#source('file/rec,file/rec/code,file/rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
+
+
+" Do not sort file_mru sicne it is already sorted by time
+"call denite#custom#source( 'file_mru', 'sorters', []) " NOTE: No longer neeeded, seems fine by defaulet
+
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>  denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d  denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p  denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q  denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i  denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>  denite#do_map('toggle_select').'j'
+endfunction
+
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+  imap <silent><buffer> jj  <Plug>(denite_filter_quit)
+  imap <silent><buffer> <esc>  denite#do_map('quit')
+endfunction
+
 
 catch
+    echomsg "Denite conf failed"
 endtry
 
+" }}}
+
+
+" {{{ Rustfmt
+" let g:rustfmt_options = ''
 " }}}
 
 " {{{ Ack
