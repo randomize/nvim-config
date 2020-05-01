@@ -51,6 +51,7 @@ Plug 'tomasr/molokai'
 Plug 'terryma/vim-expand-region'
 "Plug 'Floobits/floobits-neovim'
 Plug 'dzhou121/gonvim-fuzzy'
+Plug 'RRethy/vim-illuminate'
 
 "Plug 'critiqjo/lldb.nvim'
 
