@@ -83,7 +83,7 @@ Plug 'tpope/vim-repeat'
 Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
-Plug 'zandrmartin/vim-textobj-blanklines'
+Plug 'zandrmartin/vim-textobj-blanklines', {'branch': 'main'}
 Plug 'kana/vim-textobj-fold'
 Plug 'glts/vim-textobj-indblock'
 Plug 'kana/vim-textobj-indent'
