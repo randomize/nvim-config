@@ -484,7 +484,7 @@ set smartcase    " When meet uppercase -> sensitive
 
 set number relativenumber
 set nowrap
-set textwidth=80
+set textwidth=160
 set ruler
 
 " Tabs and indentation
