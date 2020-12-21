@@ -292,7 +292,7 @@ vmap <c-j> dp'[V']
 vmap <c-k> dkP'[V']
 
 
-" cd to the directory containing the file in the buffer, or 
+" cd to the directory containing the file in the buffer, or
 " to root with cdp
 nmap <silent> <leader>cd :lcd %:h<CR>
 nmap <silent> <leader>cdp :Rooter<CR>
@@ -328,9 +328,9 @@ nmap <space>k <c-w>k
 nmap <space>sg :OpenBrowserSearch -google <c-r>=expand("<cword>")<cr><cr>
 nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
 nmap <space>sr :OpenBrowserSearch -rust <c-r><c-w><cr>
-nmap <space>ag :OpenBrowserSearch -google 
-nmap <space>au :OpenBrowserSearch -unity3d 
-nmap <space>ar :OpenBrowserSearch -rust 
+nmap <space>ag :OpenBrowserSearch -google
+nmap <space>au :OpenBrowserSearch -unity3d
+nmap <space>ar :OpenBrowserSearch -rust
 " Search
 " nnoremap gb :OpenURL <cfile><CR>
 " nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
@@ -458,7 +458,7 @@ autocmd FileType cs call s:csharp_unity_settings()
 function! s:csharp_unity_settings()
 
   set foldmethod=syntax
-  
+
   " Unindent (used for namespaces)
   nnoremap <leader>un vi}<<<esc>
 
@@ -521,7 +521,7 @@ set listchars+=extends:❯
 set listchars+=precedes:❮
 set listchars+=trail:⋅
 set listchars+=nbsp:⋅
-set listchars+=tab:\|\ 
+set listchars+=tab:\|\
 
 " Keep some spacing.
 set sidescrolloff=1
@@ -541,7 +541,7 @@ silent! colorscheme molokai
 
 " {{{ 6.0 - Plugins Settings =========================================
 
-"{{{ Coc 
+"{{{ Coc
 
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -732,13 +732,13 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 try
 
 if executable('rg')
- 	" Ripgrep command on grep source
-	call denite#custom#var('grep', 'command', ['rg'])
-	call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
-	call denite#custom#var('grep', 'recursive_opts', [])
-	call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-	call denite#custom#var('grep', 'separator', ['--'])
-	call denite#custom#var('grep', 'final_opts', [])
+    " Ripgrep command on grep source
+    call denite#custom#var('grep', 'command', ['rg'])
+    call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
 
     " Repace file/rec with rg
     call denite#custom#var('file/rec', 'command',  ['rg', '--files', '-g', '!.tox', '-g', '!.git', '-g', '!.venv'])
@@ -901,7 +901,7 @@ let g:tiddlywiki_journal_format = '%d %B %Y'
 " {{{ Autos ==================================================
 
 " trim and go back to last place
-" TODO: how to substitute internally without spoiling / 
+" TODO: how to substitute internally without spoiling /
 " register
 function TrimShitOutOfFile()
   let saved_cursor = getpos('.')
