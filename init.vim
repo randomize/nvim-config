@@ -125,6 +125,7 @@ Plug 'lervag/vimtex'
 Plug 'posva/vim-vue'
 Plug 'ap/vim-css-color'
 Plug 'leafgarland/typescript-vim'
+Plug 'sukima/vim-tiddlywiki'
 
 
 
@@ -866,6 +867,33 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
   " \ echomsg 'rg --column --line-number --no-heading --color=always -g "*.cs" <args>'
+" }}}
+"
+" {{{ Tiddly
+
+
+" Explicitly set the username of the tiddler 'creator' and 'modifier'
+" If not set, this defaults to `$USER` or `$LOGNAME` (in that order)
+let g:tiddlywiki_author = 'Eugene'
+
+" Specify the location of your tiddlers. The subdir "tiddlers" is appended
+" automatically if required.
+let g:tiddlywiki_dir = '~/Documents/randy-wiki'
+
+" Set the date format to use for journal tiddlers, as in the format string of date(1).
+" This does not have to be at 'day' granularity - you can also use
+" months / weeks / hours / whatever makes sense to you.
+" Defaults to '%F' (ISO date = yyyy-mm-dd)
+" '%A, %F (Week %V)'
+let g:tiddlywiki_journal_format = '%d %B %Y'
+
+" Don't Disable the default mappings
+" let g:tiddlywiki_no_mappings=0
+
+" Automatically update tiddler metadata ('modified' timestamp, 'modifier'
+" username) on write - little bug here - need to have this not exist instead of =0
+"let g:tiddlywiki_autoupdate=0
+"
 " }}}
 
 " }}}
