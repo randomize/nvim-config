@@ -1,7 +1,7 @@
-" Neovim rc here
+"
 " vim: set fdm=marker foldenable foldlevel=1 nospell:
 "
-" Eugene Mihailenco, 2016
+
 
 " {{{ 1.0 - OS Detector and global swithches
 
@@ -22,15 +22,14 @@ set termguicolors
 
 " }}}
 
-
-" {{{ 2.0 - Plugins =========================================================
+" {{{ 2.0 - Plugins
 
 call plug#begin('~/.config/nvim/plugged')
 
 " NOTE: Make sure you use single quotes
 
 " {{{ Colors
-Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
 "Plug 'nanotech/jellybeans.vim'
 "Plug 'rafi/awesome-vim-colorschemes'
 " }}}
@@ -118,6 +117,7 @@ Plug 'dbeniamine/cheat.sh-vim'
 Plug 'puremourning/vimspector'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
+Plug 'tomtom/tcomment_vim'
 
 " telescope requirements...
 Plug 'nvim-lua/popup.nvim'
@@ -158,6 +158,7 @@ Plug 'OrangeT/vim-csharp'
 "Plug 'ternjs/tern_for_vim'
 "Plug 'pangloss/vim-javascript'
 "Plug 'moll/vim-node'
+"Plug 'maksimr/vim-jsbeautify'
 
 " Rust
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
@@ -167,24 +168,18 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 "Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
 " Go
-"Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Java
 "Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 
 " }}}
 
-Plug 'tomtom/tcomment_vim'
-
-" Go
-Plug 'fatih/vim-go', { 'for': 'go' }
-
-" Web
-Plug 'maksimr/vim-jsbeautify'
-
 " Search Replace
 Plug 'brooth/far.vim'
+
 " Plug 'junegunn/vim-easy-align'
+
 " Add plugins to &runtimepath
 call plug#end()
 
@@ -212,20 +207,18 @@ menu FileFormat.Mac          :e ++ff=mac
 
 " }}}
 
-" Load profile settings
+" {{{ 2.2 - Personal settings
 
 let g:mapleader = ","
 let g:maplocalleader='\\'
 
-" Custam mapping for file browser
+
+" }}}
+
+" {{{ 3.0 - Key mappings
+
+" Minus browser
 nmap - :e %:h<cr>
-
-autocmd FileType nerdtree call s:nerdtree_settings()
-function! s:nerdtree_settings()
-  nmap <buffer> - q
-endfunction
-
-" {{{ 3.0 - Key mappings ========================================================
 
 " Quick jump out of insert mode
 imap jj <esc>
@@ -417,7 +410,7 @@ nnoremap z5 :set foldlevel=5<cr>
 nmap <leader>tf :Tabularize / \w\+;/l0<CR>
 nmap <leader>t= :Tabularize /=<cr>
 
-" {{{ == Telescope =====
+" {{{ Telescope
 
 " nnoremap <leader>up :<C-u>DeniteProjectDir -start-filter file/rec/code <cr>
 " nnoremap <leader>ua :<C-u>DeniteProjectDir -start-filter file/rec <cr>
@@ -471,7 +464,6 @@ vmap <c-v> <Plug>(expand_region_shrink)
 
 nmap <silent> <space>t :Switch<CR>
 
-
 " {{{ C# and Unity, TODO: detect Unity project too
 autocmd FileType cs call s:csharp_unity_settings()
 function! s:csharp_unity_settings()
@@ -490,7 +482,7 @@ function! s:csharp_unity_settings()
 
 endfunction
 " }}}
-"
+
 " {{{ Presentation in vim, detect and set goyo (thanks to Nick Janetakis)
 
 " Mappings to make Vim more friendly towards presenting slides.
@@ -502,10 +494,11 @@ function SetVimPresentationMode()
     Goyo
   endif
 endfunction
+" }}}
 
 " }}} ===========================================================
 
-" {{{ 4.0 - Options ====================================================
+" {{{ 4.0 - Options
 
 set hlsearch     " Highlight search results
 set ignorecase   " no sensitive to case
@@ -566,11 +559,13 @@ set grepformat^=%f:%l:%c:%m
 
 " }}} ===========================================================
 
-" {{{ 5.0 - Appearence ================================================
-silent! colorscheme molokai
-" }}} ===========================================================
+" {{{ 5.0 - Appearence
+" silent! colorscheme molokai
+let g:gruvbox_italic=1
+autocmd vimenter * ++nested colorscheme gruvbox
+" }}}
 
-" {{{ 6.0 - Plugins Settings =========================================
+" {{{ 6.0 - Plugins Settings
 
 "{{{ Coc - copypaste from official doc, tweaked
 
@@ -789,31 +784,6 @@ let g:UltiSnipsJumpForwardTrigger = '<c-k>'
 let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " }}} UltiSnips
 
-" {{{ Airline
-"let g:airline_theme = 'tomorrow'
-"let g:airline_detected_modified = 1
-"let g:airline_powerline_fonts = 1
-"let g:airline_detect_iminsert = 0
-"let g:airline#extensions#tabline#buffer_nr_show = 1
-"let g:airline#extensions#hunks#non_zero_only = 1
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#branch#enabled = 1
-"let g:airline#extensions#whitespace#enabled = 1
-"let g:airline#extensions#whitespace#mixed_indent_algo = 1
-"let g:airline#extensions#whitespace#show_message = 1
-"let g:airline#extensions#whitespace#trailing_format = 's:[%s]'
-"let g:airline#extensions#whitespace#mixed_indent_format = 'i:[%s]'
-"let g:airline#extensions#tagbar#flags = 'f'
-"let g:airline_mode_map = {
-"      \ '__' : '-',
-"      \ 'n'  : 'N',
-"      \ 'i'  : 'I',
-"      \ 'R'  : 'R',
-"      \ 'v'  : 'V',
-"      \ 'V'  : 'B'
-"      \ }
-" }}}
-
 " {{{ Indent guides
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
@@ -822,8 +792,6 @@ let g:indent_guides_enable_on_vim_startup = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#31332B ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 " }}}
-
-
 
 " {{{ Rustfmt
 " let g:rustfmt_options = ''
@@ -834,7 +802,7 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 " }}}
 
 " {{{ Startify
-let g:startify_bookmarks = ['~/.vimrc','~/.zshrc','~/nfo/commands.txt',]
+let g:startify_bookmarks = ['~/.config/nvim/init.vim','~/.profile','~/nfo/commands.txt',]
 let g:startify_change_to_dir = 0
 let g:startify_files_number = 8
 
@@ -877,6 +845,12 @@ let g:buffergator_suppress_keymaps = 1
 " {{{ NERD Tree
 let NERDTreeWinPos='right'
 let NERDTreeIgnore = ['\.meta$']
+
+autocmd FileType nerdtree call s:nerdtree_settings()
+function! s:nerdtree_settings()
+  nmap <buffer> - q
+endfunction
+
 " }}}
 
 " {{{ Eighties settings
@@ -934,7 +908,7 @@ let g:tiddlywiki_journal_format = '%d %B %Y'
 
 " }}}
 
-" {{{ Autos ==================================================
+" {{{ 7.0 - Autos
 
 " trim and go back to last place
 " TODO: how to substitute internally without spoiling /
@@ -950,17 +924,14 @@ function TrimShitOutOfFile()
   endtry
 endfunction
 
+autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
+
 " Gstatus to have nice cursor
 autocmd BufEnter *.git/index setlocal cursorline
 
 " }}}
 
-filetype plugin indent on
-syntax on
-
-{{{
-" Load profile specific
-colorscheme Molokai_Eugene
+" {{{ 8.0 Other stuff
 
 iabbrev memail <mihailencoe@gmail.com>
 iabbrev mename Eugene Mihailenco
@@ -969,8 +940,6 @@ iabbrev melname Mihailenco
 iabbrev mesite http://randomize.github.io/
 
 let g:snips_author = 'Eugene Mihailenco <mihailencoe@gmail.com>'
-
-autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
 
 " Nice terminal colors
 let g:terminal_color_0  = '#2e3436'
@@ -989,4 +958,7 @@ let g:terminal_color_12 = '#729fcf'
 let g:terminal_color_13 = '#ad7fa8'
 let g:terminal_color_14 = '#00f5e9'
 let g:terminal_color_15 = '#eeeeec'
-}}}
+" }}}
+
+filetype plugin indent on
+syntax on
