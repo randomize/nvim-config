@@ -1,7 +1,7 @@
-" Neovim rc here
+"
 " vim: set fdm=marker foldenable foldlevel=1 nospell:
 "
-" Eugene Mihailenco, 2016
+
 
 " {{{ 1.0 - OS Detector and global swithches
 
@@ -22,28 +22,14 @@ set termguicolors
 
 " }}}
 
-" {{{ 1.1 - Personal settings  ==================================================
-
-" Setup gloval dev variable
-if !exists("g:bully_dev")
-    let g:bully_dev = $bully_dev
-endif
-
-let profile_filePath = fnamemodify(expand('<sfile>'), ':h').'/profiles/'.$bully_dev.'.vim'
-if filereadable(profile_filePath)
-    exec "source ".profile_filePath
-endif
-
-" }}}
-
-" {{{ 2.0 - Plugins =========================================================
+" {{{ 2.0 - Plugins
 
 call plug#begin('~/.config/nvim/plugged')
 
 " NOTE: Make sure you use single quotes
 
 " {{{ Colors
-Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
 "Plug 'nanotech/jellybeans.vim'
 "Plug 'rafi/awesome-vim-colorschemes'
 " }}}
@@ -51,6 +37,7 @@ Plug 'tomasr/molokai'
 Plug 'terryma/vim-expand-region'
 "Plug 'Floobits/floobits-neovim'
 Plug 'dzhou121/gonvim-fuzzy'
+Plug 'RRethy/vim-illuminate'
 
 "Plug 'critiqjo/lldb.nvim'
 
@@ -82,7 +69,7 @@ Plug 'tpope/vim-repeat'
 Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
-Plug 'zandrmartin/vim-textobj-blanklines'
+Plug 'zandrmartin/vim-textobj-blanklines', {'branch': 'main'}
 Plug 'kana/vim-textobj-fold'
 Plug 'glts/vim-textobj-indblock'
 Plug 'kana/vim-textobj-indent'
@@ -94,24 +81,21 @@ Plug 'airblade/vim-rooter'
 
 " Tools
 Plug 'vim-scripts/open-browser.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'jmcantrell/vim-virtualenv'
 
-"
 " Completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Syntax things
 Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
 Plug 'BullyEntertainment/cg.vim', { 'for': 'cg' }
 Plug 'sheerun/vim-polyglot'
 Plug 'elzr/vim-json', { 'for': 'json'}
+Plug 'tridactyl/vim-tridactyl', { 'for': 'tridactyl' }
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -125,14 +109,21 @@ Plug 'scrooloose/nerdtree'
 "Plug 'xuhdev/SingleCompile'
 Plug 'mbbill/undotree'
 Plug 'lervag/vimtex'
+Plug 'posva/vim-vue'
+Plug 'ap/vim-css-color'
+Plug 'leafgarland/typescript-vim'
+Plug 'sukima/vim-tiddlywiki'
+Plug 'dbeniamine/cheat.sh-vim'
+Plug 'puremourning/vimspector'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'tomtom/tcomment_vim'
 
-
-" {{{ Denite
-Plug 'Shougo/denite.nvim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/neoyank.vim'
-Plug 'Shougo/neomru.vim'
-" }}}
+" telescope requirements...
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " fzf on Linux and OSX
 if g:os == "Darwin"
@@ -143,8 +134,8 @@ endif
 
 
 " Tags
-Plug 'majutsushi/tagbar'
-Plug 'vim-scripts/taglist.vim'
+" Plug 'majutsushi/tagbar'
+" Plug 'vim-scripts/taglist.vim'
 
 " Session save/restore
 Plug 'xolox/vim-session'
@@ -167,6 +158,7 @@ Plug 'OrangeT/vim-csharp'
 "Plug 'ternjs/tern_for_vim'
 "Plug 'pangloss/vim-javascript'
 "Plug 'moll/vim-node'
+"Plug 'maksimr/vim-jsbeautify'
 
 " Rust
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
@@ -176,15 +168,18 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 "Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
 " Go
-"Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Java
 "Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 
 " }}}
 
-call Profile_Plugins()
+" Search Replace
+Plug 'brooth/far.vim'
+
 " Plug 'junegunn/vim-easy-align'
+
 " Add plugins to &runtimepath
 call plug#end()
 
@@ -212,17 +207,18 @@ menu FileFormat.Mac          :e ++ff=mac
 
 " }}}
 
-" Load profile settings
-call Profile_Prelude()
+" {{{ 2.2 - Personal settings
 
-" {{{ 3.0 - Key mappings ========================================================
+let g:mapleader = ","
+let g:maplocalleader='\\'
 
-" Language client commands
-nnoremap <buffer> <space>g :call LanguageClient_textDocument_definition()<CR>
-nnoremap <buffer> <leader>sg :call LanguageClient_textDocument_definition()<CR>
-nnoremap <buffer> <leader>st :call LanguageClient_textDocument_hover()<CR>
-nnoremap <buffer> <leader>sr :call LanguageClient_textDocument_rename()<CR>
-nnoremap <buffer> <leader>fu :call LanguageClient_textDocument_references()<CR>
+
+" }}}
+
+" {{{ 3.0 - Key mappings
+
+" Minus browser
+nmap - :e %:h<cr>
 
 " Quick jump out of insert mode
 imap jj <esc>
@@ -286,9 +282,6 @@ vnoremap > ><CR>gv
 vnoremap < <<CR>gv
 
 " move current line up/down one, can be repeated and accepts count as dist
-" nmap <c-k> :normal ddkP<CR>
-" nmap <c-j> :normal ddp<CR>
-
 nnoremap <silent> <Plug>MoveLineDown :m+1<CR> :call repeat#set("\<Plug>MoveLineDown")<CR>
 nmap <c-j> <Plug>MoveLineDown
 
@@ -300,7 +293,7 @@ vmap <c-j> dp'[V']
 vmap <c-k> dkP'[V']
 
 
-" cd to the directory containing the file in the buffer, or 
+" cd to the directory containing the file in the buffer, or
 " to root with cdp
 nmap <silent> <leader>cd :lcd %:h<CR>
 nmap <silent> <leader>cdp :Rooter<CR>
@@ -336,9 +329,9 @@ nmap <space>k <c-w>k
 nmap <space>sg :OpenBrowserSearch -google <c-r>=expand("<cword>")<cr><cr>
 nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
 nmap <space>sr :OpenBrowserSearch -rust <c-r><c-w><cr>
-nmap <space>ag :OpenBrowserSearch -google 
-nmap <space>au :OpenBrowserSearch -unity3d 
-nmap <space>ar :OpenBrowserSearch -rust 
+nmap <space>ag :OpenBrowserSearch -google
+nmap <space>au :OpenBrowserSearch -unity3d
+nmap <space>ar :OpenBrowserSearch -rust
 " Search
 " nnoremap gb :OpenURL <cfile><CR>
 " nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
@@ -417,26 +410,34 @@ nnoremap z5 :set foldlevel=5<cr>
 nmap <leader>tf :Tabularize / \w\+;/l0<CR>
 nmap <leader>t= :Tabularize /=<cr>
 
-" {{{ == Unite =====
-let g:unite_source_history_yank_enable = 1
+" {{{ Telescope
 
-nnoremap <leader>uf :<C-u>Denite -buffer-name=csfiles -mode=insert file_rec <cr>
-nnoremap <leader>ue :<C-u>Denite -buffer-name=register -mode=insert register <cr>
-nnoremap <leader>ug :<C-u>Denite -buffer-name=gitfiles -mode=insert file_rec/git <cr>
-nnoremap <leader>up :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec/source <cr>
-nnoremap <leader>ua :<C-u>DeniteProjectDir -buffer-name=projectfiles -mode=insert file_rec <cr>
-nnoremap <leader>ut :<C-u>Denite -buffer-name=files file_rec <cr>
-" nnoremap <leader>ut :<C-u>Denite -buffer-name=files   -mode-insert file<cr>
-nnoremap <leader>ur :<C-u>Denite -buffer-name=mru     -mode=insert file_mru<cr>
-nnoremap <leader>uo :<C-u>Denite -buffer-name=outline -mode=insert outline<cr>
-" nnoremap <leader>uy :<C-u>Denite -buffer-name=yank    history/yank<cr>
-nnoremap <leader>ub :<C-u>Denite -buffer-name=buffer  buffer<cr>
-nnoremap <leader>ul :<C-u>Denite -buffer-name=lines  line<cr>
-" nnoremap <leader>um :<C-u>Denite -buffer-name=bookmarks  bookmark<cr>
-nnoremap <leader>uc :<C-u>Denite colorscheme<cr>
-" nnoremap <leader>uh :<C-u>Denite resume<cr>
-" nnoremap <space>/ :Denite grep:.<cr>
+" nnoremap <leader>up :<C-u>DeniteProjectDir -start-filter file/rec/code <cr>
+" nnoremap <leader>ua :<C-u>DeniteProjectDir -start-filter file/rec <cr>
+" nnoremap <leader>uf :<C-u>Denite -start-filter file/rec <cr>
+" nnoremap <leader>ue :<C-u>Denite -start-filter register <cr>
+" nnoremap <leader>ug :<C-u>Denite -start-filter file/rec/git <cr>
+" nnoremap <leader>ut :<C-u>Denite -start-filter file<cr>
+" nnoremap <leader>ur :<C-u>Denite -start-filter file_mru<cr>
+" nnoremap <leader>uo :<C-u>Denite -start-filter outline<cr>
+" nnoremap <leader>uy :<C-u>Denite -start-filter history/yank<cr>
+" nnoremap <leader>ub :<C-u>Denite -start-filter buffer<cr>
+" nnoremap <leader>ul :<C-u>Denite -start-filter line<cr>
+" nnoremap <leader>um :<C-u>Denite -start-filter bookmark<cr>
+" nnoremap <leader>uc :<C-u>Denite -start-filter colorscheme<cr>
+" nnoremap <leader>uh :<C-u>Denite -start-filter resume<cr>
+" nnoremap <space>/ :Denite -start-filter grep:.<cr>
 
+nnoremap <leader>uf <cmd>Telescope find_files<cr>
+nnoremap <leader>ug <cmd>Telescope live_grep<cr>
+nnoremap <leader>up <cmd>Telescope git_files<cr>
+nnoremap <leader>ub <cmd>Telescope buffers<cr>
+nnoremap <leader>uh <cmd>Telescope help_tags<cr>
+nnoremap <leader>uc <cmd>Telescope command_history<cr>
+nnoremap <leader>uq <cmd>Telescope quickfix<cr>
+nnoremap <leader>um <cmd>Telescope marks<cr>
+nnoremap <leader>uz <cmd>Telescope spell_suggest<cr>
+nnoremap <leader>u/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 " }}}
 
@@ -448,11 +449,11 @@ vnoremap <Tab> %
 nnoremap <leader>a :Ack<space>
 
 " == Fugitive =======
+noremap <leader>gs :G<CR>
+noremap <leader>gh :diffget //3<CR>
+noremap <leader>gu :diffget //2<CR>
 noremap <leader>gd :Gdiff<CR>
-noremap <leader>gc :Gcommit<CR>
-noremap <leader>gs :Gstatus<CR>
-noremap <leader>gw :Gwrite<CR>
-noremap <leader>gb :Gblame<CR>
+noremap <leader>gc :Git commit<CR>
 
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
@@ -461,13 +462,12 @@ vmap <c-v> <Plug>(expand_region_shrink)
 
 nmap <silent> <space>t :Switch<CR>
 
-
 " {{{ C# and Unity, TODO: detect Unity project too
 autocmd FileType cs call s:csharp_unity_settings()
 function! s:csharp_unity_settings()
 
   set foldmethod=syntax
-  
+
   " Unindent (used for namespaces)
   nnoremap <leader>un vi}<<<esc>
 
@@ -481,9 +481,22 @@ function! s:csharp_unity_settings()
 endfunction
 " }}}
 
+" {{{ Presentation in vim, detect and set goyo (thanks to Nick Janetakis)
+
+" Mappings to make Vim more friendly towards presenting slides.
+autocmd BufNewFile,BufRead *.vpm call SetVimPresentationMode()
+function SetVimPresentationMode()
+  nnoremap <buffer> <Right> :n<CR>
+  nnoremap <buffer> <Left> :N<CR>
+  if !exists('#goyo')
+    Goyo
+  endif
+endfunction
+" }}}
+
 " }}} ===========================================================
 
-" {{{ 4.0 - Options ====================================================
+" {{{ 4.0 - Options
 
 set hlsearch     " Highlight search results
 set ignorecase   " no sensitive to case
@@ -494,7 +507,7 @@ set smartcase    " When meet uppercase -> sensitive
 
 set number relativenumber
 set nowrap
-set textwidth=80
+set textwidth=160
 set ruler
 
 " Tabs and indentation
@@ -530,7 +543,7 @@ set listchars+=extends:❯
 set listchars+=precedes:❮
 set listchars+=trail:⋅
 set listchars+=nbsp:⋅
-set listchars+=tab:\|\ 
+set listchars+=tab:\|\
 
 " Keep some spacing.
 set sidescrolloff=1
@@ -538,13 +551,199 @@ set sidescrolloff=1
 " Show command
 set showcmd
 
+" Use rg
+set grepprg=rg\ --vimgrep
+set grepformat^=%f:%l:%c:%m
+
 " }}} ===========================================================
 
-" {{{ 5.0 - Appearence ================================================
-silent! colorscheme molokai
-" }}} ===========================================================
+" {{{ 5.0 - Appearence
+" silent! colorscheme molokai
+let g:gruvbox_italic=1
+autocmd vimenter * ++nested colorscheme gruvbox
+" }}}
 
-" {{{ 6.0 - Plugins Settings =========================================
+" {{{ 6.0 - Plugins Settings
+
+"{{{ Coc - copypaste from official doc, tweaked
+
+" if hidden is not set, TextEdit might fail.
+"set hidden " Already set
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+" set signcolumn=yes // neovime probably has no issue with this
+
+" lightlin no show
+"set noshowmode
+"
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> <space>g <Plug>(coc-definition)
+nmap <silent> <space>gd <Plug>(coc-type-definition)
+nmap <silent> <space>gi <Plug>(coc-implementation)
+nmap <silent> <space>gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>ba  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>be  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>bc  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>bo  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>bs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>bj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>bk  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>bp  :<C-u>CocListResume<CR>
+
+" }}}
+
+" LightLine {{{
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'cocstatus', 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
+      \ },
+      \ 'component_function': {
+      \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction',
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ 'component': {
+      \   'charvaluehex': '0x%B'
+      \ },
+      \ }
+
+" }}}
 
 " {{{ Switch
 let g:switch_mapping = ""
@@ -583,56 +782,6 @@ let g:UltiSnipsJumpForwardTrigger = '<c-k>'
 let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " }}} UltiSnips
 
-" {{{ Deoplete and LSP
-let g:deoplete#enable_at_startup = 1
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log', '--init={"cacheDirectory":"/tmp/cquery/"}'],
-    \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
-    \ 'cs': ['mono', '/home/randy/Downloads/omnisharp-mono/OmniSharp.exe', '-lsp'],
-    \ 'python' : ['pyls', '--log-file','/tmp/pyls.log','-v']
-    \ }
-
-let g:LanguageClient_rootMarkers = {
-    \ 'cs': ['.git', '*.csproj'],
-\ }
-
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_loggingLevel = 'INFO'
-let g:LanguageClient_loggingFile = '/tmp/lc.log'
-let g:LanguageClient_serverStderr = '/tmp/ls.log'
-
-" }}} Deoplete
-
-
-" {{{ Airline
-let g:airline_theme = 'tomorrow'
-let g:airline_detected_modified = 1
-let g:airline_powerline_fonts = 1
-let g:airline_detect_iminsert = 0
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#whitespace#enabled = 1
-let g:airline#extensions#whitespace#mixed_indent_algo = 1
-let g:airline#extensions#whitespace#show_message = 1
-let g:airline#extensions#whitespace#trailing_format = 's:[%s]'
-let g:airline#extensions#whitespace#mixed_indent_format = 'i:[%s]'
-let g:airline#extensions#tagbar#flags = 'f'
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'v'  : 'V',
-      \ 'V'  : 'B'
-      \ }
-" }}}
-
 " {{{ Indent guides
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
@@ -642,82 +791,8 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#31332B ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 " }}}
 
-" {{{ Denite
-
-try
-
-call denite#custom#source(
-    \ 'file_rec,file_rec/source,file_rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
-
-" Define alias example (from Denite doc)
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-    \ ['git', '--work-tree=.', 'ls-files', '-co', '--exclude-standard'])
-
-" Just fancy cursor for command line
-call denite#custom#option('default', 'prompt', '▷')
-
-" Do not sort file_mru sicne it is already sorted by time
-call denite#custom#source(
-            \ 'file_mru', 'sorters', [])
-
-" Since pt and ag does better job searching sources, ignoring
-" .git stuff and .gitignore things we configure file_rec to
-" use them if any found on system
-if executable('rg')
- 	" Ripgrep command on grep source
-	call denite#custom#var('grep', 'command', ['rg'])
-	call denite#custom#var('grep', 'default_opts',
-			\ ['--vimgrep', '--no-heading'])
-	call denite#custom#var('grep', 'recursive_opts', [])
-	call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-	call denite#custom#var('grep', 'separator', ['--'])
-	call denite#custom#var('grep', 'final_opts', [])
-    " Ripgrep filerec source
-    call denite#custom#var('file_rec', 'command',
-        \ ['rg', '--files', '--follow', '--color', 'never','--type', 'cs'])
-    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
-    call denite#custom#var('file_rec/source', 'command',
-        \ ['rg', '--files', '--follow', '--color', 'never', '--type', 'cs'])
-elseif executable('pt')
-    call denite#custom#var('file_rec', 'command',
-        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g:', ''])
-    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
-    call denite#custom#var('file_rec/source', 'command',
-        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
-elseif executable('ag')
-    call denite#custom#var('file_rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-    call denite#custom#alias('source', 'file_rec/source', 'file_rec')
-    call denite#custom#var('file_rec/source', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', '.*\.cs$'])
-endif
-
-" KEY MAPPINGS
-let insert_mode_mappings = [
-	\  ['jj', '<denite:enter_mode:normal>', 'noremap'],
-	\  ['<c-y>', '<denite:redraw>', 'noremap'],
-	\ ]
-
-let normal_mode_mappings = [
-	\   ["'", '<denite:toggle_select_down>', 'noremap'],
-	\   ['st', '<denite:do_action:tabopen>', 'noremap'],
-	\   ['sg', '<denite:do_action:vsplit>', 'noremap'],
-	\   ['sv', '<denite:do_action:split>', 'noremap'],
-	\   ['sc', '<denite:quit>', 'noremap'],
-	\   ['r', '<denite:redraw>', 'noremap'],
-	\ ]
-
-for m in insert_mode_mappings
-	call denite#custom#map('insert', m[0], m[1], m[2])
-endfor
-for m in normal_mode_mappings
-	call denite#custom#map('normal', m[0], m[1], m[2])
-endfor
-
-catch
-endtry
-
+" {{{ Rustfmt
+" let g:rustfmt_options = ''
 " }}}
 
 " {{{ Ack
@@ -725,7 +800,7 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 " }}}
 
 " {{{ Startify
-let g:startify_bookmarks = ['~/.vimrc','~/.zshrc','~/nfo/commands.txt',]
+let g:startify_bookmarks = ['~/.config/nvim/init.vim','~/.profile','~/nfo/commands.txt',]
 let g:startify_change_to_dir = 0
 let g:startify_files_number = 8
 
@@ -768,6 +843,12 @@ let g:buffergator_suppress_keymaps = 1
 " {{{ NERD Tree
 let NERDTreeWinPos='right'
 let NERDTreeIgnore = ['\.meta$']
+
+autocmd FileType nerdtree call s:nerdtree_settings()
+function! s:nerdtree_settings()
+  nmap <buffer> - q
+endfunction
+
 " }}}
 
 " {{{ Eighties settings
@@ -784,7 +865,7 @@ let g:openbrowser_search_engines = extend(
     \})
 " }}}
 
-" ZFZ rg
+" {{{ ZFZ rg
 
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag
 command! -bang -nargs=* Rg
@@ -794,13 +875,41 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
   " \ echomsg 'rg --column --line-number --no-heading --color=always -g "*.cs" <args>'
+" }}}
+"
+" {{{ Tiddly
+
+
+" Explicitly set the username of the tiddler 'creator' and 'modifier'
+" If not set, this defaults to `$USER` or `$LOGNAME` (in that order)
+let g:tiddlywiki_author = 'Eugene'
+
+" Specify the location of your tiddlers. The subdir "tiddlers" is appended
+" automatically if required.
+let g:tiddlywiki_dir = '~/Documents/randy-wiki'
+
+" Set the date format to use for journal tiddlers, as in the format string of date(1).
+" This does not have to be at 'day' granularity - you can also use
+" months / weeks / hours / whatever makes sense to you.
+" Defaults to '%F' (ISO date = yyyy-mm-dd)
+" '%A, %F (Week %V)'
+let g:tiddlywiki_journal_format = '%d %B %Y'
+
+" Don't Disable the default mappings
+" let g:tiddlywiki_no_mappings=0
+
+" Automatically update tiddler metadata ('modified' timestamp, 'modifier'
+" username) on write - little bug here - need to have this not exist instead of =0
+"let g:tiddlywiki_autoupdate=0
+"
+" }}}
 
 " }}}
 
-" {{{ Autos ==================================================
+" {{{ 7.0 - Autos
 
 " trim and go back to last place
-" TODO: how to substitute internally without spoiling / 
+" TODO: how to substitute internally without spoiling /
 " register
 function TrimShitOutOfFile()
   let saved_cursor = getpos('.')
@@ -813,37 +922,38 @@ function TrimShitOutOfFile()
   endtry
 endfunction
 
+autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
+
 " Gstatus to have nice cursor
 autocmd BufEnter *.git/index setlocal cursorline
 
-" Exclude quickfix and (not yet - TODO) scratch from bn/bp
-" augroup qf
-    " autocmd!
-    " autocmd FileType qf set nobuflisted
-" augroup END
-
-" autocmd BufCreate [Scratch] set nobuflisted
-
-" autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
-
-function! s:fasd_update() abort
-  if empty(&buftype) || &filetype ==# 'dirvish'
-    call jobstart(['fasd', '-A', expand('%:p')])
-  endif
-endfunction
-
-augroup fasd
-  autocmd!
-  autocmd BufWinEnter,BufFilePost * call s:fasd_update()
-augroup END
-
-command! FASD call fzf#run(fzf#wrap({'source': 'fasd -al', 'options': '--no-sort --tac --tiebreak=index'}))
-nnoremap <silent> <Leader>ef :FASD<CR>
-
 " }}}
+
+" {{{ 8.0 Other stuff
+
+iabbrev memail <emihailenco@protonmail.com>
+iabbrev mename Eugene Mihailenco
+
+let g:snips_author = 'Eugene Mihailenco <emihailenco@protonmail.com>'
+
+" " Nice terminal colors
+" let g:terminal_color_0  = '#2e3436'
+" let g:terminal_color_1  = '#cc0000'
+" let g:terminal_color_2  = '#4e9a06'
+" let g:terminal_color_3  = '#c4a000'
+" let g:terminal_color_4  = '#3465a4'
+" let g:terminal_color_5  = '#75507b'
+" let g:terminal_color_6  = '#0b939b'
+" let g:terminal_color_7  = '#d3d7cf'
+" let g:terminal_color_8  = '#555753'
+" let g:terminal_color_9  = '#ef2929'
+" let g:terminal_color_10 = '#8ae234'
+" let g:terminal_color_11 = '#fce94f'
+" let g:terminal_color_12 = '#729fcf'
+" let g:terminal_color_13 = '#ad7fa8'
+" let g:terminal_color_14 = '#00f5e9'
+" let g:terminal_color_15 = '#eeeeec'
+" " }}}
 
 filetype plugin indent on
 syntax on
-
-" Load profile specific
-call Profile_Settings()
