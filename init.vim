@@ -22,19 +22,6 @@ set termguicolors
 
 " }}}
 
-" {{{ 1.1 - Personal settings  ==================================================
-
-" Setup gloval dev variable
-if !exists("g:bully_dev")
-    let g:bully_dev = $bully_dev
-endif
-
-let profile_filePath = fnamemodify(expand('<sfile>'), ':h').'/profiles/'.$bully_dev.'.vim'
-if filereadable(profile_filePath)
-    exec "source ".profile_filePath
-endif
-
-" }}}
 
 " {{{ 2.0 - Plugins =========================================================
 
@@ -109,6 +96,7 @@ Plug 'vim-scripts/glsl.vim', { 'for': 'glsl' }
 Plug 'BullyEntertainment/cg.vim', { 'for': 'cg' }
 Plug 'sheerun/vim-polyglot'
 Plug 'elzr/vim-json', { 'for': 'json'}
+Plug 'tridactyl/vim-tridactyl', { 'for': 'tridactyl' }
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -126,15 +114,16 @@ Plug 'posva/vim-vue'
 Plug 'ap/vim-css-color'
 Plug 'leafgarland/typescript-vim'
 Plug 'sukima/vim-tiddlywiki'
+Plug 'dbeniamine/cheat.sh-vim'
+Plug 'puremourning/vimspector'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 
-
-
-" {{{ Denite
-Plug 'Shougo/denite.nvim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/neoyank.vim'
-Plug 'Shougo/neomru.vim'
-" }}}
+" telescope requirements...
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " fzf on Linux and OSX
 if g:os == "Darwin"
@@ -185,7 +174,16 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 " }}}
 
-call Profile_Plugins()
+Plug 'tomtom/tcomment_vim'
+
+" Go
+Plug 'fatih/vim-go', { 'for': 'go' }
+
+" Web
+Plug 'maksimr/vim-jsbeautify'
+
+" Search Replace
+Plug 'brooth/far.vim'
 " Plug 'junegunn/vim-easy-align'
 " Add plugins to &runtimepath
 call plug#end()
@@ -215,7 +213,17 @@ menu FileFormat.Mac          :e ++ff=mac
 " }}}
 
 " Load profile settings
-call Profile_Prelude()
+
+let g:mapleader = ","
+let g:maplocalleader='\\'
+
+" Custam mapping for file browser
+nmap - :e %:h<cr>
+
+autocmd FileType nerdtree call s:nerdtree_settings()
+function! s:nerdtree_settings()
+  nmap <buffer> - q
+endfunction
 
 " {{{ 3.0 - Key mappings ========================================================
 
@@ -409,25 +417,34 @@ nnoremap z5 :set foldlevel=5<cr>
 nmap <leader>tf :Tabularize / \w\+;/l0<CR>
 nmap <leader>t= :Tabularize /=<cr>
 
-" {{{ == Unite =====
-let g:unite_source_history_yank_enable = 1
+" {{{ == Telescope =====
 
-nnoremap <leader>up :<C-u>DeniteProjectDir -start-filter file/rec/code <cr>
-nnoremap <leader>ua :<C-u>DeniteProjectDir -start-filter file/rec <cr>
-nnoremap <leader>uf :<C-u>Denite -start-filter file/rec <cr>
-nnoremap <leader>ue :<C-u>Denite -start-filter register <cr>
-nnoremap <leader>ug :<C-u>Denite -start-filter file/rec/git <cr>
-nnoremap <leader>ut :<C-u>Denite -start-filter file<cr>
-nnoremap <leader>ur :<C-u>Denite -start-filter file_mru<cr>
-nnoremap <leader>uo :<C-u>Denite -start-filter outline<cr>
-nnoremap <leader>uy :<C-u>Denite -start-filter history/yank<cr>
-nnoremap <leader>ub :<C-u>Denite -start-filter buffer<cr>
-nnoremap <leader>ul :<C-u>Denite -start-filter line<cr>
-nnoremap <leader>um :<C-u>Denite -start-filter bookmark<cr>
-nnoremap <leader>uc :<C-u>Denite -start-filter colorscheme<cr>
-nnoremap <leader>uh :<C-u>Denite -start-filter resume<cr>
-nnoremap <space>/ :Denite -start-filter grep:.<cr>
+" nnoremap <leader>up :<C-u>DeniteProjectDir -start-filter file/rec/code <cr>
+" nnoremap <leader>ua :<C-u>DeniteProjectDir -start-filter file/rec <cr>
+" nnoremap <leader>uf :<C-u>Denite -start-filter file/rec <cr>
+" nnoremap <leader>ue :<C-u>Denite -start-filter register <cr>
+" nnoremap <leader>ug :<C-u>Denite -start-filter file/rec/git <cr>
+" nnoremap <leader>ut :<C-u>Denite -start-filter file<cr>
+" nnoremap <leader>ur :<C-u>Denite -start-filter file_mru<cr>
+" nnoremap <leader>uo :<C-u>Denite -start-filter outline<cr>
+" nnoremap <leader>uy :<C-u>Denite -start-filter history/yank<cr>
+" nnoremap <leader>ub :<C-u>Denite -start-filter buffer<cr>
+" nnoremap <leader>ul :<C-u>Denite -start-filter line<cr>
+" nnoremap <leader>um :<C-u>Denite -start-filter bookmark<cr>
+" nnoremap <leader>uc :<C-u>Denite -start-filter colorscheme<cr>
+" nnoremap <leader>uh :<C-u>Denite -start-filter resume<cr>
+" nnoremap <space>/ :Denite -start-filter grep:.<cr>
 
+nnoremap <leader>uf <cmd>Telescope find_files<cr>
+nnoremap <leader>ug <cmd>Telescope live_grep<cr>
+nnoremap <leader>up <cmd>Telescope git_files<cr>
+nnoremap <leader>ub <cmd>Telescope buffers<cr>
+nnoremap <leader>uh <cmd>Telescope help_tags<cr>
+nnoremap <leader>uc <cmd>Telescope command_history<cr>
+nnoremap <leader>uq <cmd>Telescope quickfix<cr>
+nnoremap <leader>um <cmd>Telescope marks<cr>
+nnoremap <leader>uz <cmd>Telescope spell_suggest<cr>
+nnoremap <leader>u/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 " }}}
 
@@ -439,9 +456,11 @@ vnoremap <Tab> %
 nnoremap <leader>a :Ack<space>
 
 " == Fugitive =======
+noremap <leader>gs :G<CR>
+noremap <leader>gh :diffget //3<CR>
+noremap <leader>gu :diffget //2<CR>
 noremap <leader>gd :Gdiff<CR>
 noremap <leader>gc :Gcommit<CR>
-noremap <leader>gs :Gstatus<CR>
 noremap <leader>gw :Gwrite<CR>
 noremap <leader>gb :Gblame<CR>
 
@@ -471,6 +490,18 @@ function! s:csharp_unity_settings()
 
 endfunction
 " }}}
+"
+" {{{ Presentation in vim, detect and set goyo (thanks to Nick Janetakis)
+
+" Mappings to make Vim more friendly towards presenting slides.
+autocmd BufNewFile,BufRead *.vpm call SetVimPresentationMode()
+function SetVimPresentationMode()
+  nnoremap <buffer> <Right> :n<CR>
+  nnoremap <buffer> <Left> :N<CR>
+  if !exists('#goyo')
+    Goyo
+  endif
+endfunction
 
 " }}} ===========================================================
 
@@ -541,10 +572,14 @@ silent! colorscheme molokai
 
 " {{{ 6.0 - Plugins Settings =========================================
 
-"{{{ Coc
+"{{{ Coc - copypaste from official doc, tweaked
 
 " if hidden is not set, TextEdit might fail.
-set hidden
+"set hidden " Already set
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
 
 " Better display for messages
 set cmdheight=2
@@ -556,13 +591,14 @@ set updatetime=300
 set shortmess+=c
 
 " always show signcolumns
-set signcolumn=yes
+" set signcolumn=yes // neovime probably has no issue with this
 
 " lightlin no show
-set noshowmode
-
+"set noshowmode
+"
 " Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -577,13 +613,15 @@ endfunction
 " Use <c-space> for trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> <space>g <Plug>(coc-definition)
@@ -591,50 +629,108 @@ nmap <silent> <space>gd <Plug>(coc-type-definition)
 nmap <silent> <space>gi <Plug>(coc-implementation)
 nmap <silent> <space>gr <Plug>(coc-references)
 
-" Use K for show documentation in preview window
-nnoremap <silent> <space>gk :call <SID>show_documentation()<CR>
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if &filetype == 'vim'
+  if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
-" Highlight symbol under cursor on CursorHold
+" Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Remap for rename current word
+" Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-" Remap for format selected region
-vmap <leader>f  <Plug>(coc-format-selected)
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
+  " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vmap <leader><leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader><leader>a  <Plug>(coc-codeaction-selected)
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" Remap for do codeAction of current line
-nmap <leader><leader>l  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader><leader>f  <Plug>(coc-fix-current)
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 
-" Use `:Format` for format current buffer
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
-" Use `:Fold` for fold current buffer
+" Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>ba  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>be  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>bc  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>bo  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>bs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>bj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>bk  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>bp  :<C-u>CocListResume<CR>
+
+" }}}
+
+" LightLine {{{
 let g:lightline = {
       \ 'colorscheme': 'powerline',
       \ 'active': {
@@ -727,66 +823,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#31332B ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2E2F29 ctermbg=235
 " }}}
 
-" {{{ Denite
-
-try
-
-if executable('rg')
-    " Ripgrep command on grep source
-    call denite#custom#var('grep', 'command', ['rg'])
-    call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
-    call denite#custom#var('grep', 'recursive_opts', [])
-    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-    call denite#custom#var('grep', 'separator', ['--'])
-    call denite#custom#var('grep', 'final_opts', [])
-
-    " Repace file/rec with rg
-    call denite#custom#var('file/rec', 'command',  ['rg', '--files', '-g', '!.tox', '-g', '!.git', '-g', '!.venv'])
-
-    " Define new source as file/rec/code for C# files only
-    call denite#custom#alias('source', 'file/rec/code', 'file/rec')
-    call denite#custom#var('file/rec/code', 'command',  ['rg', '--files', '--follow', '--color', 'never', '--type', 'cs'])
-endif
-
-" Just fancy cursor for command line
-call denite#custom#option('default', 'prompt', '▷')
-
-
-" Define alias file/rec/git to search gited files
-call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-call denite#custom#var('file/rec/git', 'command',  ['git', 'ls-files', '-co', '--exclude-standard'])
-
-" Set regexp matcher for most things
-call denite#custom#source('file/rec,file/rec/code,file/rec/git,file_mru,buffer,line,outline', 'matchers', ['matcher_regexp'])
-
-
-" Do not sort file_mru sicne it is already sorted by time
-"call denite#custom#source( 'file_mru', 'sorters', []) " NOTE: No longer neeeded, seems fine by defaulet
-
-" Define mappings
-autocmd FileType denite call s:denite_my_settings()
-function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>  denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> d  denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p  denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> q  denite#do_map('quit')
-  nnoremap <silent><buffer><expr> i  denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space>  denite#do_map('toggle_select').'j'
-endfunction
-
-autocmd FileType denite-filter call s:denite_filter_my_settings()
-function! s:denite_filter_my_settings() abort
-  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
-  imap <silent><buffer> jj  <Plug>(denite_filter_quit)
-  imap <silent><buffer> <esc>  denite#do_map('quit')
-endfunction
-
-
-catch
-    echomsg "Denite conf failed"
-endtry
-
-" }}}
 
 
 " {{{ Rustfmt
@@ -917,34 +953,40 @@ endfunction
 " Gstatus to have nice cursor
 autocmd BufEnter *.git/index setlocal cursorline
 
-" Exclude quickfix and (not yet - TODO) scratch from bn/bp
-" augroup qf
-    " autocmd!
-    " autocmd FileType qf set nobuflisted
-" augroup END
-
-" autocmd BufCreate [Scratch] set nobuflisted
-
-" autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
-
-function! s:fasd_update() abort
-  if empty(&buftype) || &filetype ==# 'dirvish'
-    call jobstart(['fasd', '-A', expand('%:p')])
-  endif
-endfunction
-
-augroup fasd
-  autocmd!
-  autocmd BufWinEnter,BufFilePost * call s:fasd_update()
-augroup END
-
-command! FASD call fzf#run(fzf#wrap({'source': 'fasd -al', 'options': '--no-sort --tac --tiebreak=index'}))
-nnoremap <silent> <Leader>ef :FASD<CR>
-
 " }}}
 
 filetype plugin indent on
 syntax on
 
+{{{
 " Load profile specific
-call Profile_Settings()
+colorscheme Molokai_Eugene
+
+iabbrev memail <mihailencoe@gmail.com>
+iabbrev mename Eugene Mihailenco
+iabbrev mefname Eugene
+iabbrev melname Mihailenco
+iabbrev mesite http://randomize.github.io/
+
+let g:snips_author = 'Eugene Mihailenco <mihailencoe@gmail.com>'
+
+autocmd FileType cs,cg,c,cpp,rs autocmd BufWritePre <buffer> call TrimShitOutOfFile()
+
+" Nice terminal colors
+let g:terminal_color_0  = '#2e3436'
+let g:terminal_color_1  = '#cc0000'
+let g:terminal_color_2  = '#4e9a06'
+let g:terminal_color_3  = '#c4a000'
+let g:terminal_color_4  = '#3465a4'
+let g:terminal_color_5  = '#75507b'
+let g:terminal_color_6  = '#0b939b'
+let g:terminal_color_7  = '#d3d7cf'
+let g:terminal_color_8  = '#555753'
+let g:terminal_color_9  = '#ef2929'
+let g:terminal_color_10 = '#8ae234'
+let g:terminal_color_11 = '#fce94f'
+let g:terminal_color_12 = '#729fcf'
+let g:terminal_color_13 = '#ad7fa8'
+let g:terminal_color_14 = '#00f5e9'
+let g:terminal_color_15 = '#eeeeec'
+}}}
