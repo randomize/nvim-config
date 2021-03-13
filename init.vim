@@ -38,6 +38,7 @@ Plug 'terryma/vim-expand-region'
 "Plug 'Floobits/floobits-neovim'
 Plug 'dzhou121/gonvim-fuzzy'
 Plug 'RRethy/vim-illuminate'
+Plug 'chrisbra/unicode.vim'
 
 "Plug 'critiqjo/lldb.nvim'
 
@@ -185,232 +186,51 @@ call plug#end()
 
 " }}}
 
-" {{{ 2.1 - Helper menus
-
-" Encodings
-menu Encoding.UTF-8          :e ++enc=utf-8
-menu Encoding.Unicode        :e ++enc=unicode
-menu Encoding.UCS-2          :e ++enc=ucs-2le<CR>
-menu Encoding.UCS-4          :e ++enc=ucs-4
-menu Encoding.KOI8-R         :e ++enc=koi8-r ++ff=unix <CR>
-menu Encoding.KOI8-U         :e ++enc=koi8-u ++ff=unix <CR>
-menu Encoding.CP1251         :e ++enc=cp1251
-menu Encoding.IBM-855        :e ++enc=ibm855
-menu Encoding.IBM-866        :e ++enc=ibm866 ++ff=dos <CR>
-menu Encoding.ISO-8859-5     :e ++enc=iso-8859-5
-menu Encoding.Latin-1        :e ++enc=latin1
-
-" File formats
-menu FileFormat.UNIX         :e ++ff=unix
-menu FileFormat.DOS          :e ++ff=dos
-menu FileFormat.Mac          :e ++ff=mac
-
-" }}}
-
 " {{{ 2.2 - Personal settings
 
-let g:mapleader = ","
-let g:maplocalleader='\\'
-
+let g:mapleader = '\'
+let g:maplocalleader='_'
 
 " }}}
 
-" {{{ 3.0 - Key mappings
+" {{{ 3.0 - Leader Key mappings
 
-" Minus browser
-nmap - :e %:h<cr>
-
-" Quick jump out of insert mode
-imap jj <esc>
+" Map to close previews quickly
+nmap <silent> <leader>p <c-w><c-z>
 
 " Line wrap toggle
-nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
-
-" {{{ F-mappings
-
-" F2 for quickfix
-nmap <silent> <F2>  :call <SID>QuickfixToggle()<cr>
-imap <silent> <F2>  <c-o>:call <SID>QuickfixToggle()<cr>
-
-" Translator function
-nmap <silent> <F3>  :call TRANSLATE()<cr>
-imap <silent> <F3>  <c-o>:call TRANSLATE()<cr>
-
-" Single compile binding
-nmap <silent> <F5> <ESC>:SCCompile<CR>
-nmap <silent> <F6> <ESC>:SCCompileRun<CR>
-
-" Toggle spelling with the F7 key
-nmap <silent> <F7> <ESC>:setlocal spell!<CR>
-imap <silent> <F7> <c-o>:setlocal spell!<CR>
-
-" Toggle keyboard layout
-imap <silent> <F9> <C-^>
-
-" Toggle unprintable <F10>
-nmap <silent> <F10> <ESC>:set list!<CR>
-imap <silent> <F10> <c-o>:set list!<CR>
-
-nmap <silent>  <F11> :emenu Encoding.<Tab><Tab>
-nmap <silent> <S-F11> :emenu FileFormat.<Tab><Tab>
-
-nmap <silent> <F12> :NERDTreeToggle<CR>
-
-" }}}
+nmap <silent> <leader>w :set wrap!<CR>
 
 " Session workflow
-nmap <leader>os :OpenSession<space>
+nmap <leader>so :OpenSession<space>
 nmap <leader>ss :SaveSession<space>
-nmap <leader>ds :DeleteSession<CR>
-nmap <leader>cs :CloseSession<CR>
-
+nmap <leader>sd :DeleteSession<CR>
+nmap <leader>sc :CloseSession<CR>
 
 " Toggle things
 " nmap <leader>1 :GundoToggle<CR>
-nmap <leader>1 :UndotreeToggle<CR>
-set pastetoggle=<leader>2
-nmap <leader>3 :TlistToggle<CR>
-nmap <leader>4 :TagbarToggle<CR>
-nmap <leader>5 :NERDTreeToggle<CR>
+nmap <leader>d :UndotreeToggle<CR>
+" set pastetoggle=<leader>[
+" nmap <leader>{ :TlistToggle<CR>
+" nmap <leader>} :TagbarToggle<CR>
 nmap <leader>b :BuffergatorToggle<CR>
 
-" Make p in Visual mode replace the selected text with the \" register.
-vmap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
-
-" Indentation changes, but visual stays
-vnoremap > ><CR>gv
-vnoremap < <<CR>gv
-
-" move current line up/down one, can be repeated and accepts count as dist
-nnoremap <silent> <Plug>MoveLineDown :m+1<CR> :call repeat#set("\<Plug>MoveLineDown")<CR>
-nmap <c-j> <Plug>MoveLineDown
-
-nnoremap <silent> <Plug>MoveLineUp :m-2<CR> :call repeat#set("\<Plug>MoveLineUp")<CR>
-nmap <c-k> <Plug>MoveLineUp
-
-" move visual block up/down one
-vmap <c-j> dp'[V']
-vmap <c-k> dkP'[V']
-
-
-" cd to the directory containing the file in the buffer, or
-" to root with cdp
+" cd-ing stuff
 nmap <silent> <leader>cd :lcd %:h<CR>
 nmap <silent> <leader>cdp :Rooter<CR>
 
-" make directory
-nmap <silent> <leader>md :!mkdir -p %:p:h<CR>
-
-" When search done : ,n to remove highlight
+" When search done : to remove highlight
 nmap <silent> <leader>n :nohls<CR>
 
-" Alright... let's try this out
-imap jj <esc>
-
-" Line wrap toggle
-nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
-
-" Buffers
-
-" {{{ Space mappings ==
-
-" Better windows navigation
-nmap <space>H <c-w>H
-nmap <space>L <c-w>L
-nmap <space>J <c-w>J
-nmap <space>K <c-w>K
-nmap <space>h <c-w>h
-nmap <space>l <c-w>l
-nmap <space>j <c-w>j
-nmap <space>k <c-w>k
-
-" Openbrowser maps
-"nmap <leader>qu <Plug>(openbrowser-search)
-nmap <space>sg :OpenBrowserSearch -google <c-r>=expand("<cword>")<cr><cr>
-nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
-nmap <space>sr :OpenBrowserSearch -rust <c-r><c-w><cr>
-nmap <space>ag :OpenBrowserSearch -google
-nmap <space>au :OpenBrowserSearch -unity3d
-nmap <space>ar :OpenBrowserSearch -rust
-" Search
-" nnoremap gb :OpenURL <cfile><CR>
-" nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
-" nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
-" nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-
-
-" Faster command access
-nmap <silent> <space> <NOP>
-nmap <space>;  :
-nmap <space><space>  :
-nmap <silent> <space>w  :w<CR>
-nmap <silent> <space>q  :q<CR>
-nmap <silent> <space>]  :bn<CR>
-nmap <silent> <space>[  :bp<CR>
-nmap <silent> <space>c  :bd<CR>
-nmap <silent> <space>d  :bp\|bd #<CR>
-nmap <silent> <space>(  :lne<CR>
-nmap <silent> <space>)  :lp<CR>
-
-" Remove trailing whitespaces
-nmap <silent> <leader>rtw :call TrimShitOutOfFile()<CR>
-" nmap <silent> <leader>rtw :%s/\s\+$//e<CR>:nohl<CR>
-" nmap <silent> <leader>rrt :%s/\t/    /g<CR>:nohl<CR> " use :retab
-
-" Copy paste to + register
-nmap <silent> <space>y "+yy
-vmap <silent> <space>y "+y
-nmap <silent> <space>p "+p
-nmap <silent> <space>pp "*p
-nmap <silent> <space>P "+P
-nmap <silent> <space>PP "*P
-
-" Duplications
-vmap <silent> <space>= "dy"dP
-nmap <silent> <space>= "dyy"dP
-" }}}
-
-" move stuff to the right of cursor to next line
-nmap <silent> <leader><CR> i<CR><ESC>k$
-
-" Search the current file for the word under the cursor and display matches
-nmap <silent> <leader>gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
-
-" Edit shortcuts
+" Open config shortcut
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
-
-" Yank to end (like D and C)
-nnoremap Y y$
-
-" When entering command, press %% to quickly insert current path
-cmap %% <C-R>=expand('%:h').'/'<cr>
-
-" Mapping ,, to fast switch between buffers
-nmap <silent> <leader><leader><space> <c-^>
-
-" Map to close previews quicly
-nmap <silent> <leader>p <c-w><c-z>
-
-" Vim expand region mappings.
-vmap v <Plug>(expand_region_expand)
-vmap <c-v> <Plug>(expand_region_shrink)
-
-" Folds
-" Mappings to easily toggle fold levels
-nnoremap z0 :set foldlevel=0<cr>
-nnoremap z1 :set foldlevel=1<cr>
-nnoremap z2 :set foldlevel=2<cr>
-nnoremap z3 :set foldlevel=3<cr>
-nnoremap z4 :set foldlevel=4<cr>
-nnoremap z5 :set foldlevel=5<cr>
-
 
 " === Tabular ===
 
 nmap <leader>tf :Tabularize / \w\+;/l0<CR>
 nmap <leader>t= :Tabularize /=<cr>
 
-" {{{ Telescope
+" === Telescope ===
 
 " nnoremap <leader>up :<C-u>DeniteProjectDir -start-filter file/rec/code <cr>
 " nnoremap <leader>ua :<C-u>DeniteProjectDir -start-filter file/rec <cr>
@@ -439,12 +259,6 @@ nnoremap <leader>um <cmd>Telescope marks<cr>
 nnoremap <leader>uz <cmd>Telescope spell_suggest<cr>
 nnoremap <leader>u/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
-" }}}
-
-" Tab in normal mode is useless - use it to %
-nnoremap <Tab> %
-vnoremap <Tab> %
-
 " == Ack ===========
 nnoremap <leader>a :Ack<space>
 
@@ -455,12 +269,76 @@ noremap <leader>gu :diffget //2<CR>
 noremap <leader>gd :Gdiff<CR>
 noremap <leader>gc :Git commit<CR>
 
+" Remove trailing whitespaces
+nmap <silent> <leader>rtw :call TrimShitOutOfFile()<CR>
+
+" }}}
+
+" {{{ Misc mappings
+" When entering command, press %% to quickly insert current path
+cmap %% <C-R>=expand('%:h').'/'<cr>
+
+" Mapping <tab> to fast switch between buffers
+nmap <silent> <tab> <c-^>
+
+" Minus browser
+nmap <silent> - :NERDTreeToggle %:h<cr>
+
+" Vim expand region mappings.
 vmap v <Plug>(expand_region_expand)
 vmap <c-v> <Plug>(expand_region_shrink)
 
-" == Switch ========
+" Folds
+" Mappings to easily toggle fold levels
+nnoremap z0 :set foldlevel=0<cr>
+nnoremap z1 :set foldlevel=1<cr>
+nnoremap z2 :set foldlevel=2<cr>
+nnoremap z3 :set foldlevel=3<cr>
+nnoremap z4 :set foldlevel=4<cr>
+nnoremap z5 :set foldlevel=5<cr>
+" }}}
+
+" {{{ Space mappings ==
 
 nmap <silent> <space>t :Switch<CR>
+
+" Better windows navigation
+nmap <space>H <c-w>H
+nmap <space>L <c-w>L
+nmap <space>J <c-w>J
+nmap <space>K <c-w>K
+nmap <space>h <c-w>h
+nmap <space>l <c-w>l
+nmap <space>j <c-w>j
+nmap <space>k <c-w>k
+
+" Openbrowser maps
+nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
+nmap <space>sr :OpenBrowserSearch -rust <c-r><c-w><cr>
+nmap <space>sg :OpenBrowserSearch -duckduckgo
+
+" Faster buffer operations
+nmap <silent> <space> <NOP>
+nmap <silent> <space>w  :w<CR>
+nmap <silent> <space>q  :q<CR>
+nmap <silent> <space>]  :bn<CR>
+nmap <silent> <space>[  :bp<CR>
+nmap <silent> <space>c  :bd<CR>
+nmap <silent> <space>d  :bp\|bd #<CR>
+nmap <silent> <space>(  :lne<CR>
+nmap <silent> <space>)  :lp<CR>
+
+" Copy paste to + register
+nmap <silent> <space>y "+yy
+vmap <silent> <space>y "+y
+nmap <silent> <space>p "+p
+nmap <silent> <space>pp "*p
+nmap <silent> <space>P "+P
+nmap <silent> <space>PP "*P
+
+" }}}
+
+" {{{ Autocmd mappings ====
 
 " {{{ C# and Unity, TODO: detect Unity project too
 autocmd FileType cs call s:csharp_unity_settings()
@@ -494,7 +372,7 @@ function SetVimPresentationMode()
 endfunction
 " }}}
 
-" }}} ===========================================================
+" }}}
 
 " {{{ 4.0 - Options
 
