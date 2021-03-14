@@ -35,19 +35,33 @@ Plug 'morhetz/gruvbox'
 " }}}
 
 Plug 'terryma/vim-expand-region'
-"Plug 'Floobits/floobits-neovim'
 Plug 'dzhou121/gonvim-fuzzy'
 Plug 'RRethy/vim-illuminate'
 Plug 'chrisbra/unicode.vim'
 
 "Plug 'critiqjo/lldb.nvim'
 
-" Buffers manager
+" {{{ Buffers stuff
+
+" Buffer manager: <leader>b and <m-b>/<m-B> to move around, see help for more - alive+
 Plug 'vim-scripts/Buffergator'
-Plug 'vim-scripts/BufOnly.vim'
+
+" Toggle true/false +=/-= and stuff - use <space>t - alive:- 
 Plug 'randomize/switch.vim'
+
+" Runs buffer contents as command - maps to <leader>r - alive:+++
 Plug 'thinca/vim-quickrun'
+
+" Enter resize mode with <c-e> - alive:+
 Plug 'simeji/winresizer'
+
+" <c-w>m toggle zoom mode like in tmux - alive:++
+Plug 'dhruvasagar/vim-zoom'
+
+" BufOnly command - alive:-
+Plug 'vim-scripts/BufOnly.vim'
+
+" }}}
 
 " Code alignment tool
 Plug 'godlygeek/tabular'
@@ -365,6 +379,8 @@ endfunction
 " {{{ Presentation in vim, detect and set goyo (thanks to Nick Janetakis)
 
 " Mappings to make Vim more friendly towards presenting slides.
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 autocmd BufNewFile,BufRead *.vpm call SetVimPresentationMode()
 function SetVimPresentationMode()
   nnoremap <buffer> <Right> :n<CR>
@@ -719,7 +735,7 @@ let g:undotree_SplitWidth = 40
 " }}}
 
 " {{{ Buffergator
-let g:buffergator_suppress_keymaps = 1
+"let g:buffergator_suppress_keymaps = 1
 " }}}
 
 " {{{ NERD Tree
@@ -780,7 +796,7 @@ command! -bang -nargs=* Rg
   \   <bang>0)
   " \ echomsg 'rg --column --line-number --no-heading --color=always -g "*.cs" <args>'
 " }}}
-"
+
 " {{{ Tiddly
 
 
@@ -806,6 +822,14 @@ let g:tiddlywiki_journal_format = '%d %B %Y'
 " username) on write - little bug here - need to have this not exist instead of =0
 "let g:tiddlywiki_autoupdate=0
 "
+" }}}
+
+" {{{ Telescope
+
+lua << EOF
+require('telescope').load_extension('fzy_native')
+EOF
+
 " }}}
 
 " }}}
@@ -840,23 +864,6 @@ iabbrev mename Eugene Mihailenco
 
 let g:snips_author = 'Eugene Mihailenco <emihailenco@protonmail.com>'
 
-" " Nice terminal colors
-" let g:terminal_color_0  = '#2e3436'
-" let g:terminal_color_1  = '#cc0000'
-" let g:terminal_color_2  = '#4e9a06'
-" let g:terminal_color_3  = '#c4a000'
-" let g:terminal_color_4  = '#3465a4'
-" let g:terminal_color_5  = '#75507b'
-" let g:terminal_color_6  = '#0b939b'
-" let g:terminal_color_7  = '#d3d7cf'
-" let g:terminal_color_8  = '#555753'
-" let g:terminal_color_9  = '#ef2929'
-" let g:terminal_color_10 = '#8ae234'
-" let g:terminal_color_11 = '#fce94f'
-" let g:terminal_color_12 = '#729fcf'
-" let g:terminal_color_13 = '#ad7fa8'
-" let g:terminal_color_14 = '#00f5e9'
-" let g:terminal_color_15 = '#eeeeec'
 " " }}}
 
 filetype plugin indent on
