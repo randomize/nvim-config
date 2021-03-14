@@ -119,6 +119,7 @@ Plug 'puremourning/vimspector'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'tomtom/tcomment_vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 " telescope requirements...
 Plug 'nvim-lua/popup.nvim'
@@ -135,7 +136,7 @@ endif
 
 
 " Tags
-" Plug 'majutsushi/tagbar'
+Plug 'preservim/tagbar'
 " Plug 'vim-scripts/taglist.vim'
 
 " Session save/restore
@@ -212,7 +213,7 @@ nmap <leader>sc :CloseSession<CR>
 nmap <leader>d :UndotreeToggle<CR>
 " set pastetoggle=<leader>[
 " nmap <leader>{ :TlistToggle<CR>
-" nmap <leader>} :TagbarToggle<CR>
+nmap <leader>o :TagbarToggle<CR>
 nmap <leader>b :BuffergatorToggle<CR>
 
 " cd-ing stuff
@@ -258,6 +259,8 @@ nnoremap <leader>uq <cmd>Telescope quickfix<cr>
 nnoremap <leader>um <cmd>Telescope marks<cr>
 nnoremap <leader>uz <cmd>Telescope spell_suggest<cr>
 nnoremap <leader>u/ <cmd>Telescope current_buffer_fuzzy_find<cr>
+nnoremap <leader>ur <cmd>Telescope oldfiles<cr>
+
 
 " == Ack ===========
 nnoremap <leader>a :Ack<space>
@@ -681,6 +684,7 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:startify_bookmarks = ['~/.config/nvim/init.vim','~/.profile','~/nfo/commands.txt',]
 let g:startify_change_to_dir = 0
 let g:startify_files_number = 8
+let g:startify_custom_indices = ['u', 'h', 'e', 't', 'o', 'n', 'a', 's', 'i', 'd', 'y', 'f', 'x']
 
 if has('unix')
     let g:startify_custom_header =
@@ -742,6 +746,28 @@ let g:openbrowser_search_engines = extend(
     \   'rust' : 'https://doc.rust-lang.org/std/?search={query}'
     \})
 " }}}
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = {
+        "javascript",
+        "html",
+        "css",
+        "bash",
+        "json",
+        "go",
+        "comment",
+        "c_sharp",
+        "cpp",
+        "rust",
+        "lua"
+    },
+    highlight = {
+        enable = true,
+        use_languagetree = true
+    }
+}
+EOF
 
 " {{{ ZFZ rg
 
