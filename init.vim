@@ -61,6 +61,9 @@ Plug 'dhruvasagar/vim-zoom'
 " BufOnly command - alive:-
 Plug 'vim-scripts/BufOnly.vim'
 
+" Tabs and :BufferClose
+Plug 'romgrk/barbar.nvim'
+
 " }}}
 
 " Code alignment tool
@@ -99,8 +102,11 @@ Plug 'vim-scripts/open-browser.vim'
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
 Plug 'itchyny/lightline.vim'
-Plug 'ryanoasis/vim-devicons'
 Plug 'jmcantrell/vim-virtualenv'
+
+" Icons
+Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -134,6 +140,10 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+" Database stuff
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 " telescope requirements...
 Plug 'nvim-lua/popup.nvim'
@@ -240,6 +250,10 @@ nmap <silent> <leader>n :nohls<CR>
 " Open config shortcut
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<CR>
 
+" Urlencode/decode
+vnoremap <leader>en :!python -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.stdin.read().strip()))'<cr>
+vnoremap <leader>de :!python -c 'import sys,urllib.parse;print(urllib.parse.unquote(sys.stdin.read().strip()))'<cr>
+
 " === Tabular ===
 
 nmap <leader>tf :Tabularize / \w\+;/l0<CR>
@@ -274,6 +288,9 @@ nnoremap <leader>um <cmd>Telescope marks<cr>
 nnoremap <leader>uz <cmd>Telescope spell_suggest<cr>
 nnoremap <leader>u/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <leader>ur <cmd>Telescope oldfiles<cr>
+
+nnoremap <c-enter> <cmd>Telescope buffers<cr>
+" inoremap <c-enter> <cmd>Telescope buffers<cr>
 
 
 " == Ack ===========
@@ -347,11 +364,13 @@ nmap <silent> <space>)  :lp<CR>
 
 " Copy paste to + register
 nmap <silent> <space>y "+yy
-vmap <silent> <space>y "+y
 nmap <silent> <space>p "+p
 nmap <silent> <space>pp "*p
 nmap <silent> <space>P "+P
 nmap <silent> <space>PP "*P
+
+" Barbar
+nmap <space><space> :BufferPick<CR>
 
 " }}}
 
@@ -831,6 +850,10 @@ require('telescope').load_extension('fzy_native')
 EOF
 
 " }}}
+"
+
+" Dadbod
+let g:db_ui_use_nerd_fonts=1
 
 " }}}
 
