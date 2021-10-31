@@ -32,6 +32,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'morhetz/gruvbox'
 "Plug 'nanotech/jellybeans.vim'
 "Plug 'rafi/awesome-vim-colorschemes'
+Plug 'EdenEast/nightfox.nvim'
 " }}}
 
 Plug 'terryma/vim-expand-region'
@@ -475,8 +476,10 @@ set grepformat^=%f:%l:%c:%m
 
 " {{{ 5.0 - Appearence
 " silent! colorscheme molokai
-let g:gruvbox_italic=1
-autocmd vimenter * ++nested colorscheme gruvbox
+"let g:gruvbox_italic=1
+"autocmd vimenter * ++nested colorscheme gruvbox
+colorscheme nightfox
+
 " }}}
 
 " {{{ 6.0 - Plugins Settings
@@ -641,7 +644,7 @@ nnoremap <silent><nowait> <space>bp  :<C-u>CocListResume<CR>
 
 " LightLine {{{
 let g:lightline = {
-      \ 'colorscheme': 'powerline',
+      \ 'colorscheme': 'nightfox',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'cocstatus', 'gitbranch', 'readonly', 'filename', 'modified' ] ],
