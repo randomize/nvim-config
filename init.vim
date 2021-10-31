@@ -279,6 +279,7 @@ nmap <leader>t= :Tabularize /=<cr>
 " nnoremap <space>/ :Denite -start-filter grep:.<cr>
 
 nnoremap <leader>uf <cmd>Telescope find_files<cr>
+nnoremap <leader>us <cmd>Telescope grep_string<cr>
 nnoremap <leader>ug <cmd>Telescope live_grep<cr>
 nnoremap <leader>up <cmd>Telescope git_files<cr>
 nnoremap <leader>ub <cmd>Telescope buffers<cr>
