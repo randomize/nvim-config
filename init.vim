@@ -70,6 +70,9 @@ Plug 'romgrk/barbar.nvim'
 " Code alignment tool
 Plug 'godlygeek/tabular'
 
+" Formatting tool
+Plug 'sbdchd/neoformat'
+
 " Super increment
 Plug 'vim-scripts/VisIncr'
 
@@ -176,7 +179,7 @@ Plug 'mhinz/vim-startify'
 " {{{ Language specific
 " C++
 " Formatting with clanfg format
-Plug 'rhysd/vim-clang-format'
+"Plug 'rhysd/vim-clang-format'
 
 " C# support
 Plug 'OrangeT/vim-csharp'
