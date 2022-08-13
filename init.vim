@@ -124,6 +124,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'elzr/vim-json', { 'for': 'json'}
 Plug 'tridactyl/vim-tridactyl', { 'for': 'tridactyl' }
 Plug 'beyondmarc/hlsl.vim', { 'for': 'hlsl' }
+Plug 'meatballs/vim-xonsh'
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -181,6 +182,7 @@ Plug 'mhinz/vim-startify'
 
 " Life coding
 "Plug 'metakirby5/codi.vim'
+Plug 'sillybun/vim-repl'
 
 
 " {{{ Language specific
@@ -472,7 +474,7 @@ set listchars+=extends:❯
 set listchars+=precedes:❮
 set listchars+=trail:⋅
 set listchars+=nbsp:⋅
-set listchars+=tab:\|\
+set listchars+=tab:\|\⋅
 
 " Keep some spacing.
 set sidescrolloff=1
@@ -637,6 +639,31 @@ let g:openbrowser_search_engines = extend(
     \})
 " }}}
 
+set foldlevel=20
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = {
+        "javascript",
+        "html",
+        "css",
+        "bash",
+        "json",
+        "go",
+        "comment",
+        "c_sharp",
+        "cpp",
+        "rust",
+        "lua"
+    },
+    highlight = {
+        enable = true,
+        use_languagetree = true
+    }
+}
+EOF
 
 " {{{ ZFZ rg
 
