@@ -123,6 +123,7 @@ Plug 'BullyEntertainment/cg.vim', { 'for': 'cg' }
 Plug 'sheerun/vim-polyglot'
 Plug 'elzr/vim-json', { 'for': 'json'}
 Plug 'tridactyl/vim-tridactyl', { 'for': 'tridactyl' }
+Plug 'beyondmarc/hlsl.vim', { 'for': 'hlsl' }
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -148,6 +149,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'wsdjeg/vim-fetch' " To suport line/column specs like: file.cs:42:4
 
 " Database stuff
 Plug 'tpope/vim-dadbod'
@@ -166,6 +168,7 @@ elseif g:os == "Linux"
     Plug '/usr/share/vim/vimfiles/plugin/fzf.vim' | Plug 'junegunn/fzf.vim'
 endif
 
+Plug 'LhKipp/nvim-nu', {'do': ':TSInstall nu'}
 
 " Tags
 Plug 'preservim/tagbar'
@@ -371,12 +374,13 @@ nmap <silent> <space>d  :bp\|bd #<CR>
 nmap <silent> <space>(  :lne<CR>
 nmap <silent> <space>)  :lp<CR>
 
+nmap <silent> <c-j>  :bn<CR>
+nmap <silent> <c-k>  :bp<CR>
+
 " Copy paste to + register
 nmap <silent> <space>y "+yy
-nmap <silent> <space>p "+p
-nmap <silent> <space>pp "*p
-nmap <silent> <space>P "+P
-nmap <silent> <space>PP "*P
+nmap <silent> <space>p "+P
+nmap <silent> <space>P "*P
 
 " Barbar
 nmap <space><space> :BufferPick<CR>
@@ -503,7 +507,7 @@ let g:lightline = {
       \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
+      \   'gitbranch': 'FugitiveHead'
       \ },
       \ 'component': {
       \   'charvaluehex': '0x%B'
@@ -544,8 +548,8 @@ let g:UltiSnipsEnableSnipMate = 1
 "let g:UltiSnipsUsePythonVersion = 2
 let g:UltiSnipsEditSplit = 'context'
 let g:UltiSnipsExpandTrigger = '<c-l>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-j>'
-let g:UltiSnipsJumpForwardTrigger = '<c-k>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-J>'
+let g:UltiSnipsJumpForwardTrigger = '<c-K>'
 let g:UltiSnipsSnippetDirectories = ['Ultisnips']
 " }}} UltiSnips
 
@@ -639,13 +643,19 @@ require'nvim-treesitter.configs'.setup {
         "javascript",
         "html",
         "css",
+        "glsl",
         "bash",
+        "make",
+        "markdown",
         "json",
         "go",
         "comment",
+        "c",
         "c_sharp",
         "cpp",
         "rust",
+        "ruby",
+        "yaml",
         "lua"
     },
     highlight = {
@@ -809,11 +819,16 @@ cmp.setup {
 
 -- omnisharp lsp config
 require'lspconfig'.omnisharp.setup {
-  capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
   on_attach = on_attach,
   -- on_attach = function(_, bufnr)
     -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- end,
   cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(pid) },
 }
+
+require('nu').setup({
+    complete_cmd_names = false, -- requires https://github.com/jose-elias-alvarez/null-ls.nvim
+})
+
 EOF
