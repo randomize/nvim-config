@@ -1,0 +1,3 @@
+require("randy")
+
+--print("Hello")
