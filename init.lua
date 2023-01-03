@@ -1,3 +1,1 @@
 require("randy")
-
---print("Hello")
