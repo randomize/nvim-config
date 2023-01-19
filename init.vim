@@ -754,8 +754,9 @@ let g:snips_author = 'Eugene Mihailenco <emihailenco@protonmail.com>'
 filetype plugin indent on
 syntax on
 
-lua require 'lspsetup'
+"lua require 'lspsetup'
 
+lua <<EOF
 require'lspconfig'.pyright.setup{}
 
 -- Mappings.
