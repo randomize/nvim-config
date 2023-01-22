@@ -11,6 +11,7 @@ return require('packer').startup(function(use)
     requires = { {'nvim-lua/plenary.nvim'} }
   }
 
+
   use({
      'rose-pine/neovim',
      as = 'rose-pine',
@@ -19,11 +20,21 @@ return require('packer').startup(function(use)
      end
   })
 
-  use({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
-  use('nvim-treesitter/playground')
-  use('theprimeagen/harpoon')
-  use('mbbill/undotree')
-  use('tpope/vim-fugitive')
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', }
+  use {'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter', }
+  use 'nvim-treesitter/playground'
+
+  use 'theprimeagen/harpoon'
+  use 'mbbill/undotree'
+
+  use 'tpope/vim-fugitive'
+  use 'lewis6991/gitsigns.nvim'
+
+  -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+
+  use 'numToStr/Comment.nvim'
+  use 'kylechui/nvim-surround'
 
   use {
     'VonHeikemen/lsp-zero.nvim',
