@@ -10,6 +10,11 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+vim.keymap.set("n", "<space>q", ":q<CR>")
+vim.keymap.set("n", "<space>Q", ":qa!<CR>")
+vim.keymap.set("n", "<space>w", ":w<CR>")
+vim.keymap.set("n", "<space>W", ":wa<CR>")
+
 vim.keymap.set("n", "<leader>vwm", function()
     require("vim-with-me").StartVimWithMe()
 end)
