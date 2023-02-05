@@ -4,7 +4,7 @@ return {
     requires = { 'nvim-tree/nvim-web-devicons' },
     lazy = false,
     config = function ()
-      require'alpha'.setup(require'ara.alpha-theme'.config)
+      require'alpha'.setup(require'randy.alpha-theme'.config)
     end
   }
 }
