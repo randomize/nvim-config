@@ -3,7 +3,7 @@ local opt = vim.opt
 opt.guicursor = ""
 
 opt.nu = true
-opt.numbers = true
+--opt.numbers = true
 opt.relativenumber = true
 
 opt.tabstop = 4
