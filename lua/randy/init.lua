@@ -18,7 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   spec = {
-    { import = "ara.plugins" }
+    { import = "randy.plugins" }
   },
   defaults = {
     lazy = true, -- determines if every plugin is lazy-loaded by default

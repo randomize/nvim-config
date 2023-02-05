@@ -62,7 +62,7 @@ opt.sidescroll = 8
 
 opt.foldcolumn = '0'
 opt.foldlevel = 99 -- using ufo provider needs a large value
-opt.foldelevelstart = 99
+--opt.foldelevelstart = 99
 opt.foldenable = true
 
 -- opt.winbar = "%f"
