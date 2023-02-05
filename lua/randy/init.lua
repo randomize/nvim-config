@@ -1,6 +1,7 @@
 --require("randy.packer")
 require("randy.set")
 require("randy.remap")
+require("randy.autos")
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

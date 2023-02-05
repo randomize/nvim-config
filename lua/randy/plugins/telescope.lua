@@ -7,64 +7,64 @@ return {
     version = false, -- telescope did only one release, so use HEAD for now
     keys = {
       {
-        "<leader>?",
+        "<leader>ur",
         function()
           require("telescope.builtin").oldfiles()
         end,
-        desc = "[?] Find recently opened files",
+        desc = "Find [r]ecently opened files",
       },
       {
-        "<leader><space>",
+        "<leader>uu",
         function()
           require("telescope.builtin").resume()
         end,
-        desc = "Resume last picker",
+        desc = "[u] Resume last picker",
       },
-      { "<C-S-P>", ":Telescope<CR>", { noremap = true, silent = true, desc = "Telescope" } },
+      { "<leader>ut", ":Telescope<CR>", { noremap = true, silent = true, desc = "Telescope" } },
       {
-        "<C-p>",
+        "<leader>uf",
         function()
           require("telescope.builtin").find_files({ hidden = false, no_ignore = true })
         end,
-        desc = "Search Files",
+        desc = "Search [f]iles",
       },
       {
-        ";",
+        "<leader>ub",
         function()
           require("telescope.builtin").buffers()
         end,
-        desc = "Search buffers",
+        desc = "Search [b]uffers",
       },
       {
-        "<leader>sh",
+        "<leader>uh",
         function()
           require("telescope.builtin").help_tags()
         end,
-        desc = "[S]earch [H]elp",
+        desc = "Search [h]elp",
       },
       {
-        "<leader>sw",
+        "<leader>us",
         function()
           require("telescope.builtin").grep_string()
         end,
-        desc = "[S]earch current [W]ord",
+        desc = "[s]earch current word",
       },
       {
-        "<leader>/",
+        "<leader>ug",
         function()
           require("telescope.builtin").live_grep()
         end,
-        desc = "[S]earch by [G]rep",
+        desc = "Search by [g]rep",
       },
       {
-        "<leader>sd",
+        "<leader>ud",
         function()
           require("telescope.builtin").diagnostics()
         end,
-        desc = "[S]earch [D]iagnostics",
+        desc = "Search [d]iagnostics",
       },
       {
-        "<leader>sb",
+        "<leader>uc",
         function()
           -- You can pass additional configuration to telescope to change theme, layout, etc.
           require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -72,7 +72,7 @@ return {
             previewer = false,
           }))
         end,
-        desc = "Fuzzily [s]earch in current [b]uffer]",
+        desc = "Fuzzily search in [c]urrent buffer",
       },
     },
     opts = {
