@@ -26,6 +26,7 @@ return require('packer').startup(function(use)
 
   use 'theprimeagen/harpoon'
   use 'mbbill/undotree'
+  use 'sbdchd/neoformat'
 
   use 'tpope/vim-fugitive'
   use 'lewis6991/gitsigns.nvim'
