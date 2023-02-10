@@ -1,40 +1,78 @@
 local opt = vim.opt
 
 opt.guicursor = ""
+opt.guifont = "Iosevka Nerd Font Mono:style=Bold:h12"
 
-opt.nu = true
---opt.numbers = true
+opt.hlsearch = true
+opt.ignorecase = true
+opt.incsearch = true
+opt.smartcase = true
+opt.inccommand = "split"
+
+opt.number = true
 opt.relativenumber = true
+opt.wrap = false
+opt.textwidth = 0
+opt.ruler = true
+opt.colorcolumn = "80"
 
 opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
-
+opt.smarttab = true
 opt.smartindent = true
+opt.autoindent = true
 
-opt.wrap = false
+opt.virtualedit = "all"
+
+opt.hidden = true
+opt.confirm = true -- Ask to save unsaved hidden buffers when quitting the app
+opt.splitbelow = true
+opt.splitright = true
+
+vim.opt.fillchars = {
+    fold = " ",
+    eob = " ", -- suppress ~ at EndOfBuffer
+    diff = "╱", -- alternatives = ⣿ ░ ─
+    msgsep = "‾",
+    foldopen = "▾",
+    foldsep = "│",
+    foldclose = "▸",
+    horiz = "━",
+    horizup = "┻",
+    horizdown = "┳",
+    vert = "┃",
+    vertleft = "┫",
+    vertright = "┣",
+    verthoriz = "╋",
+}
+
+vim.opt.listchars = {
+    eol = nil,
+    tab = "│ ",
+    extends = "›", -- Alternatives: … »
+    precedes = "‹", -- Alternatives: … «
+    trail = "•", -- BULLET (U+2022, UTF-8: E2 80 A2)
+}
 
 opt.swapfile = false
 opt.backup = false
-opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+local path = os.getenv("HOME") .. "/.vim/undodir";
+opt.undodir = path
+
 opt.undofile = true
 
-opt.hlsearch = false
-opt.incsearch = true
 
 opt.termguicolors = true
 
 --opt.scrolloff = 8 -- Keep cursor 8 lines/columns ahead before scrolling
 opt.signcolumn = 'yes' -- Always show the sign column, otherwise it would shift the text
-opt.virtualedit = "all"
 opt.isfname:append("@-@") -- ??
 
 opt.updatetime = 50
 
-opt.colorcolumn = "80"
 
-opt.guifont = "Iosevka:h10"
 
 opt.clipboard = '' -- Separate neovim and system clipboard
 opt.conceallevel = 0 -- So that `` is visible in markdown files
@@ -45,14 +83,9 @@ opt.breakindent = true -- Enable break indent
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.cmdheight = 1
 opt.undolevels = 10000
-opt.confirm = true -- Ask to save unsaved hidden buffers when quitting the app
-opt.ignorecase = true
-opt.smartcase = true -- Case insensitive searching UNLESS /C or capital in search
 opt.spelllang = { "en" } -- set the default languages for spell checking
 opt.timeoutlen = 300
 opt.wildmode = "longest:full,full" -- Command-line completion mode
-opt.listchars = 'eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣'
-opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 opt.showmode = false -- We don't need to see things like -- INSERT -- anymore
 opt.showtabline = 1 -- Show tabs only if there are at least two tab pages
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
