@@ -15,7 +15,7 @@ return {
             },
             style = "storm",
             transparent = true,
-            sidebars = { "qf", "help", "Whichkey"},
+            sidebars = { "qf", "help", "Whichkey" },
             dim_inactive = true,
             hide_inactive_statusline = false,
             -- on_highlights = function(hl, c)

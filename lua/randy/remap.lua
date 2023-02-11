@@ -30,10 +30,10 @@ vim.keymap.set("c", "%%", "<C-R>=expand('%:h').'/'<CR> ", { silent = true })
 vim.keymap.set("n", "<tab>", "<c-^>", { silent = true })
 
 vim.keymap.set("n", "<leader>vwm", function()
-  require("vim-with-me").StartVimWithMe()
+    require("vim-with-me").StartVimWithMe()
 end)
 vim.keymap.set("n", "<leader>svwm", function()
-  require("vim-with-me").StopVimWithMe()
+    require("vim-with-me").StopVimWithMe()
 end)
 
 -- greatest remap ever
