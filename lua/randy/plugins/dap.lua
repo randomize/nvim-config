@@ -48,7 +48,7 @@ return {
       map('<F12>', ':lua require("dap").step_out()<CR>', 'Step out')
       map('<F9>', ':lua require("dap").toggle_breakpoint()<CR>', 'Toggle Breakpoint')
       map('<Leader>gB', ':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>', 'Set Breakpoint Condition')
-      map('<Leader>glp', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>', 'Set Log Point')
+      --map('<Leader>glp', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>', 'Set Log Point')
       map('<Leader>gr', ':lua require("dap").repl.open()<CR>', 'Open Debug Repl')
       map('<Leader>gl', ':lua require("dap").run_last()<CR>', 'Run Last Session')
 

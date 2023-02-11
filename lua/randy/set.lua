@@ -14,7 +14,7 @@ opt.relativenumber = true
 opt.wrap = false
 opt.textwidth = 0
 opt.ruler = true
-opt.colorcolumn = "80"
+-- opt.colorcolumn = "80"
 
 opt.tabstop = 4
 opt.softtabstop = 4
@@ -58,26 +58,23 @@ vim.opt.listchars = {
 
 opt.swapfile = false
 opt.backup = false
-local path = os.getenv("HOME") .. "/.vim/undodir";
+local path = os.getenv("HOME") .. "/.vim/undodir"
 opt.undodir = path
 
 opt.undofile = true
 
-
 opt.termguicolors = true
 
 --opt.scrolloff = 8 -- Keep cursor 8 lines/columns ahead before scrolling
-opt.signcolumn = 'yes' -- Always show the sign column, otherwise it would shift the text
+opt.signcolumn = "yes" -- Always show the sign column, otherwise it would shift the text
 opt.isfname:append("@-@") -- ??
 
 opt.updatetime = 50
 
-
-
-opt.clipboard = '' -- Separate neovim and system clipboard
+opt.clipboard = "" -- Separate neovim and system clipboard
 opt.conceallevel = 0 -- So that `` is visible in markdown files
-opt.fileencoding = 'utf-8' -- The encoding written to a file
-opt.mouse = 'a' -- Enable mouse mode
+opt.fileencoding = "utf-8" -- The encoding written to a file
+opt.mouse = "a" -- Enable mouse mode
 opt.cursorline = false -- Highlight the text line of the cursor
 opt.breakindent = true -- Enable break indent
 opt.formatoptions = "jcroqlnt" -- tcqj
@@ -90,10 +87,10 @@ opt.showmode = false -- We don't need to see things like -- INSERT -- anymore
 opt.showtabline = 1 -- Show tabs only if there are at least two tab pages
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 opt.spell = true -- Spell check in comments
-opt.completeopt = 'menuone,noselect' -- Set completeopt to have a better completion experience
+opt.completeopt = "menuone,noselect" -- Set completeopt to have a better completion experience
 opt.sidescroll = 8
 
-opt.foldcolumn = '0'
+opt.foldcolumn = "0"
 opt.foldlevel = 99 -- using ufo provider needs a large value
 --opt.foldelevelstart = 99
 opt.foldenable = true
@@ -123,4 +120,3 @@ vim.g.netrw_winsize = 25
 -- vim.g.loaded_zipPlugin = true -- disable zip
 -- vim.g.loaded_vimball = true -- disable vimball
 -- vim.g.loaded_vimballPlugin = true -- disable vimball
-

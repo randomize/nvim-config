@@ -1,46 +1,26 @@
--- Highlight on yank
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
-
--- -- resize splits if window got resized
--- vim.api.nvim_create_autocmd({ "VimResized" }, {
+-- Highlight on yank - Aronne's version
+-- local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+-- vim.api.nvim_create_autocmd('TextYankPost', {
 --   callback = function()
---     vim.cmd("tabdo wincmd =")
+--     vim.highlight.on_yank()
 --   end,
+--   group = highlight_group,
+--   pattern = '*',
 -- })
 
--- go to last loc when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
-  callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
-})
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
 
--- close some filetypes with <q>
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = {
-    "qf",
-    "help",
-    "man",
-    "notify",
-    "lspinfo",
-    "spectre_panel",
-    "startuptime",
-    "tsplayground",
-    "PlenaryTestPopup",
-  },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
-  end,
+local yank_group = augroup("HighlightYank", {})
+
+autocmd("TextYankPost", {
+    group = yank_group,
+    pattern = "*",
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = "IncSearch",
+            -- on_visual = false,
+            timeout = 200,
+        })
+    end,
 })

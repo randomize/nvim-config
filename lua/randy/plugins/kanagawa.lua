@@ -2,7 +2,7 @@ return {
   -- kanagawa color scheme
   {
     "rebelot/kanagawa.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     config = function(_, opts)
       require("kanagawa").setup(opts)
