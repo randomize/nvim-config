@@ -28,7 +28,6 @@ return {
       },
     },
     config = function(_, opts)
-      -- use gz mappings instead of s to prevent conflict with leap
       require("mini.surround").setup(opts)
     end,
   },

@@ -8,7 +8,7 @@ return {
     },
     cmd = "Neotree",
     keys = {
-      { "<leader>e", "<cmd>Neotree float toggle reveal=true<CR>", desc = "File Explorer" },
+      { "-", "<cmd>Neotree float toggle reveal=true<CR>", desc = "File Explorer" },
     },
     init = function()
       vim.g.neo_tree_remove_legacy_commands = 1
