@@ -83,6 +83,49 @@ return {
                 end,
                 desc = "Fuzzily search in [c]urrent buffer",
             },
+            {
+                "<leader>up",
+                function()
+                    require("telescope.builtin").git_files()
+                end,
+                desc = "Fuzzily search in git files [p]",
+            },
+            {
+                "<leader>uc",
+                function()
+                    require("telescope.builtin").command_history()
+                end,
+                desc = "Fuzzily search [c]ommand history",
+            },
+            {
+                "<leader>uq",
+                function()
+                    require("telescope.builtin").quickfix()
+                end,
+                desc = "Fuzzily search [q]uickfix history",
+            },
+            {
+                "<leader>um",
+                function()
+                    require("telescope.builtin").marks()
+                end,
+                desc = "Fuzzily search [m]arks",
+            },
+            {
+                "<leader>uz",
+                function()
+                    require("telescope.builtin").spell_suggest()
+                end,
+                desc = "Fuzzily search [m]arks",
+            },
+            {
+                "<leader>u/",
+                function()
+                    require("telescope.builtin").current_buffer_fuzzy_find()
+                end,
+                desc = "Fuzzily search in buffer /",
+            },
+            -- nnoremap <c-enter> <cmd>Telescope buffers<cr>
         },
         opts = {
             defaults = {
