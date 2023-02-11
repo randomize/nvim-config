@@ -15,6 +15,13 @@ vim.keymap.set("n", "<space>Q", ":qa!<CR>")
 vim.keymap.set("n", "<space>w", ":w<CR>")
 vim.keymap.set("n", "<space>W", ":wa<CR>")
 
+-- When entering command, press %% to quickly insert current path
+vim.keymap.set("c", "%%", "<C-R>=expand('%:h').'/'<CR>", {silent = true })
+
+
+vim.keymap.set("n", "<tab>", "<c-^>", { silent = true })
+
+
 vim.keymap.set("n", "<leader>vwm", function()
     require("vim-with-me").StartVimWithMe()
 end)

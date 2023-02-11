@@ -57,7 +57,12 @@ return {
       -- Open/Close dapui windows automatically when starting/stopping debugging
 
       local dapui = require("dapui")
-      dapui.setup({})
+      dapui.setup({
+                controls = {
+                    element = "repl",
+                    enabled = false,
+                },
+            })
 
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open({})
