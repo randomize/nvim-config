@@ -59,3 +59,15 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 -- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+vim.keymap.set("n", "<leader>w", "<cmd>set wrap!<CR>")
+
+
+-- Folds
+-- Mappings to easily toggle fold levels
+vim.keymap.set("n", "z0", "<cmd>set foldlevel=0<cr>")
+vim.keymap.set("n", "z1", "<cmd>set foldlevel=1<cr>")
+vim.keymap.set("n", "z2", "<cmd>set foldlevel=2<cr>")
+vim.keymap.set("n", "z3", "<cmd>set foldlevel=3<cr>")
+vim.keymap.set("n", "z4", "<cmd>set foldlevel=4<cr>")
+vim.keymap.set("n", "z5", "<cmd>set foldlevel=5<cr>")
+

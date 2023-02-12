@@ -52,8 +52,8 @@ local on_attach = function(_, bufnr)
     nmap("<leader>r", vim.lsp.buf.rename, "[R]ename")
     -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
-    nmap("<space>a", vim.lsp.buf.code_action, "[C]ode [A]ction")
-    nmap("<space>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+    nmap("<space>a", vim.lsp.buf.code_action, "Code [A]ction")
+    -- nmap("<space>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
     nmap("<space>g", vim.lsp.buf.definition, "[G]oto [D]efinition")
     nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
