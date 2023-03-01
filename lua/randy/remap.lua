@@ -9,14 +9,12 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<space>q", ":q<CR>")
-vim.keymap.set("n", "<space>Q", ":qa!<CR>")
-vim.keymap.set("n", "<space>w", ":w<CR>")
-vim.keymap.set("n", "<space>W", ":wa<CR>")
+vim.keymap.set("n", "<space>q", "<cmd>q<CR>", { silent = true, desc = 'Quit'})
+vim.keymap.set("n", "<space>Q", "<cmd>qa!<CR>", { silent = true, desc = 'Force Quit'})
+vim.keymap.set("n", "<space>w", "<cmd>w<CR>", { silent = true, desc = 'Write'})
+vim.keymap.set("n", "<space>W", "<cmd>wa<CR>", { silent = true, desc = 'Write All'})
 
 --vim.keymap.set("n", "<space>", "<NOP>")
-vim.keymap.set("n", "<space>w", ":w<CR>")
-vim.keymap.set("n", "<space>q", ":q<CR>")
 vim.keymap.set("n", "<space>]", ":bn<CR>")
 vim.keymap.set("n", "<space>[", ":bp<CR>")
 vim.keymap.set("n", "<space>c", ":bd<CR>")
@@ -61,6 +59,9 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 -- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 vim.keymap.set("n", "<leader>w", "<cmd>set wrap!<CR>")
 
+-- Switch to the directory of the open buffer
+vim.keymap.set('n', '<Leader>cd', '<cmd>lcd %:p:h<CR>:pwd<CR>')
+vim.keymap.set('n', '<leader>ev', '<cmd>vsplit $MYVIMRC<CR>',{noremap = true})
 
 -- Folds
 -- Mappings to easily toggle fold levels

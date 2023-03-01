@@ -11,6 +11,7 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             { "nvim-telescope/telescope-media-files.nvim", config = le("media_files") },
+            { "debugloop/telescope-undo.nvim", config = le("undo") },
         },
         cmd = "Telescope",
         version = false, -- telescope did only one release, so use HEAD for now
@@ -125,6 +126,13 @@ return {
                 end,
                 desc = "Fuzzily search in buffer /",
             },
+            {
+                "<leader>un",
+                function()
+                    require("telescope").extensions.undo.undo()
+                end,
+                desc = "Fuzzily [un]do in buffer",
+            },
             -- nnoremap <c-enter> <cmd>Telescope buffers<cr>
         },
         opts = {
@@ -154,6 +162,9 @@ return {
                     filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
                     find_cmd = "rg", -- find command (defaults to `fd`)
                 },
+                undo = {
+
+                }
             },
             pickers = {
                 find_files = {
