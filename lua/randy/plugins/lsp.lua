@@ -1,51 +1,9 @@
-local install_servers = {
-    jsonls = {
-        -- lazy-load schemastore when needed
-        on_new_config = function(new_config)
-            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-            vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-        end,
-        settings = {
-            json = {
-                format = {
-                    enable = true,
-                },
-                validate = { enable = true },
-            },
-        },
-    },
-    clangd = {},
-    gopls = {},
-    omnisharp = {
-        -- enable_editorconfig_support = true,
-        enable_roslyn_analyzers = false,
-        -- enable_import_completion = false,
-        filetypes = { "cs", "csx", "vb" },
-    },
-    pyright = {},
-    rust_analyzer = {},
-    tsserver = {},
-    sumneko_lua = {
-        Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-        },
-    },
-}
+local custom_mappings_on_attach = function(_, bufnr)
 
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
-    -- NOTE: Remember that lua is a real programming language, and as such it is possible
-    -- to define small helper and utility functions so you don't have to repeat yourself
-    -- many times.
-    --
-    -- In this case, we create a function that lets us more easily define mappings specific
-    -- for LSP related items. It sets the mode, buffer and description for us each time.
     local nmap = function(keys, func, desc)
         if desc then
             desc = "LSP: " .. desc
         end
-
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
     end
 
@@ -65,7 +23,7 @@ local on_attach = function(_, bufnr)
     nmap("gu", require("telescope.builtin").lsp_references, "Search Usages")
 
     -- See `:help K` for why this keymap
-    nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+    nmap("K", vim.lsp.buf.hover, "Hover Do[K]umentation")
     nmap("<leader>k", vim.lsp.buf.hover, "Hover Documentation")
     nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
@@ -84,148 +42,67 @@ local on_attach = function(_, bufnr)
 end
 
 return {
-    -- lspconfig
-    {
-        "neovim/nvim-lspconfig",
-        event = "BufReadPre",
+    { 
+        "VonHeikemen/lsp-zero.nvim",
         dependencies = {
-            { "folke/neoconf.nvim",   cmd = "Neoconf",                                config = true },
-            { "folke/neodev.nvim",    opts = { experimental = { pathStrict = true } } },
-            { "b0o/SchemaStore.nvim", version = false }, -- last release is way too old
-            "jose-elias-alvarez/typescript.nvim",
+            "neovim/nvim-lspconfig",
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
+            "hrsh7th/nvim-cmp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lua",
+            "L3MON4D3/LuaSnip",
+            "rafamadriz/friendly-snippets",
+            { "lukas-reineke/lsp-format.nvim", config = true },
         },
-        ---@class PluginLspOpts
-        opts = {
-            diagnostics = {
-                underline = true,
-                update_in_insert = false,
-                virtual_text = { spacing = 4, prefix = "●" },
-                severity_sort = true,
-            },
-            servers = install_servers,
-            -- you can do any additional lsp server setup here
-            -- return true if you don't want this server to be setup with lspconfig
-            setup = {
-                -- setup for typescript.nvim
-                tsserver = function(_, opts)
-                    require("typescript").setup({ server = opts })
-                    return true
-                end,
-                -- Specify * to use this function as a fallback for any server
-                -- ["*"] = function(server, opts) end,
-            },
-        },
-        ---@param opts PluginLspOpts
-        config = function(_, opts)
-            -- -- setup formatting and keymaps
-            -- require("lazyvim.util").on_attach(function(client, buffer)
-            --   require("lazyvim.plugins.lsp.format").on_attach(client, buffer)
-            --   require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
-            -- end)
+        lazy = false,
+        config = function()
+            local lsp = require("lsp-zero")
+            lsp.preset("recommended")
+            lsp.on_attach(function(client, bufnr)
+                --require("lsp-format").on_attach(client, bufnr)
+                custom_mappings_on_attach(client, bufnr)
+            end)
+            lsp.nvim_workspace()
 
-            -- diagnostics
-            local signs = { Error = "● ", Warn = "● ", Hint = " ", Info = " " }
-            for name, icon in pairs(signs) do
-                name = "DiagnosticSign" .. name
-                vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-            end
-            vim.diagnostic.config(opts.diagnostics)
-
-            local servers = opts.servers
-            local capabilities =
-                require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-            require("mason-lspconfig").setup({ ensure_installed = vim.tbl_keys(servers) })
-            require("mason-lspconfig").setup_handlers({
-                function(server)
-                    local server_opts = servers[server] or {}
-                    server_opts.capabilities = capabilities
-                    if opts.setup[server] then
-                        if opts.setup[server](server, server_opts) then
-                            return
-                        end
-                    elseif opts.setup["*"] then
-                        if opts.setup["*"](server, server_opts) then
-                            return
-                        end
-                    end
-
-                    -- Use omnishart_extended to be able to decompile/go to definition of 3rd party libraries
-                    if server == "omnisharp" then
-                        server_opts.handlers = {
-                            ["textDocument/definition"] = require("omnisharp_extended").handler,
-                        }
-                    end
-
-                    server_opts.on_attach = on_attach
-                    require("lspconfig")[server].setup(server_opts)
-                end,
+            lsp.ensure_installed({
+                'tsserver',
+                'rust_analyzer',
+                'lua_ls',
             })
-        end,
-    },
 
-    -- formatters
-    {
-        "jose-elias-alvarez/null-ls.nvim",
-        event = "BufReadPre",
-        dependencies = { "mason.nvim" },
-        opts = function()
-            local nls = require("null-ls")
-            return {
-                sources = {
-                    nls.builtins.formatting.prettierd,
-                    nls.builtins.formatting.stylua,
-                    nls.builtins.diagnostics.flake8,
-                    -- the following requires the jose-elias-alvarez/typescript.nvim plugin
-                    require("typescript.extensions.null-ls.code-actions"),
+            lsp.configure('lua_ls', {
+                on_attach = function(client, bufnr)
+                    print('hello lua_ls')
+                end,
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                            version = 'LuaJIT',
+                        },
+                        diagnostics = {
+                            -- Get the language server to recognize the `vim` global
+                            globals = {'vim'},
+                        },
+                        workspace = {
+                            -- Make the server aware of Neovim runtime files
+                            library = vim.api.nvim_get_runtime_file("", true),
+                        },
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
                 },
-            }
-        end,
-    },
+            })
 
-    -- cmdline tools and lsp servers
-    {
+            lsp.setup()
+            vim.diagnostic.config { virtual_text = true }
 
-        "williamboman/mason.nvim",
-        cmd = "Mason",
-        -- keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-        opts = {
-            ensure_installed = vim.tbl_keys(install_servers),
-        },
-        -- ---@param opts MasonSettings | {ensure_installed: string[]}
-        -- config = function(_, opts)
-        --   require("mason").setup(opts)
-        --   local mr = require("mason-registry")
-        --   for _, tool in ipairs(opts.ensure_installed) do
-        --     local p = mr.get_package(tool)
-        --     if not p:is_installed() then
-        --       p:install()
-        --     end
-        --   end
-        -- end,
-    },
-    { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true, event = "VeryLazy" },
+        end
+    }
 }
--- return {
---   {
---     -- LSP Configuration & Plugins
---     'neovim/nvim-lspconfig',
---     dependencies = {
---       -- Automatically install LSPs to stdpath for neovim
---       'williamboman/mason.nvim',
---       'williamboman/mason-lspconfig.nvim',
---
---       -- Useful status updates for LSP
---       'j-hui/fidget.nvim',
---
---       -- Additional lua configuration, makes nvim stuff amazing
---       'folke/neodev.nvim',
---     },
---   },
---
---   -- Extended textDocument/definition handler that handles assembly/decompilation loading for $metadata$ documents.
---   { 'Hoffs/omnisharp-extended-lsp.nvim' },
--- }
