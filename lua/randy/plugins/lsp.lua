@@ -42,10 +42,10 @@ local custom_mappings_on_attach = function(_, bufnr)
 end
 
 return {
-    { 
+    {
         "VonHeikemen/lsp-zero.nvim",
         dependencies = {
-            "neovim/nvim-lspconfig",
+            {"neovim/nvim-lspconfig", branch="master"},
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
             "hrsh7th/nvim-cmp",
