@@ -72,6 +72,23 @@ return {
                 'tsserver',
                 'rust_analyzer',
                 'lua_ls',
+                --'azure_pipelines_ls'
+            })
+
+            lsp.configure('azure_pipelines_ls', {
+                force_setup = true,
+                cmd = {'node', '/home/randy/.node_modules/lib/node_modules/azure-pipelines-language-server/out/server.js', '--stdio'},
+                settings = {
+                   yaml = {
+                       schemas = {
+                           ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+                               "/azure-*.yml",
+                               "Azure-Pipelines/**/*.y*l",
+                               "Pipelines/*.y*l",
+                           },
+                       },
+                   },
+               },
             })
 
             lsp.configure('lua_ls', {
