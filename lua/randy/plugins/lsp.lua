@@ -120,6 +120,16 @@ return {
             lsp.setup()
             vim.diagnostic.config { virtual_text = true }
 
+            lsp.new_server({
+              name = 'randy-packs-lsp',
+              cmd = {'/home/randy/Documents/rdev/lsp-hello/tower-lsp-boilerplate/target/debug/nrs-language-server'},
+              filetypes = {'randypacks'},
+              root_dir = function()
+                -- return lsp.dir.find_first({'some-config-file'}) 
+                return "/home/randy/dots/nfo"
+              end
+            })
+
         end
     }
 }
