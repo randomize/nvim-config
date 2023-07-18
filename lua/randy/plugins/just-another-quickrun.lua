@@ -21,7 +21,8 @@ return {
                 markdown = "glow %",
                 python = "python %",
                 go = "go run %",
-                sh = "sh %",
+                sh = "bash %",
+                bashsh = "sh %",
             },
         },
 
