@@ -1,13 +1,5 @@
 local root_dir = require("randy.lsp.root_dir")
 
-local log = function(message)
-    local log_file_path = '/tmp/lua.log'
-    local log_file = io.open(log_file_path, "a")
-    io.output(log_file)
-    io.write(message.."\n")
-    io.close(log_file)
-end
-
 -- on_attach = function(client, _)
 --     print("Hello I am attached")
 --     local function toSnakeCase(str) return string.gsub(str, "%s*[- ]%s*", "_") end
@@ -21,51 +13,8 @@ end
 
 local custom_mappings_on_attach = function(client, bufnr)
 
-    local nmap = function(keys, func, desc)
-        if desc then
-            desc = "LSP: " .. desc
-        end
-        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-    end
-
-    nmap("<leader>r", vim.lsp.buf.rename, "[R]ename")
-    -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-    nmap("<space>a", vim.lsp.buf.code_action, "Code [A]ction")
-    -- nmap("<space>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-
-    nmap("<space>g", vim.lsp.buf.definition, "[G]oto [D]efinition")
-    nmap("gd", require('omnisharp_extended').telescope_lsp_definitions(), "[G]o[d]o Definition Telescope")
-
-    nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-    nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-    nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-    nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-    nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-    nmap("<C-t>", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-    nmap("gu", require("telescope.builtin").lsp_references, "Search Usages")
-
-    -- See `:help K` for why this keymap
-    nmap("K", vim.lsp.buf.hover, "Hover Do[K]umentation")
-    nmap("<leader>k", vim.lsp.buf.hover, "Hover Documentation")
-    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
-
-    -- Lesser used LSP functionality
-    nmap("<space>G", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-    nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-    nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-    nmap("<leader>wl", function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, "[W]orkspace [L]ist Folders")
-
-    -- Create a command `:Format` local to the LSP buffer
-    vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-        vim.lsp.buf.format()
-    end, { desc = "Format current buffer with LSP" })
-    log("on_attach executed for")
-
     if client.name == "omnisharp" then
-        log("client is omnisharp")
+        print("client is omnisharp")
         client.server_capabilities.semanticTokensProvider = {
           full = vim.empty_dict(),
           legend = {
@@ -142,6 +91,46 @@ local custom_mappings_on_attach = function(client, bufnr)
         }
     end
 
+    local nmap = function(keys, func, desc)
+        if desc then
+            desc = "LSP: " .. desc
+        end
+        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+    end
+
+    nmap("<leader>r", vim.lsp.buf.rename, "[R]ename")
+    -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+
+    nmap("<space>a", vim.lsp.buf.code_action, "Code [A]ction")
+    -- nmap("<space>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+
+    nmap("<space>g", vim.lsp.buf.definition, "[G]oto [D]efinition")
+    nmap("gd", require('omnisharp_extended').telescope_lsp_definitions, "[G]o[d]o Definition Telescope")
+
+    nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+    nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+    nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+    nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+    nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+    nmap("<C-t>", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+    nmap("gu", require("telescope.builtin").lsp_references, "Search Usages")
+
+    -- See `:help K` for why this keymap
+    nmap("K", vim.lsp.buf.hover, "Hover Do[K]umentation")
+    nmap("<leader>k", vim.lsp.buf.hover, "Hover Documentation")
+    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+
+    -- Lesser used LSP functionality
+    nmap("<space>G", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+    nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+    nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+    nmap("<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "[W]orkspace [L]ist Folders")
+
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+        vim.lsp.buf.format()
+    end, { desc = "Format current buffer with LSP" })
+
 end
 
 
@@ -167,13 +156,9 @@ return {
         lazy = false,
         config = function()
             local lsp = require("lsp-zero")
+            -- print('configure lsp doing....')
             lsp.preset("recommended")
-            lsp.on_attach(function(client, bufnr)
-                --require("lsp-format").on_attach(client, bufnr)
-                custom_mappings_on_attach(client, bufnr)
-
-
-            end)
+            lsp.on_attach(function(client, bufnr) custom_mappings_on_attach(client, bufnr) end)
             lsp.nvim_workspace()
 
             lsp.ensure_installed({
@@ -201,6 +186,7 @@ return {
 
             lsp.configure('omnisharp', {
                 root_dir = root_dir,
+                on_attach = function(client, bufnr) custom_mappings_on_attach(client, bufnr) end,
                 handlers = {
                     ["textDocument/definition"] = require('omnisharp_extended').handler
                 },
