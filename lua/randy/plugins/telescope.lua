@@ -32,6 +32,13 @@ return {
             },
             { "<leader>ut", ":Telescope<CR>", { noremap = true, silent = true, desc = "Telescope" } },
             {
+                "<leader>ua",
+                function()
+                    require("telescope.builtin").find_files({ hidden = true, no_ignore = true, search_dirs = {"/home/randy/"} })
+                end,
+                desc = "Search [A]ll files",
+            },
+            {
                 "<leader>uf",
                 function()
                     require("telescope.builtin").find_files({ hidden = false, no_ignore = true })
