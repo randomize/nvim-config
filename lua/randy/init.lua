@@ -22,10 +22,11 @@ require('lazy').setup({
     },
     defaults = {
         lazy = true, -- determines if every plugin is lazy-loaded by default
-        version = "*", -- try installing the latest stable version for plugins that support semver
+        -- version = "*", -- try installing the latest stable version for plugins that support semver
     },
     install = { colorscheme = { "tokyonight", } },
     checker = { enabled = false }, -- automatically check for plugin updates
+    change_detection = { enabled = true, notify = false },
     performance = {
         rtp = {
             -- disable some rtp plugins
