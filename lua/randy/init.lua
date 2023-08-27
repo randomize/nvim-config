@@ -1,7 +1,6 @@
---require("randy.packer")
-require("randy.set")
-require("randy.remap")
-require("randy.autos")
+require('randy.set')
+require('randy.remap')
+require('randy.autos')
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -17,7 +16,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
+require('lazy').setup({
     spec = {
         { import = "randy.plugins" },
     },
@@ -25,7 +24,7 @@ require("lazy").setup({
         lazy = true, -- determines if every plugin is lazy-loaded by default
         version = "*", -- try installing the latest stable version for plugins that support semver
     },
-    install = { colorscheme = { "tokyonight" } },
+    install = { colorscheme = { "tokyonight", } },
     checker = { enabled = false }, -- automatically check for plugin updates
     performance = {
         rtp = {
