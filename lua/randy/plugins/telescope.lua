@@ -53,6 +53,13 @@ return {
                 desc = "Search [b]uffers",
             },
             {
+                "<space>b",
+                function()
+                    require("telescope.builtin").buffers()
+                end,
+                desc = "Search [b]uffers",
+            },
+            {
                 "<leader>uh",
                 function()
                     require("telescope.builtin").help_tags()
@@ -93,6 +100,13 @@ return {
             },
             {
                 "<leader>up",
+                function()
+                    require("telescope.builtin").git_files()
+                end,
+                desc = "Fuzzily search in git files [p]",
+            },
+            {
+                "<space>p",
                 function()
                     require("telescope.builtin").git_files()
                 end,
@@ -206,8 +220,8 @@ return {
     -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
     {
         "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-        cond = vim.fn.executable("make") == 1,
+        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+        cond = vim.fn.executable("cmake") == 1,
         init = function()
             -- Enable telescope fzf native, if installed
             pcall(require("telescope").load_extension, "fzf")
