@@ -94,6 +94,12 @@ return {
       }
 
       local opts = {
+        view = { entries = "custom" },
+        window = {
+          documentation = {
+            winhighlight = 'Normal:Pmenu'
+          }
+        },
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -110,8 +116,10 @@ return {
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
+            elseif require("luasnip").expand_or_jumpable() then
+              vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+            elseif vim.b._copilot_suggestion ~= nil then
+              vim.fn.feedkeys(vim.api.nvim_replace_termcodes(vim.fn["copilot#Accept"](), true, true, true), "")
             else
               fallback()
             end
@@ -129,8 +137,12 @@ return {
         formatting = {
           fields = { "kind", "abbr", "menu" },
           format = function(_, item)
+            local kind = item.kind
             -- Kind icons
-            item.kind = string.format("%s %s", kind_icons[item.kind], item.kind) -- This concatenates the icons with the name of the item kind
+            if kind_icons[kind] then
+              item.kind = kind_icons[kind] -- .. item.kind) -- This concatenates the icons with the name of the item kind
+            end
+            item.menu = kind
             return item
           end,
         },
