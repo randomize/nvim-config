@@ -21,7 +21,7 @@ require('lazy').setup({
         { import = "randy.plugins" },
     },
     defaults = {
-        lazy = true, -- determines if every plugin is lazy-loaded by default
+        lazy = true,   -- determines if every plugin is lazy-loaded by default
         -- version = "*", -- try installing the latest stable version for plugins that support semver
     },
     install = { colorscheme = { "tokyonight", } },
