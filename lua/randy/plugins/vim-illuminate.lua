@@ -5,6 +5,7 @@ return {
         opts = {
             delay = 200,
             min_count_to_highlight = 2,
+            large_file_cutoff = 5000,
         },
         config = function(_, opts)
             require("illuminate").configure(opts)
