@@ -42,3 +42,11 @@ vim.keymap.set("n", "z3", "<cmd>set foldlevel=3<cr>")
 vim.keymap.set("n", "z4", "<cmd>set foldlevel=4<cr>")
 vim.keymap.set("n", "z5", "<cmd>set foldlevel=5<cr>")
 
+-- Hopping
+vim.keymap.set({"n","v","o"}, ",,w", "<cmd>HopWord<cr>")
+vim.keymap.set({"n","v","o"}, ",,j", "<cmd>HopLine<cr>")
+vim.keymap.set({"n","v","o"}, ",,f", "<cmd>HopChar1<cr>")
+vim.keymap.set({"n","v","o"}, ",,t", "<cmd>HopChar2<cr>")
+vim.keymap.set({"n","v","o"}, ",,l", "<cmd>HopAnywhereCurrentLine<cr>")
+vim.keymap.set({"n","v","o"}, ",,h", "<cmd>HopLineMW<cr>")
+vim.keymap.set({"n","v","o"}, ",,/", "<cmd>HopPattern<cr>")

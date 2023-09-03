@@ -148,6 +148,7 @@ return {
             "hrsh7th/cmp-path",
             "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-nvim-lsp",
+            "jubnzv/virtual-types.nvim",
             "hrsh7th/cmp-nvim-lua",
             "L3MON4D3/LuaSnip",
             "rafamadriz/friendly-snippets",
@@ -227,7 +228,7 @@ return {
               cmd = {'/home/randy/Documents/rdev/lsp-hello/tower-lsp-boilerplate/target/debug/nrs-language-server'},
               filetypes = {'randypacks'},
               root_dir = function()
-                -- return lsp.dir.find_first({'some-config-file'}) 
+                -- return lsp.dir.find_first({'some-config-file'})
                 return "/home/randy/dots/nfo"
               end
             })
