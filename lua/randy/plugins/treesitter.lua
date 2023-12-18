@@ -4,6 +4,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
             "nvim-treesitter/playground",
+            "JoosepAlviste/nvim-ts-context-commentstring",
         },
         lazy = true,
         event = "BufReadPost",
@@ -27,7 +28,7 @@ return {
                 "gitignore",
                 "go",
                 "graphql",
-                "help",
+                -- "help",
                 "html",
                 "http",
                 "javascript",
@@ -57,6 +58,9 @@ return {
                     scope_incremental = "<c-s>",
                     node_decremental = "<c-backspace>",
                 },
+            },
+            context_commentstring = {
+                enable = true,
             },
             textobjects = {
                 select = {
