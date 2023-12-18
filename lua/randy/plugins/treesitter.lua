@@ -29,6 +29,7 @@ return {
                 "graphql",
                 "help",
                 "html",
+                "http",
                 "javascript",
                 "json",
                 "json5",
