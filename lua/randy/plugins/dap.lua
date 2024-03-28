@@ -4,6 +4,7 @@ return {
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "leoluz/nvim-dap-go",
+      "nvim-neotest/nvim-nio"
     },
     lazy = true,
     event = "VeryLazy",
