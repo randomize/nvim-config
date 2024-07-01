@@ -23,6 +23,7 @@ opt.expandtab = true
 opt.smarttab = true
 opt.smartindent = true
 opt.autoindent = true
+opt.fixendofline = false
 
 opt.virtualedit = "all"
 

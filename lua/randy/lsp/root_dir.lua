@@ -1,5 +1,5 @@
 return function(bufname, _)
-  print("Calculate root for C# project")
+  -- print("Calculate root for C# project")
 
   local util = require 'lspconfig.util'
   local scan_dir = require 'plenary.scandir'.scan_dir
@@ -13,7 +13,14 @@ return function(bufname, _)
     return path.new(root):absolute()
   end
 
-  local workspace_root = util.root_pattern('workspace.code-workspace')(bufname)
+  local root_files = {
+    '.sandbox.modules',
+    '.randge.modules'
+  }
+  root = util.root_pattern(unpack(root_files))(bufname)
+  -- print("Found a root with sln "..root)
+
+  --local workspace_root = util.root_pattern('workspace.code-workspace')(bufname)
   -- local csproj = scan_dir(root, { depth = 2, search_pattern = "\\*.csproj$" })
   local solutions = scan_dir(root, { depth = 2, search_pattern = "\\*.sln$" })
   -- print('Root dir for '..bufname..' is '..root)
@@ -37,11 +44,11 @@ return function(bufname, _)
     return fallbackSln
   end
 
-  csprojs = scan_dir(root, { depth = 2, search_pattern = "\\*.csproj$" })
+  local csprojs = scan_dir(root, { depth = 2, search_pattern = "\\*.csproj$" })
   -- print(vim.inspect(result))
   if #csprojs ~= 0 then
     local path = path.new(csprojs[1]):parent():absolute()
-    print("Return csproj[1] path: "..path)
+    -- print("Return csproj[1] path: "..path)
     return path
   end
 end

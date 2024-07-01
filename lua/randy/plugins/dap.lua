@@ -2,9 +2,9 @@ return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
+      "nvim-neotest/nvim-nio",
       "rcarriga/nvim-dap-ui",
       "leoluz/nvim-dap-go",
-      "nvim-neotest/nvim-nio"
     },
     lazy = true,
     event = "VeryLazy",

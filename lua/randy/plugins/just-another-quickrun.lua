@@ -6,7 +6,7 @@ return {
             require("jaq-nvim").setup(opts)
         end,
         keys = {
-            { "<space>r", "<cmd>Jaq<CR>", desc = "Run with Jaq" },
+            { "<space>R", "<cmd>Jaq<CR>", desc = "Run with Jaq" },
         },
         opts = {
 

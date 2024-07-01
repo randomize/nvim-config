@@ -98,13 +98,14 @@ local custom_mappings_on_attach = function(client, bufnr)
     end
 
     nmap("<leader>r", vim.lsp.buf.rename, "[R]ename")
+    nmap("<space>r", vim.lsp.buf.rename, "[R]ename")
     -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
     nmap("<space>a", vim.lsp.buf.code_action, "Code [A]ction")
     -- nmap("<space>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
     nmap("<space>g", vim.lsp.buf.definition, "[G]oto [D]efinition")
-    nmap("gd", require('omnisharp_extended').telescope_lsp_definitions, "[G]o[d]o Definition Telescope")
+    nmap("<space>G", require('omnisharp_extended').telescope_lsp_definitions, "[G]o[d]o Definition Telescope")
 
     nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
     nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
@@ -114,6 +115,7 @@ local custom_mappings_on_attach = function(client, bufnr)
     nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
     nmap("<C-t>", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
     nmap("gu", require("telescope.builtin").lsp_references, "Search Usages")
+    nmap("<space>u", require("telescope.builtin").lsp_references, "Search Usages")
 
     -- See `:help K` for why this keymap
     nmap("K", vim.lsp.buf.hover, "Hover Do[K]umentation")
@@ -208,9 +210,17 @@ return {
             --     },
             -- })
 
-            lsp_zero.configure('omnisharp', {
+            -- lsp_zero.configure('omnisharp', { NOTE: doesnt work for some reason
+            lspconfig.omnisharp.setup({
+                single_file_support = false,
                 root_dir = root_dir,
-                on_attach = function(client, bufnr) custom_mappings_on_attach(client, bufnr) end,
+                -- root_dir = function(filename, buffnr)
+                --     print("Rooot dir for" .. filename)
+                --     return "/home/randy/Documents/sandbox/Unity.Content.Sandbox"
+                -- end,
+                on_attach = function(client, bufnr)
+                    custom_mappings_on_attach(client, bufnr)
+                end,
                 handlers = {
                     ["textDocument/definition"] = require('omnisharp_extended').handler
                 },
@@ -218,6 +228,15 @@ return {
 
             lsp_zero.setup()
             vim.diagnostic.config { virtual_text = true, update_in_insert = false }
+
+            -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+            local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+            -- Setup required for ufo
+            capabilities.textDocument.foldingRange = {
+              dynamicRegistration = false,
+              lineFoldingOnly = true,
+            }
 
             lsp_zero.new_client({
                 name = 'randy-packs-lsp',

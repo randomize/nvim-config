@@ -1,6 +1,10 @@
 return {
   "rest-nvim/rest.nvim",
   ft = "http",
+  config = function()
+    require("rest-nvim").setup()
+  end,
+  dependencies = { "luarocks.nvim" },
   keys = {
     { "<leader>hx", "<Plug>RestNvim<CR>", desc = "Run http request under the cursor" },
     { "<leader>hp", "<Plug>RestNvimPreview<CR>", desc = "Preview curl" },

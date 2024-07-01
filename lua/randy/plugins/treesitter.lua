@@ -29,6 +29,7 @@ return {
                 "go",
                 "graphql",
                 -- "help",
+                "glsl",
                 "html",
                 "http",
                 "javascript",

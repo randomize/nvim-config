@@ -2,7 +2,6 @@ return {
     -- Buffer line
     {
         "akinsho/bufferline.nvim",
-        version = "v3.*",
         requires = "nvim-tree/nvim-web-devicons",
         lazy = false,
         opts = {
