@@ -5,6 +5,7 @@ return {
       "nvim-neotest/nvim-nio",
       "rcarriga/nvim-dap-ui",
       "leoluz/nvim-dap-go",
+      "theHamsta/nvim-dap-virtual-text",
     },
     lazy = true,
     event = "VeryLazy",

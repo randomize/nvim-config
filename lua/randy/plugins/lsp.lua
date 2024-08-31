@@ -213,11 +213,12 @@ return {
             -- lsp_zero.configure('omnisharp', { NOTE: doesnt work for some reason
             lspconfig.omnisharp.setup({
                 single_file_support = false,
-                root_dir = root_dir,
-                -- root_dir = function(filename, buffnr)
-                --     print("Rooot dir for" .. filename)
-                --     return "/home/randy/Documents/sandbox/Unity.Content.Sandbox"
-                -- end,
+                -- root_dir = root_dir,
+                root_dir = function(filename, buffnr)
+                    print("Root dir for" .. filename)
+                    return root_dir(filename, buffnr)
+                    -- return "/mnt/data/work/unified/Unity.Product.UnifiedGolf"
+                end,
                 on_attach = function(client, bufnr)
                     custom_mappings_on_attach(client, bufnr)
                 end,
