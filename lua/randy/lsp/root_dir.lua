@@ -29,17 +29,20 @@ return function(f, b)
   -- Main function to detect root directory
   local function detect_root_dir(filename, buffnr)
       local dir = path:new(filename):parent()
+      local unity_detected = false;
 
       while dir do
           -- Check if current directory name starts with "Unity."
-          if dir.filename:match("^Unity%.") then
+          if unity_detected or dir.filename:match("^.*/Unity%.") then
               -- Unity algorithm
               print("Unity: " .. dir.filename)
+              unity_detected = true
 
               local sln_files = find_sln_files(dir.filename)
               if #sln_files == 1 then
-                  if is_unity_project(dir.filename) then
-                      return dir.filename
+              local chosen_sln = sln_files[1]
+                  if chosen_sln and is_unity_project(path:new(chosen_sln):parent().filename) then
+                      return path:new(chosen_sln):parent().filename
                   end
               elseif #sln_files > 1 then
                   local chosen_sln = choose_sln(sln_files)
@@ -48,14 +51,14 @@ return function(f, b)
                   end
               end
           else
-              print("Unity: " .. dir.filename)
+              print("Standard: " .. dir.filename)
               -- Standard algorithm to find *.sln in parent directories
               local root = util.root_pattern("*.sln")(filename)
               if root then
                   return root
               end
           end
-                                      -- Move to the parent directory
+        -- Move to the parent directory
         local parent_dir = dir:parent()
         if parent_dir.filename == dir.filename then
             break
@@ -68,7 +71,9 @@ return function(f, b)
 
   -- Usage
   -- local root_dir = function(filename, buffnr)
-  return detect_root_dir(f, b)
+  local roota = detect_root_dir(f, b)
+  print("Will use as root dir"..roota)
+  return roota
 end
   -- end
 
