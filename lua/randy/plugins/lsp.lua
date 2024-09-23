@@ -13,7 +13,7 @@ local root_dir = require("randy.lsp.root_dir")
 
 local custom_mappings_on_attach = function(client, bufnr)
     if client.name == "omnisharp" then
-        print("client is omnisharp")
+        -- print("client is omnisharp")
         client.server_capabilities.semanticTokensProvider = {
             full = vim.empty_dict(),
             legend = {
@@ -169,7 +169,7 @@ return {
             require('mason').setup({})
             require('mason-lspconfig').setup({
                 ensure_installed = {
-                'tsserver',
+                -- 'tsserver', -- TODO: fix this properly
                 'rust_analyzer',
                 'lua_ls',
                 'jsonls',
@@ -215,8 +215,9 @@ return {
                 single_file_support = false,
                 -- root_dir = root_dir,
                 root_dir = function(filename, buffnr)
-                    print("Root dir for" .. filename)
-                    return root_dir(filename, buffnr)
+                    local result = root_dir(filename, buffnr)
+                    -- print("Root dir for" .. filename .. " is " .. result)
+                    return result;
                     -- return "/mnt/data/work/unified/Unity.Product.UnifiedGolf"
                 end,
                 on_attach = function(client, bufnr)

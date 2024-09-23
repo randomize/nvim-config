@@ -1,6 +1,6 @@
 return function(f, b)
 
-  print("Calculate root for C# project")
+  -- print("Calculate root for C# project")
 
   local util = require 'lspconfig.util'
   local scan_dir = require 'plenary.scandir'.scan_dir
@@ -35,7 +35,7 @@ return function(f, b)
           -- Check if current directory name starts with "Unity."
           if unity_detected or dir.filename:match("^.*/Unity%.") then
               -- Unity algorithm
-              print("Unity: " .. dir.filename)
+              -- print("Unity: " .. dir.filename)
               unity_detected = true
 
               local sln_files = find_sln_files(dir.filename)
@@ -51,7 +51,7 @@ return function(f, b)
                   end
               end
           else
-              print("Standard: " .. dir.filename)
+              -- print("Standard: " .. dir.filename)
               -- Standard algorithm to find *.sln in parent directories
               local root = util.root_pattern("*.sln")(filename)
               if root then
@@ -72,7 +72,7 @@ return function(f, b)
   -- Usage
   -- local root_dir = function(filename, buffnr)
   local roota = detect_root_dir(f, b)
-  print("Will use as root dir"..roota)
+  -- print("Will use as root dir"..roota)
   return roota
 end
   -- end
