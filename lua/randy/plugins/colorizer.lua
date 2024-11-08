@@ -1,6 +1,6 @@
 return {
     -- Color highlighter
-    -- #001100
+    -- #a01100
     {
         "NvChad/nvim-colorizer.lua",
         event = "VeryLazy",
