@@ -2,7 +2,7 @@ return {
     {
         'goolord/alpha-nvim',
         requires = { 'nvim-tree/nvim-web-devicons' },
-        lazy = true,
+        lazy = false,
         config = function()
             require('alpha').setup(require('randy.alpha-theme').config)
         end,
