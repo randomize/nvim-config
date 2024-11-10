@@ -97,7 +97,7 @@ local custom_mappings_on_attach = function(client, bufnr)
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
     end
 
-    nmap("<leader>r", vim.lsp.buf.rename, "[R]ename")
+    nmap("<leader>lr", vim.lsp.buf.rename, "[R]ename")
     nmap("<space>r", vim.lsp.buf.rename, "[R]ename")
     -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
@@ -111,23 +111,22 @@ local custom_mappings_on_attach = function(client, bufnr)
     nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
     nmap("<space>i", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
     nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-    nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-    nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+    nmap("<leader>ld", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+    nmap("<leader>lw", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
     -- nmap("<C-t>", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-    nmap("gu", require("telescope.builtin").lsp_references, "Search Usages")
+    -- nmap("gu", require("telescope.builtin").lsp_references, "Search Usages")
     nmap("<space>u", require("telescope.builtin").lsp_references, "Search Usages")
 
     -- See `:help K` for why this keymap
-    nmap("K", vim.lsp.buf.hover, "Hover Do[K]umentation")
+    -- nmap("K", vim.lsp.buf.hover, "Hover Do[K]umentation")
     nmap("<leader>k", vim.lsp.buf.hover, "Hover Documentation")
-    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+    nmap("<leader>lh", vim.lsp.buf.signature_help, "Signature Documentation")
 
     -- Lesser used LSP functionality
     nmap("<space>G", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
     nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
     nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-    nmap("<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-        "[W]orkspace [L]ist Folders")
+    nmap("<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "[W]orkspace [L]ist Folders")
 
     -- Create a command `:Format` local to the LSP buffer
     vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
