@@ -7,8 +7,41 @@ end
 local harpoon = require('harpoon')
 harpoon:setup({})
 
--- basic telescope configuration
+
 local conf = require("telescope.config").values
+
+-- Function to locate the root directory with .uniroot file
+local function find_uniroot_dir(filepath)
+    local current_dir = vim.fn.fnamemodify(filepath, ":p:h")
+    while current_dir ~= "/" do
+        if vim.fn.filereadable(current_dir .. "/.uniroot") == 1 then
+            return current_dir
+        end
+        current_dir = vim.fn.fnamemodify(current_dir, ":h")
+    end
+    return nil
+end
+
+-- Custom Telescope picker to search in the .uniroot directory
+local function search_in_uniroot()
+    local filepath = vim.fn.expand("%:p")
+    local uniroot_dir = find_uniroot_dir(filepath)
+    local finders = require("telescope.finders")
+    local pickers = require("telescope.pickers")
+
+    if not uniroot_dir then
+        print("No .uniroot file found in parent directories.")
+        return
+    end
+
+    pickers.new({}, {
+        prompt_title = "Search in .uniroot Directory",
+        finder = finders.new_oneshot_job({ "fd", "-t", "f", ".", uniroot_dir }, {}),
+        sorter = conf.generic_sorter({}),
+    }):find()
+end
+
+
 local function toggle_telescope(harpoon_files)
     local file_paths = {}
     for _, item in ipairs(harpoon_files.items) do
@@ -32,11 +65,18 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             { "nvim-telescope/telescope-media-files.nvim", config = le("media_files") },
-            { "debugloop/telescope-undo.nvim", config = le("undo") },
+            { "debugloop/telescope-undo.nvim",             config = le("undo") },
         },
         cmd = "Telescope",
         version = false, -- telescope did only one release, so use HEAD for now
         keys = {
+            {
+                "<leader>ui",
+                function()
+                    search_in_uniroot()
+                end,
+                desc = "Find Uniroot f[i]les",
+            },
             {
                 "<leader>ue",
                 function()
@@ -62,7 +102,7 @@ return {
             {
                 "<leader>ua",
                 function()
-                    require("telescope.builtin").find_files({ hidden = true, no_ignore = true, search_dirs = {"/home/randy/"} })
+                    require("telescope.builtin").find_files({ hidden = true, no_ignore = true, search_dirs = { "/home/randy/" } })
                 end,
                 desc = "Search [A]ll files",
             },
@@ -248,7 +288,8 @@ return {
     -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
     {
         "nvim-telescope/telescope-fzf-native.nvim",
-        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+        build =
+        'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
         cond = vim.fn.executable("cmake") == 1,
         init = function()
             -- Enable telescope fzf native, if installed
