@@ -41,3 +41,17 @@ require('lazy').setup({
         },
     },
 })
+
+function RandomHighlightWord()
+    local word = vim.fn.expand("<cword>")
+    if word == "" then return end  -- Ignore empty words
+
+    -- Generate a random highlight group
+    local hlgroup = "MyHighlight" .. math.random(10000)
+    vim.cmd("highlight " .. hlgroup .. " ctermfg=" .. math.random(1, 15) .. " guifg=" .. string.format("#%06x", math.random(0, 0xFFFFFF)))
+
+    -- Apply the highlight to the word
+    vim.fn.matchadd(hlgroup, "\\V\\<" .. word .. "\\>")
+end
+
+vim.api.nvim_set_keymap("n", "<Space>*", ":lua RandomHighlightWord()<CR>", { noremap = true, silent = true })
