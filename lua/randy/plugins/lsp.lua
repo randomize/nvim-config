@@ -160,7 +160,7 @@ return {
         config = function()
             local lsp_zero = require("lsp-zero")
             -- print('configure lsp doing....')
-            lsp_zero.preset("recommended")
+            -- lsp_zero.preset("recommended") -- TODO: deprecated but what now? how to migrate?
             lsp_zero.on_attach(function(client, bufnr) custom_mappings_on_attach(client, bufnr) end)
 
             local lspconfig = require('lspconfig')
