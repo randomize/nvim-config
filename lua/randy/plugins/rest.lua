@@ -6,9 +6,9 @@ return {
   end,
   dependencies = { "luarocks.nvim" },
   keys = {
-    { "<leader>hx", "<Plug>RestNvim<CR>", desc = "Run http request under the cursor" },
-    { "<leader>hp", "<Plug>RestNvimPreview<CR>", desc = "Preview curl" },
-    { "<leader>hh", "<Plug>RestNvimLast<CR>", desc = "Releat last http request" },
+    { "<leader>hx", ":hor Rest run<CR>", desc = "Run http request under the cursor" },
+    { "<leader>hp", ":hor Rest logs<CR>", desc = "Preview curl" },
+    { "<leader>hh", ":hor Rest last<CR>", desc = "Releat last http request" },
   },
   opts = {
     -- Open request results in a horizontal split

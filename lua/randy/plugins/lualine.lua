@@ -21,6 +21,18 @@ return {
             sections = {
                 lualine_c = {
                     "filename",
+                    {
+                        function()
+                            -- safe require so the rest of the line
+                            -- still renders if the plugin hasn’t loaded yet
+                            local ok, jp = pcall(require, "jsonpath")
+                            return ok and jp.get() or ""
+                        end,
+                        cond = function()
+                            local ft = vim.bo.filetype
+                            return ft == "json" or ft == "jsonc"
+                        end,
+                    },
                     "lsp_progress",
                 },
             },
