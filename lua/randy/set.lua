@@ -1,6 +1,17 @@
 local opt = vim.opt
 
 opt.guicursor = ""
+
+vim.opt.guicursor =
+  table.concat({
+    -- mode-list : shape[width](-blink settings)   (see :h guicursor)
+    "n-v-c:block",        -- block cursor everywhere except…
+    "i-ci:ver25",         -- 25 %-wide vertical bar in insert & command-insert
+    "r-cr:hor20",         -- thin underline while replacing
+    "o:hor50",            -- underline during operator-pending
+    "a:blinkwait700-blinkoff400-blinkon250" -- keep the nice blink
+  }, ",")
+
 opt.guifont = "Iosevka Nerd Font Mono:style=Bold:h12"
 
 opt.hlsearch = true
