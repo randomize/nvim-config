@@ -85,6 +85,24 @@ return {
                 desc = "Find harpoon fil[e]s",
             },
             {
+                "<leader>uj",
+                function()
+                    -- full path of the file backing the current buffer ("" if it’s an un-named buffer)
+                    local buf_path = vim.api.nvim_buf_get_name(0)
+
+                    -- fall back to CWD when the buffer isn’t a file
+                    local dir = buf_path ~= "" and vim.fn.fnamemodify(buf_path, ":p:h") or vim.fn.getcwd()
+
+                    require("telescope.builtin").find_files({
+                        hidden      = false,
+                        no_ignore   = true,
+                        cwd         = dir,     -- 👈 limit search to the buffer’s directory
+                        prompt_title = "Files in " .. dir,
+                    })
+                end,
+                desc = "Search files in current buffer dir",
+            },
+            {
                 "<leader>ur",
                 function()
                     require("telescope.builtin").oldfiles()
