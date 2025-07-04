@@ -191,13 +191,13 @@ return {
                 end,
                 desc = "Fuzzily search in git files [p]",
             },
-            {
-                "<space>p",
-                function()
-                    require("telescope.builtin").git_files()
-                end,
-                desc = "Fuzzily search in git files [p]",
-            },
+            -- {
+                -- "<space>p", -- I need this for paste!
+                -- function()
+                --     require("telescope.builtin").git_files()
+                -- end,
+                -- desc = "Fuzzily search in git files [p]",
+            -- },
             {
                 "<leader>uc",
                 function()

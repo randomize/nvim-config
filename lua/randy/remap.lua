@@ -13,8 +13,10 @@ vim.keymap.set({ "n", "v" }, "<space>y", [["+y]])
 vim.keymap.set("n", "<space>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<space>d", [["_d]])
 vim.keymap.set("x", "<space>P", [["_dP]])
+vim.keymap.set("n", "<space>p", [["+p]])
 
 vim.keymap.set("n", "<tab>", "<c-^>", { silent = true })
+vim.keymap.set("n", ",n", ":nohl<CR>", { silent = true })
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
