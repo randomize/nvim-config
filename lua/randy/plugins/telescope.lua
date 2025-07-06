@@ -78,6 +78,13 @@ return {
                 desc = "Find Uniroot f[i]les",
             },
             {
+                "<leader>uo",
+                function()
+                    require("telescope").extensions.chezmoi.find_files()
+                end,
+                desc = "Chezm[o]i",
+            },
+            {
                 "<leader>ue",
                 function()
                     toggle_telescope(harpoon:list())
