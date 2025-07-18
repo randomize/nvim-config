@@ -1,7 +1,7 @@
 return {
     -- Project management
     {
-        "ahmedkhalf/project.nvim",
+        "DrKJeff16/project.nvim",
         dependencies = {
             "nvim-telescope/telescope.nvim",
         },
