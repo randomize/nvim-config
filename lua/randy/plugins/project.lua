@@ -10,7 +10,9 @@ return {
             { "<leader>op", ":Telescope projects<CR>", { noremap = true, silent = true, desc = "[O]pen [P]roject" } },
         },
         config = function()
-            require("project_nvim").setup({})
+            require("project_nvim").setup({
+                manual_mode = true,
+            })
 
             -- Enable Telescope integration
             require("telescope").load_extension("projects")
