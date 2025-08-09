@@ -20,6 +20,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+    pkg = { sources = { "lazy", "rockspec", "packspec" } },
+    rocks = { enabled = true },
     spec = {
         { import = "randy.plugins" },
     },
