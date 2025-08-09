@@ -1,6 +1,6 @@
 return {
     { "shirk/vim-gas",      lazy = false }, -- gnu assembler syntax - ft=gas
-    { "folke/neoconf.nvim", cmd = "Neoconf" },
+    -- { "folke/neoconf.nvim", cmd = "Neoconf" }, -- moved to lsp
     { "tridactyl/vim-tridactyl", lazy = false },
     { "ron-rs/ron.vim", lazy = false },
 }

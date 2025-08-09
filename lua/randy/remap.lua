@@ -12,8 +12,12 @@ vim.keymap.set("n", "<space>)", ":lp<CR>")
 vim.keymap.set({ "n", "v" }, "<space>y", [["+y]])
 vim.keymap.set("n", "<space>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<space>d", [["_d]])
-vim.keymap.set("x", "<space>P", [["_dP]])
-vim.keymap.set("n", "<space>p", [["+p]])
+
+-- Paste from + and auto-reindent the pasted block
+-- vim.keymap.set("x", "<space>P", [["_dP]])
+-- vim.keymap.set("n", "<space>p", [["+p]])
+vim.keymap.set('n', '<space>p', [["+]p=']^]], { silent = true, desc = 'Paste from + and reindent' })
+vim.keymap.set('n', '<space>P', [["+][p='[^]], { silent = true, desc = 'Paste before from + and reindent' })
 
 vim.keymap.set("n", "<tab>", "<c-^>", { silent = true })
 vim.keymap.set("n", ",n", ":nohl<CR>", { silent = true })
