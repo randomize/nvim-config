@@ -1,137 +1,154 @@
-return function(f, b)
+local Path = require("plenary.path")
+local scan_dir = require("plenary.scandir").scan_dir
 
-  -- print("Calculate root for C# project")
+local util_ok, util = pcall(require, "lspconfig.util")
 
-  local util = require 'lspconfig.util'
-  local scan_dir = require 'plenary.scandir'.scan_dir
-  local path = require 'plenary.path'
+-- session cache: .uniroot dir -> chosen .sln path
+vim.g.uniroot_sln_cache = vim.g.uniroot_sln_cache or {}
+local sln_cache = vim.g.uniroot_sln_cache
 
-  -- Helper function to recursively search for *.sln files
-  local function find_sln_files(dir)
-      return scan_dir(dir, { hidden = true, depth = 10, search_pattern = "%.sln$" })
+----------------------------------------------------------------------
+-- helpers (sync)
+----------------------------------------------------------------------
+
+local function find_uniroot(start_dir)
+  -- keep as absolute string
+  local dir = Path:new(start_dir):absolute()
+
+  while true do
+    local marker = Path:new(dir):joinpath(".uniroot")
+    if marker:exists() then
+      return dir
+    end
+
+    local parent = Path:new(dir):parent():absolute()
+    if parent == dir then
+      return nil
+    end
+
+    dir = parent
   end
-
-  -- Helper function to check if the directory contains a 'ProjectSettings' directory
-  local function is_unity_project(dir)
-      return path:new(dir):joinpath("ProjectSettings"):is_dir()
-  end
-
-  -- Helper function to interactively ask user to choose from multiple *.sln files
-  local function choose_sln(sln_files)
-      for i, sln in ipairs(sln_files) do
-          print(string.format("%d: %s", i, sln))
-      end
-      print("Choose a solution file by number:")
-      local choice = tonumber(vim.fn.input("> "))
-      return sln_files[choice]
-  end
-
-  -- Main function to detect root directory
-  local function detect_root_dir(filename, buffnr)
-      local dir = path:new(filename):parent()
-      local unity_detected = false;
-
-      while dir do
-          -- Check if current directory name starts with "Unity."
-          if unity_detected or dir.filename:match("^.*/Unity%.") then
-              -- Unity algorithm
-              -- print("Unity: " .. dir.filename)
-              unity_detected = true
-
-              local sln_files = find_sln_files(dir.filename)
-              if #sln_files == 1 then
-              local chosen_sln = sln_files[1]
-                  if chosen_sln and is_unity_project(path:new(chosen_sln):parent().filename) then
-                      return path:new(chosen_sln):parent().filename
-                  end
-              elseif #sln_files > 1 then
-                  local chosen_sln = choose_sln(sln_files)
-                  if chosen_sln and is_unity_project(path:new(chosen_sln):parent().filename) then
-                      return path:new(chosen_sln):parent().filename
-                  end
-              end
-          else
-              -- print("Standard: " .. dir.filename)
-              -- Standard algorithm to find *.sln in parent directories
-              local root = util.root_pattern("*.sln")(filename)
-              if root then
-                  return root
-              end
-          end
-        -- Move to the parent directory
-        local parent_dir = dir:parent()
-        if parent_dir.filename == dir.filename then
-            break
-        end
-        dir = parent_dir
-      end
-       -- Fallback to the directory where the file is located
-      return path:new(filename):parent().filename
-  end
-
-  -- Usage
-  -- local root_dir = function(filename, buffnr)
-  local roota = detect_root_dir(f, b)
-  -- print("Will use as root dir"..roota)
-  return roota
 end
-  -- end
 
-  -- return root_dir
+local function find_sln_under_uniroot(uniroot)
+  -- cache per session
+  local cached = sln_cache[uniroot]
+  if cached and Path:new(cached):exists() then
+    return cached
+  end
 
--- return function(bufname, _)
+  -- scan a few levels deep; your UnifiedGolf sln is at depth 2
+  local sln_files = scan_dir(uniroot, {
+    hidden = false,
+    depth = 2, -- only 2 levels is fine
+    add_dirs = false,
+    search_pattern = "%.sln$",
+  })
 
-  -- print("Calculate root for C# project")
+  table.sort(sln_files)
 
---   local util = require 'lspconfig.util'
---   local scan_dir = require 'plenary.scandir'.scan_dir
---   local path = require 'plenary.path'
---
---   local fallbackSln = nil
---   local root = util.root_pattern('*.sln')(bufname)
---
---
---   if root ~= nil then
---     print("Found a root with sln "..root)
---     return path.new(root):absolute()
---   end
---
---   local root_files = {
---     '.sandbox.modules',
---     '.randge.modules'
---   }
---   root = util.root_pattern(unpack(root_files))(bufname)
---   -- print("Found a root with sln "..root)
---
---   --local workspace_root = util.root_pattern('workspace.code-workspace')(bufname)
---   -- local csproj = scan_dir(root, { depth = 2, search_pattern = "\\*.csproj$" })
---   local solutions = scan_dir(root, { depth = 2, search_pattern = "\\*.sln$" })
---   -- print('Root dir for '..bufname..' is '..root)
---
---   if #solutions ~= 0 then
---     for _, sln_path in pairs(solutions) do
---       local match = string.match(sln_path, string.format('.*[/.]%s.sln', vim.g.project_name))
---       if match then return path.new(sln_path):parent():absolute() end
---     end
---
---     fallbackSln = path.new(solutions[1]):parent():absolute()
---   end
---
---   local cwdSolutions = scan_dir(vim.fn.getcwd(), { depth = 1, search_pattern = "\\*.sln$" })
---   if #cwdSolutions ~= 0 then
---     -- print("CWD solutions "..cwdSolutions[1])
---     return path.new(cwdSolutions[1]):parent():absolute()
---   end
---
---   if fallbackSln then
---     return fallbackSln
---   end
---
---   local csprojs = scan_dir(root, { depth = 2, search_pattern = "\\*.csproj$" })
---   -- print(vim.inspect(result))
---   if #csprojs ~= 0 then
---     local path = path.new(csprojs[1]):parent():absolute()
---     -- print("Return csproj[1] path: "..path)
---     return path
---   end
--- end
+  if #sln_files == 0 then
+    return nil
+  end
+
+  -- only one .sln → just use it
+  if #sln_files == 1 then
+    sln_cache[uniroot] = sln_files[1]
+    return sln_files[1]
+  end
+
+  -- more than one → ask once per uniroot, then cache
+  print("Multiple .sln files under " .. uniroot .. ":")
+  for i, sln in ipairs(sln_files) do
+    local rel = Path:new(sln):make_relative(uniroot)
+    print(string.format("  %d) %s", i, rel))
+  end
+
+  local choice
+  while true do
+    local input = vim.fn.input("Choose solution number (empty = cancel): ")
+    if input == nil or input == "" then
+      break
+    end
+    local idx = tonumber(input)
+    if idx and idx >= 1 and idx <= #sln_files then
+      choice = sln_files[idx]
+      break
+    end
+    print("Invalid selection, try again.")
+  end
+
+  if not choice then
+    return nil
+  end
+
+  sln_cache[uniroot] = choice
+  return choice
+end
+
+local function detect_root_dir_from_filename(filename)
+  if not filename or filename == "" then
+    return nil
+  end
+
+  local file_dir = Path:new(filename):parent():absolute()
+
+  ------------------------------------------------------------------
+  -- 1) Unity layout via .uniroot + one or more *.sln in subtree
+  ------------------------------------------------------------------
+  local uniroot = find_uniroot(file_dir)
+  if uniroot then
+    local sln = find_sln_under_uniroot(uniroot)
+    if sln then
+      -- parent dir of the .sln, e.g. /.../Unity.Product.UnifiedGolf
+      return Path:new(sln):parent():absolute()
+    end
+    -- if .uniroot exists but no sln at all: fall through
+  end
+
+  ------------------------------------------------------------------
+  -- 2) Generic fallback when there is no .uniroot
+  --    (normal .NET projects etc.)
+  ------------------------------------------------------------------
+  if util_ok then
+    local root =
+      util.root_pattern("*.sln")(filename)
+      or util.root_pattern(".git")(filename)
+
+    if root then
+      return root
+    end
+  end
+
+  ------------------------------------------------------------------
+  -- 3) Last fallback: directory of current file
+  ------------------------------------------------------------------
+  return file_dir
+end
+
+----------------------------------------------------------------------
+-- exported function: supports BOTH APIs
+--   - new: root_dir(bufnr, on_dir)
+--   - old: root_dir(filename, bufnr) -> string|nil
+----------------------------------------------------------------------
+
+return function(a1, a2)
+  -- New Nvim 0.11 API: root_dir(bufnr, on_dir)
+  if type(a1) == "number" and type(a2) == "function" then
+    local bufnr = a1
+    local cb = a2
+
+    local filename = vim.api.nvim_buf_get_name(bufnr)
+    local root = detect_root_dir_from_filename(filename)
+    cb(root)
+    return
+  end
+
+  -- Old API: root_dir(filename, bufnr) -> string|nil
+  local filename = a1
+  if (not filename or filename == "") and type(a2) == "number" then
+    filename = vim.api.nvim_buf_get_name(a2)
+  end
+
+  return detect_root_dir_from_filename(filename)
+end

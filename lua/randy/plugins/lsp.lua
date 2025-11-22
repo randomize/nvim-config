@@ -33,7 +33,7 @@ return {
             -- capabilities & on_attach
             -------------------------------------------------------------
             local on_attach_local   = require('randy.lsp.on_attach').attach
-            local root_dir = require('randy.lsp.root_dir')
+            local root_dir_local = require('randy.lsp.root_dir')
             local capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities())
 
@@ -82,19 +82,26 @@ return {
                 },
             })
 
-
+            -- local pid = vim.fn.getpid()
+            -- local omnisharp_bin = vim.fn.exepath('omnisharp')  -- uses /usr/bin/omnisharp from pacman (or mason if PATH has it first)
             vim.lsp.config('omnisharp', {
                 capabilities = capabilities,
                 on_attach = on_attach_local,
-                cmd = { 'omnisharp' },
+                -- cmd = { 'omnisharp' }, -- no longer needed mason will handle
+                -- cmd = {
+                --     omnisharp_bin,
+                --     '--languageserver',
+                --     '--hostPID',
+                --     tostring(pid),
+                -- },
                 single_file_support = false,
-                root_dir = function(fname, bufnr)
-                    return root_dir(fname, bufnr)
-                end,
+                root_dir = root_dir_local,
                 handlers = {
                     ['textDocument/definition'] = require('omnisharp_extended').handler,
                 },
             })
+            -- explicitly enable omnisharp (don’t rely on mason auto-enable here)
+            -- vim.lsp.enable('omnisharp')
 
             -------------------------------------------------------------
             -- Your custom "randy‑packs" server
