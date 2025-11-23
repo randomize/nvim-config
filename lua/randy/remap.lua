@@ -6,7 +6,8 @@ vim.keymap.set("n", "<space>W", "<cmd>wa<CR>", { silent = true, desc = 'Write Al
 
 vim.keymap.set("n", "<space>]", ":bn<CR>")
 vim.keymap.set("n", "<space>[", ":bp<CR>")
-vim.keymap.set("n", "<space>c", ":bd<CR>")
+vim.keymap.set("n", "<space>c", function() require("mini.bufremove").delete(0, false) end, { silent = true, desc = "Delete buffer (keep layout)" })
+vim.keymap.set("n", "<space>C", ":bd<CR>", { silent = true, desc = "Kill buffer" })
 vim.keymap.set("n", "<space>(", ":lne<CR>")
 vim.keymap.set("n", "<space>)", ":lp<CR>")
 vim.keymap.set({ "n", "v" }, "<space>y", [["+y]])
