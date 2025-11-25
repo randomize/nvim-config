@@ -32,8 +32,14 @@ return {
             -------------------------------------------------------------
             -- capabilities & on_attach
             -------------------------------------------------------------
-            local on_attach_local   = require('randy.lsp.on_attach').attach
+            local on_attach_user   = require('randy.lsp.on_attach').attach
             local root_dir_local = require('randy.lsp.root_dir')
+            local lsp_format = require('lsp-format')
+            lsp_format.setup({})
+            local function on_attach_local(client, bufnr)
+                on_attach_user(client, bufnr)
+                lsp_format.on_attach(client, bufnr)
+            end
             local capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities())
 
@@ -56,6 +62,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('lua_ls')
 
             vim.lsp.config('basedpyright', {
                 capabilities = capabilities,
@@ -70,6 +77,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('basedpyright')
 
             vim.lsp.config('jsonls', {
                 capabilities = capabilities,
@@ -81,6 +89,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('jsonls')
 
             -- local pid = vim.fn.getpid()
             -- local omnisharp_bin = vim.fn.exepath('omnisharp')  -- uses /usr/bin/omnisharp from pacman (or mason if PATH has it first)
@@ -101,18 +110,30 @@ return {
                 },
             })
             -- explicitly enable omnisharp (don’t rely on mason auto-enable here)
-            -- vim.lsp.enable('omnisharp')
+            vim.lsp.enable('omnisharp')
 
             -------------------------------------------------------------
             -- Your custom "randy‑packs" server
             -------------------------------------------------------------
+            local randypacks_cmd = '/home/randy/Documents/rdev/lsp-hello/tower-lsp-boilerplate/target/debug/nrs-language-server'
             vim.api.nvim_create_autocmd('FileType', {
                 pattern  = 'randypacks',
                 callback = function()
+                    if not vim.loop.fs_stat(randypacks_cmd) then
+                        vim.notify_once(
+                            ('randy-packs-lsp skipped: binary not found at %s'):format(randypacks_cmd),
+                            vim.log.levels.WARN
+                        )
+                        return
+                    end
+
+                    local buf = vim.api.nvim_get_current_buf()
+                    local bufname = vim.api.nvim_buf_get_name(buf)
+                    local root_dir = bufname ~= '' and vim.fn.fnamemodify(bufname, ':p:h') or vim.loop.cwd()
                     vim.lsp.start {
                         name        = 'randy-packs-lsp',
-                        cmd         = { '/home/randy/Documents/rdev/lsp-hello/tower-lsp-boilerplate/target/debug/nrs-language-server' },
-                        root_dir    = '/home/randy/dots/nfo',
+                        cmd         = { randypacks_cmd },
+                        root_dir    = root_dir,
                         filetypes   = { 'randypacks' },
                         capabilities = capabilities,
                         on_attach    = on_attach_local,
