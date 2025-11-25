@@ -1,3 +1,5 @@
+vim.g.mapleader = "\\"
+
 require('randy')
 
 -- require('json_linter')

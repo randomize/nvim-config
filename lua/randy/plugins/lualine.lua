@@ -4,13 +4,33 @@ return {
         "nvim-lualine/lualine.nvim",
         dependencies = {
             "kyazdani42/nvim-web-devicons",
-            -- "WhoIsSethDaniel/lualine-lsp-progress.nvim"
+            {
+                "linrongbin16/lsp-progress.nvim",
+                config = function()
+                    require("lsp-progress").setup()
+                end,
+            },
         },
         lazy = false,
         config = function(_, opts)
             local lualine = require("lualine")
             opts.options.theme = 'tokyonight'
             lualine.setup(opts)
+
+            -- refresh the statusline when LSP progress events fire
+            if pcall(require, "lsp-progress") then
+                local group = vim.api.nvim_create_augroup("randy_lualine_lsp_progress", { clear = true })
+                vim.api.nvim_create_autocmd("User", {
+                    group = group,
+                    pattern = "LspProgressStatusUpdated",
+                    callback = function()
+                        local ok, lualine_mod = pcall(require, "lualine")
+                        if ok then
+                            lualine_mod.refresh()
+                        end
+                    end,
+                })
+            end
         end,
         opts = {
             options = {
@@ -33,7 +53,15 @@ return {
                             return ft == "json" or ft == "jsonc"
                         end,
                     },
-                    "lsp_progress",
+                    {
+                        function()
+                            local ok, progress = pcall(require, "lsp-progress")
+                            if not ok then
+                                return ""
+                            end
+                            return progress.progress() or ""
+                        end,
+                    },
                 },
             },
         },
