@@ -19,7 +19,6 @@ return {
         },
 
         config = function()
-
             -- First configure neoconf
             require("neoconf").setup({
                 plugins = {
@@ -32,9 +31,9 @@ return {
             -------------------------------------------------------------
             -- capabilities & on_attach
             -------------------------------------------------------------
-            local on_attach_user   = require('randy.lsp.on_attach').attach
+            local on_attach_user = require('randy.lsp.on_attach').attach
             local root_dir_local = require('randy.lsp.root_dir')
-            local lsp_format = require('lsp-format')
+            local lsp_format     = require('lsp-format')
             lsp_format.setup({})
             local function on_attach_local(client, bufnr)
                 on_attach_user(client, bufnr)
@@ -52,6 +51,22 @@ return {
             -------------------------------------------------------------
             -- servers configuration
             -------------------------------------------------------------
+
+            local clangd_capabilities = vim.deepcopy(capabilities)
+            clangd_capabilities.offsetEncoding = { "utf-16" }
+            vim.lsp.config('clangd', {
+                capabilities = clangd_capabilities,
+                on_attach = on_attach_local,
+
+                -- nice defaults
+                cmd = {
+                    "clangd",
+                    "--background-index",
+                    "--clang-tidy",
+                    "--completion-style=detailed",
+                },
+            })
+
             vim.lsp.config('lua_ls', {
                 capabilities = capabilities,
                 on_attach = on_attach_local,
@@ -82,7 +97,7 @@ return {
             vim.lsp.config('jsonls', {
                 capabilities = capabilities,
                 on_attach    = on_attach_local,
-                settings = {
+                settings     = {
                     json = {
                         schemas  = require('schemastore').json.schemas(),
                         validate = { enable = true },
@@ -115,7 +130,8 @@ return {
             -------------------------------------------------------------
             -- Your custom "randy‑packs" server
             -------------------------------------------------------------
-            local randypacks_cmd = '/home/randy/Documents/rdev/lsp-hello/tower-lsp-boilerplate/target/debug/nrs-language-server'
+            local randypacks_cmd =
+            '/home/randy/Documents/rdev/lsp-hello/tower-lsp-boilerplate/target/debug/nrs-language-server'
             vim.api.nvim_create_autocmd('FileType', {
                 pattern  = 'randypacks',
                 callback = function()
@@ -131,10 +147,10 @@ return {
                     local bufname = vim.api.nvim_buf_get_name(buf)
                     local root_dir = bufname ~= '' and vim.fn.fnamemodify(bufname, ':p:h') or vim.loop.cwd()
                     vim.lsp.start {
-                        name        = 'randy-packs-lsp',
-                        cmd         = { randypacks_cmd },
-                        root_dir    = root_dir,
-                        filetypes   = { 'randypacks' },
+                        name         = 'randy-packs-lsp',
+                        cmd          = { randypacks_cmd },
+                        root_dir     = root_dir,
+                        filetypes    = { 'randypacks' },
                         capabilities = capabilities,
                         on_attach    = on_attach_local,
                     }
@@ -147,6 +163,7 @@ return {
             require('mason').setup()
             require('mason-lspconfig').setup({
                 ensure_installed = {
+                    'clangd',
                     'lua_ls',
                     'jsonls',
                     'bashls',
