@@ -127,6 +127,10 @@ return {
             -- explicitly enable omnisharp (don’t rely on mason auto-enable here)
             vim.lsp.enable('omnisharp')
 
+            vim.lsp.config('html', {
+                capabilities = capabilities,
+                on_attach = on_attach_local,
+            })
             -------------------------------------------------------------
             -- Your custom "randy‑packs" server
             -------------------------------------------------------------
@@ -170,6 +174,7 @@ return {
                     'rust_analyzer',
                     'basedpyright',
                     'omnisharp',
+                    'html',
                 },
                 -- automatic_enable defaults to true in v2; leaving it implicit is fine
             })
