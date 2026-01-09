@@ -23,6 +23,7 @@ return {
                 go = "go run %",
                 sh = "bash %",
                 bashsh = "sh %",
+                ps1 = "pwsh -NoProfile -File %",
             },
         },
 
