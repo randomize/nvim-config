@@ -3,6 +3,13 @@ return {
   build = "sh install.sh 1",          -- builds the Rust backend once
   keys = {
     { "<space>r", ":'<,'>SnipRun<CR>", mode = "v", desc = "SnipRun selection" },
+    {
+      ",r",
+      function()
+        vim.cmd(string.format("%d,%dSnipRun", vim.fn.line("."), vim.fn.line(".")))
+      end,
+      desc = "SnipRun current line",
+    },
   },
   opts = {
     display = { "TempFloatingWindow" },      -- or "Terminal"
