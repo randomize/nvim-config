@@ -9,74 +9,76 @@ return {
             { "<space>R", "<cmd>Jaq<CR>", desc = "Run with Jaq" },
         },
         opts = {
+            cmds = {
+                -- Uses vim commands
+                internal = {
+                    lua = "luafile %",
+                    vim = "source %",
+                },
 
-            -- Uses vim commands
-            internal = {
-                lua = "luafile %",
-                vim = "source %",
+                -- Uses shell commands
+                external = {
+                    markdown = "glow %",
+                    python = "python %",
+                    go = "go run %",
+                    sh = "bash %",
+                    bash = "bash %",
+                    ps1 = "pwsh -NoProfile -File %",
+                    powershell = "pwsh -NoProfile -File %",
+                },
             },
 
-            -- Uses shell commands
-            external = {
-                markdown = "glow %",
-                python = "python %",
-                go = "go run %",
-                sh = "bash %",
-                bashsh = "sh %",
-                ps1 = "pwsh -NoProfile -File %",
-            },
-        },
+            behavior = {
+                -- Default type
+                default = "float",
 
-        behavior = {
-            -- Default type
-            default = "float",
+                -- Start in insert mode
+                startinsert = false,
 
-            -- Start in insert mode
-            startinsert = false,
+                -- Use `wincmd p` on startup
+                wincmd = false,
 
-            -- Use `wincmd p` on startup
-            wincmd = false,
-
-            -- Auto-save files
-            autosave = false,
-        },
-
-        ui = {
-            float = {
-                -- See ':h nvim_open_win'
-                border = "none",
-
-                -- See ':h winhl'
-                winhl = "Normal",
-                borderhl = "FloatBorder",
-
-                -- See ':h winblend'
-                winblend = 0,
-
-                -- Num from `0-1` for measurements
-                height = 0.8,
-                width = 0.8,
-                x = 0.5,
-                y = 0.5,
+                -- Auto-save files
+                autosave = false,
             },
 
-            terminal = {
-                -- Window position
-                position = "bot",
+            ui = {
+                float = {
+                    -- See ':h nvim_open_win'
+                    border = "none",
 
-                -- Window size
-                size = 10,
+                    -- See ':h winhl'
+                    winhl = "Normal",
+                    borderhl = "FloatBorder",
 
-                -- Disable line numbers
-                line_no = false,
-            },
+                    -- See ':h winblend'
+                    winblend = 0,
 
-            quickfix = {
-                -- Window position
-                position = "bot",
+                    -- Num from `0-1` for measurements
+                    height = 0.8,
+                    width = 0.8,
+                    x = 0.5,
+                    y = 0.5,
+                },
 
-                -- Window size
-                size = 10,
+                terminal = {
+                    -- Window position
+                    position = "bot",
+
+                    -- Window size
+                    size = 10,
+
+                    -- Disable line numbers
+                    line_no = false,
+                },
+
+                quickfix = {
+                    -- Window position
+                    position = "bot",
+
+                    -- Window size
+                    size = 10,
+                },
             },
         },
     },
