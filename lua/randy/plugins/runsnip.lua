@@ -13,6 +13,17 @@ return {
   },
   opts = {
     display = { "TempFloatingWindow" },      -- or "Terminal"
-    repl_enable = { "bash", "python", "cpp" }
+    repl_enable = { "bash", "python", "cpp" },
+    interpreter_options = {
+      Generic = {
+        error_truncate = "long",
+        PowerShell = {
+          supported_filetypes = { "powershell", "ps1" },
+          extension = ".ps1",
+          interpreter = "pwsh -NoProfile -File",
+          compiler = "",
+        },
+      },
+    },
   }
 }

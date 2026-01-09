@@ -10,6 +10,7 @@ return {
                 sh = true, -- bash/zsh
                 python = true,
                 cs = true,
+                ps1 = true,
                 fish = true,
                 ['*'] = false,
             },
