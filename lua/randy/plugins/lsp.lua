@@ -52,6 +52,22 @@ return {
             -- servers configuration
             -------------------------------------------------------------
 
+            local pses_bundle = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services'
+            local pses_cache = vim.fn.stdpath('cache')
+            local pses_pid = tostring(vim.fn.getpid())
+            local pses_log = pses_cache .. '/powershell_es.' .. pses_pid .. '.log'
+            local pses_session = pses_cache .. '/powershell_es.' .. pses_pid .. '.session.json'
+            vim.fn.delete(pses_log)
+            vim.fn.delete(pses_session)
+            local pses_cmd = {
+                'pwsh',
+                '-NoLogo',
+                '-NoProfile',
+                '-Command',
+                ("& '%s/PowerShellEditorServices/Start-EditorServices.ps1' -BundledModulesPath '%s' -LogPath '%s' -SessionDetailsPath '%s' -FeatureFlags @() -AdditionalModules @() -HostName nvim -HostProfileId 0 -HostVersion 1.0.0 -Stdio -LogLevel Normal")
+                    :format(pses_bundle, pses_bundle, pses_log, pses_session),
+            }
+
             local clangd_capabilities = vim.deepcopy(capabilities)
             clangd_capabilities.offsetEncoding = { "utf-16" }
             vim.lsp.config('clangd', {
@@ -131,6 +147,13 @@ return {
                 capabilities = capabilities,
                 on_attach = on_attach_local,
             })
+            vim.lsp.config('powershell_es', {
+                capabilities = capabilities,
+                on_attach = on_attach_local,
+                bundle_path = pses_bundle,
+                cmd = pses_cmd,
+            })
+            vim.lsp.enable('powershell_es')
             -------------------------------------------------------------
             -- Your custom "randy‑packs" server
             -------------------------------------------------------------
@@ -175,6 +198,7 @@ return {
                     'basedpyright',
                     'omnisharp',
                     'html',
+                    'powershell_es',
                 },
                 -- automatic_enable defaults to true in v2; leaving it implicit is fine
             })
