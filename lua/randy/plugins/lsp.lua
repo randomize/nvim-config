@@ -37,7 +37,6 @@ return {
             lsp_format.setup({})
             local function on_attach_local(client, bufnr)
                 on_attach_user(client, bufnr)
-                lsp_format.on_attach(client, bufnr)
             end
             local capabilities = require('cmp_nvim_lsp').default_capabilities(
                 vim.lsp.protocol.make_client_capabilities())
