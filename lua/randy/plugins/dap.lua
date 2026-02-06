@@ -19,6 +19,44 @@ return {
         args = { "--interpreter=vscode" },
       }
 
+      -- Unity DAP (Mono-only). Build Unity-DAP and set UNITY_DAP_PATH.
+      -- See: https://github.com/walcht/unity-dap
+      dap.adapters.unity = function(callback, config)
+        local address = config.address or vim.fn.input("Unity address [127.0.0.1]: ", "127.0.0.1")
+        local port = config.port or tonumber(vim.fn.input("Unity port: "))
+
+        config.address = address
+        config.port = port
+
+        local unity_dap = vim.env.UNITY_DAP_PATH or vim.env.UNITY_DAP_EXE
+        if not unity_dap or unity_dap == "" then
+          local fallback = "/home/randy/dev/unity-dap/bin/Release/unity-debug-adapter.exe"
+          if vim.fn.filereadable(fallback) == 1 then
+            unity_dap = fallback
+          end
+        end
+        if not unity_dap or unity_dap == "" then
+          vim.notify("Set UNITY_DAP_PATH to unity-debug-adapter.exe", vim.log.levels.ERROR)
+          return
+        end
+        unity_dap = vim.fn.expand(unity_dap)
+
+        callback({
+          type = "executable",
+          command = vim.env.UNITY_DAP_MONO or "mono",
+          args = { unity_dap, "--log-level=error" },
+        })
+      end
+
+      if dap.configurations.cs == nil then
+        dap.configurations.cs = {}
+      end
+      table.insert(dap.configurations.cs, {
+        name = "Unity Editor/Player [Mono]",
+        type = "unity",
+        request = "attach",
+      })
+
       -- dap.adapters.go = {
       --   type = 'executable';
       --   command = 'node';
@@ -80,7 +118,7 @@ return {
 
       map("<Leader>du", ':lua require("dapui").toggle()<CR>', "Toggle Debug UI")
       map("<Leader>de", ':lua require("dapui").eval()<CR>', "Evaluate Expression")
-      map("<Leader>dr", ':lua require("dapui").open({ reset = true })<CR>', "Reset Debug UI")
+      map("<Leader>dR", ':lua require("dapui").open({ reset = true })<CR>', "Reset Debug UI")
       map("<Leader>dts", ':lua require("dapui").toggle("sidebar")<CR>', "Toggle Debug Sidebar")
       map("<Leader>dtt", ':lua require("dapui").toggle("tray")<CR>', "Toggle Debug Tray")
 
