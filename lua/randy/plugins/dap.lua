@@ -19,11 +19,30 @@ return {
         args = { "--interpreter=vscode" },
       }
 
+      local function detect_unity_port()
+        local lines = vim.fn.systemlist({ "ss", "-tlp" })
+        if vim.v.shell_error ~= 0 then
+          return nil
+        end
+        for _, line in ipairs(lines) do
+          if line:find("Unity") then
+            local port = line:match(":(%d+)%s") or line:match(":(%d+)$")
+            if port then
+              local n = tonumber(port)
+              if n and n >= 56000 and n <= 56999 then
+                return n
+              end
+            end
+          end
+        end
+        return nil
+      end
+
       -- Unity DAP (Mono-only). Build Unity-DAP and set UNITY_DAP_PATH.
       -- See: https://github.com/walcht/unity-dap
       dap.adapters.unity = function(callback, config)
         local address = config.address or vim.fn.input("Unity address [127.0.0.1]: ", "127.0.0.1")
-        local port = config.port or tonumber(vim.fn.input("Unity port: "))
+        local port = config.port or detect_unity_port() or tonumber(vim.fn.input("Unity port: "))
 
         config.address = address
         config.port = port
