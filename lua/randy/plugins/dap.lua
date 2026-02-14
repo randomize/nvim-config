@@ -38,6 +38,113 @@ return {
         return nil
       end
 
+      local UNITY_DAP_REPO_URL = "https://github.com/walcht/unity-dap.git"
+
+      local function unity_dap_repo()
+        return vim.env.UNITY_DAP_REPO
+          or vim.env.UNITY_DAP_SRC
+          or vim.g.unity_dap_repo
+          or vim.fs.joinpath(vim.fn.stdpath("data"), "unity-dap")
+      end
+
+      local function unity_dap_from_repo(repo)
+        if not repo or repo == "" then
+          return nil
+        end
+        local candidates = {
+          vim.fs.joinpath(repo, "bin", "Release", "unity-debug-adapter.exe"),
+        }
+        for _, path in ipairs(candidates) do
+          if vim.fn.filereadable(path) == 1 then
+            return path
+          end
+        end
+        local found = vim.fn.globpath(repo, "**/unity-debug-adapter.exe", false, true)
+        if found and #found > 0 then
+          table.sort(found)
+          return found[#found]
+        end
+        return nil
+      end
+
+      local function build_unity_dap(repo)
+        if vim.fn.executable("dotnet") ~= 1 then
+          vim.notify("unity-dap: dotnet SDK not found; install dotnet to build", vim.log.levels.ERROR)
+          return false
+        end
+        local result = vim
+          .system({
+            "dotnet",
+            "build",
+            "--configuration=Release",
+            "unity-debug-adapter/unity-debug-adapter.csproj",
+          }, { cwd = repo, text = true })
+          :wait()
+        if result.code ~= 0 then
+          local msg = "unity-dap build failed"
+          if result.stderr and result.stderr ~= "" then
+            msg = msg .. ":\n" .. result.stderr
+          end
+          vim.notify(msg, vim.log.levels.ERROR)
+          return false
+        end
+        return true
+      end
+
+      local function git_has()
+        return vim.fn.executable("git") == 1
+      end
+
+      local function ensure_unity_dap_repo(repo)
+        if vim.fn.isdirectory(repo) == 1 then
+          return true
+        end
+        if not git_has() then
+          vim.notify("unity-dap: git not found; cannot install repo", vim.log.levels.ERROR)
+          return false
+        end
+        local result = vim
+          .system({ "git", "clone", "--recurse-submodules", UNITY_DAP_REPO_URL, repo }, { text = true })
+          :wait()
+        if result.code ~= 0 then
+          local msg = "unity-dap install failed"
+          if result.stderr and result.stderr ~= "" then
+            msg = msg .. ":\n" .. result.stderr
+          end
+          vim.notify(msg, vim.log.levels.ERROR)
+          return false
+        end
+        return true
+      end
+
+      local function update_unity_dap(repo)
+        if not git_has() then
+          vim.notify("unity-dap: git not found; cannot update repo", vim.log.levels.ERROR)
+          return false
+        end
+        local result = vim.system({ "git", "pull", "--ff-only" }, { cwd = repo, text = true }):wait()
+        if result.code ~= 0 then
+          local msg = "unity-dap update failed"
+          if result.stderr and result.stderr ~= "" then
+            msg = msg .. ":\n" .. result.stderr
+          end
+          vim.notify(msg, vim.log.levels.ERROR)
+          return false
+        end
+        local sub = vim
+          .system({ "git", "submodule", "update", "--init", "--recursive" }, { cwd = repo, text = true })
+          :wait()
+        if sub.code ~= 0 then
+          local msg = "unity-dap submodule update failed"
+          if sub.stderr and sub.stderr ~= "" then
+            msg = msg .. ":\n" .. sub.stderr
+          end
+          vim.notify(msg, vim.log.levels.ERROR)
+          return false
+        end
+        return true
+      end
+
       -- Unity DAP (Mono-only). Build Unity-DAP and set UNITY_DAP_PATH.
       -- See: https://github.com/walcht/unity-dap
       dap.adapters.unity = function(callback, config)
@@ -49,13 +156,24 @@ return {
 
         local unity_dap = vim.env.UNITY_DAP_PATH or vim.env.UNITY_DAP_EXE
         if not unity_dap or unity_dap == "" then
-          local fallback = "/home/randy/dev/unity-dap/bin/Release/unity-debug-adapter.exe"
-          if vim.fn.filereadable(fallback) == 1 then
-            unity_dap = fallback
+          local repo = unity_dap_repo()
+          unity_dap = unity_dap_from_repo(repo)
+          if (not unity_dap or unity_dap == "") and repo then
+            if vim.fn.isdirectory(repo) ~= 1 then
+              if not ensure_unity_dap_repo(repo) then
+                return
+              end
+            end
+            if build_unity_dap(repo) then
+              unity_dap = unity_dap_from_repo(repo)
+            end
           end
         end
         if not unity_dap or unity_dap == "" then
-          vim.notify("Set UNITY_DAP_PATH to unity-debug-adapter.exe", vim.log.levels.ERROR)
+          vim.notify(
+            "unity-dap: set UNITY_DAP_PATH or UNITY_DAP_REPO (or vim.g.unity_dap_repo)",
+            vim.log.levels.ERROR
+          )
           return
         end
         unity_dap = vim.fn.expand(unity_dap)
@@ -75,6 +193,43 @@ return {
         type = "unity",
         request = "attach",
       })
+
+      vim.api.nvim_create_user_command("UnityDapBuild", function()
+        local repo = unity_dap_repo()
+        if not repo or repo == "" then
+          vim.notify("unity-dap: set UNITY_DAP_REPO (or vim.g.unity_dap_repo)", vim.log.levels.ERROR)
+          return
+        end
+        if vim.fn.isdirectory(repo) ~= 1 then
+          vim.notify("unity-dap repo not found: " .. repo, vim.log.levels.ERROR)
+          return
+        end
+        if build_unity_dap(repo) then
+          vim.notify("unity-dap build complete", vim.log.levels.INFO)
+        end
+      end, {})
+
+      vim.api.nvim_create_user_command("UnityDapInstall", function()
+        local repo = unity_dap_repo()
+        if not repo or repo == "" then
+          vim.notify("unity-dap: set UNITY_DAP_REPO (or vim.g.unity_dap_repo)", vim.log.levels.ERROR)
+          return
+        end
+        if ensure_unity_dap_repo(repo) and build_unity_dap(repo) then
+          vim.notify("unity-dap install + build complete", vim.log.levels.INFO)
+        end
+      end, {})
+
+      vim.api.nvim_create_user_command("UnityDapUpdate", function()
+        local repo = unity_dap_repo()
+        if not repo or repo == "" then
+          vim.notify("unity-dap: set UNITY_DAP_REPO (or vim.g.unity_dap_repo)", vim.log.levels.ERROR)
+          return
+        end
+        if ensure_unity_dap_repo(repo) and update_unity_dap(repo) and build_unity_dap(repo) then
+          vim.notify("unity-dap update + build complete", vim.log.levels.INFO)
+        end
+      end, {})
 
       -- dap.adapters.go = {
       --   type = 'executable';
