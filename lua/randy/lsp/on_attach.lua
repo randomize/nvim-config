@@ -58,7 +58,12 @@ local function attach(client, bufnr)
     nmap('<leader>lr', vim.lsp.buf.rename,      '[R]ename')
     nmap('<space>r',   vim.lsp.buf.rename,      '[R]ename')
     nmap('<space>a',   vim.lsp.buf.code_action, 'Code [A]ction')
-    nmap('<space>g',   vim.lsp.buf.definition,  '[G]oto Definition')
+
+    if ok_omni and client.name == 'omnisharp' then
+        nmap('<space>g', omni.lsp_definition, '[G]oto Definition')
+    else
+        nmap('<space>g', vim.lsp.buf.definition, '[G]oto Definition')
+    end
 
     if ok_omni and client.name == 'omnisharp' then
         nmap('<space>e', omni.telescope_lsp_definitions, '[E]xplore Definitions Telescope')

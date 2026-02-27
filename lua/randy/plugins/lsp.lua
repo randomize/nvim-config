@@ -135,9 +135,6 @@ return {
                 -- },
                 single_file_support = false,
                 root_dir = root_dir_local,
-                handlers = {
-                    ['textDocument/definition'] = require('omnisharp_extended').handler,
-                },
             })
             -- explicitly enable omnisharp (don’t rely on mason auto-enable here)
             vim.lsp.enable('omnisharp')
