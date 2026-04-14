@@ -14,6 +14,7 @@ return {
         config = function(_, opts)
             require("nvim-treesitter").setup()
             require("nvim-treesitter.configs").setup(opts)
+            require("randy.treesitter_compat").setup()
         end,
         opts = {
             -- Add languages to be installed here that you want installed for treesitter
