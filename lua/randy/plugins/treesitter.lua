@@ -4,7 +4,6 @@ return {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
             "nvim-treesitter/playground",
-            "JoosepAlviste/nvim-ts-context-commentstring",
         },
         lazy = true,
         event = "BufReadPost",
