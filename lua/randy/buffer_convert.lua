@@ -168,7 +168,6 @@ local transforms = {
 }
 
 function M.pick()
-    local source_bufnr = vim.api.nvim_get_current_buf()
     local actions = require('telescope.actions')
     local action_state = require('telescope.actions.state')
     local conf = require('telescope.config').values
@@ -217,14 +216,17 @@ function M.pick()
                     return
                 end
 
+                local picker = action_state.get_current_picker(prompt_bufnr)
+                local target_bufnr = picker.original_bufnr
+
                 actions.close(prompt_bufnr)
 
                 vim.schedule(function()
-                    if not vim.api.nvim_buf_is_valid(source_bufnr) then
+                    if not vim.api.nvim_buf_is_valid(target_bufnr) then
                         return
                     end
 
-                    vim.api.nvim_buf_call(source_bufnr, selection.value.run)
+                    vim.api.nvim_buf_call(target_bufnr, selection.value.run)
                 end)
             end)
 
