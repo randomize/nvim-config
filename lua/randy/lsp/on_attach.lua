@@ -88,7 +88,7 @@ local function attach(client, bufnr)
     nmap('<leader>wl',  function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, '[W]orkspace [L]ist Folders')
 
     vim.api.nvim_buf_create_user_command(bufnr, 'FormatLsp', function() vim.lsp.buf.format() end, { desc = 'Format current buffer with LSP' })
-    nmap('<leader>lf', function() require('lsp-format').format({ buf = bufnr }) end, '[L]SP Format (lsp-format)')
+    nmap('<leader>lf', function() vim.lsp.buf.format({ bufnr = bufnr }) end, '[L]SP Format')
 end
 
 M.attach = attach

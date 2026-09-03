@@ -12,7 +12,6 @@ return {
             'hrsh7th/cmp-nvim-lsp',
             -- helpers
             'Hoffs/omnisharp-extended-lsp.nvim',
-            'lukas-reineke/lsp-format.nvim',
             'b0o/schemastore.nvim',
             --
             'folke/neoconf.nvim'
@@ -33,8 +32,6 @@ return {
             -------------------------------------------------------------
             local on_attach_user = require('randy.lsp.on_attach').attach
             local root_dir_local = require('randy.lsp.root_dir')
-            local lsp_format     = require('lsp-format')
-            lsp_format.setup({})
             local function on_attach_local(client, bufnr)
                 on_attach_user(client, bufnr)
             end

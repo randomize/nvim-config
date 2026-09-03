@@ -1,7 +1,7 @@
 return {
   {   -- Formatter - new neoformat fork Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
     "mhartington/formatter.nvim",
-    cmd = "Format",
+    lazy = false,
     keys = {
       { "<space>f", "<cmd>Format<CR>", desc = "Re-format" },
     },
@@ -17,6 +17,9 @@ return {
           -- and will be executed in order
           lua = {
             require("formatter.filetypes.lua").stylua,
+          },
+          json = {
+            require("formatter.filetypes.json").jq,
           },
           ["*"] = {
             require("formatter.filetypes.any").remove_trailing_whitespace,
