@@ -3,6 +3,7 @@ return {
         "RRethy/vim-illuminate",
         event = "BufReadPost",
         opts = {
+            providers = { "lsp", "regex" },
             delay = 200,
             min_count_to_highlight = 2,
             large_file_cutoff = 5000,
