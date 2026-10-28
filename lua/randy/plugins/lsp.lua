@@ -100,6 +100,9 @@ return {
                             autoSearchPaths = true,
                             diagnosticMode = "openFilesOnly",
                             useLibraryCodeForTypes = true,
+                            diagnosticSeverityOverrides = {
+                                reportUnusedCallResult = "none",
+                            },
                         },
                     },
                 },

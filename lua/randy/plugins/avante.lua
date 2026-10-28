@@ -10,11 +10,21 @@ return {
     ---@module 'avante'
     ---@type avante.Config
     opts = {
-        provider = "copilot"
+        provider = "copilot",
+        providers = {
+            copilot = {
+                model = "claude-sonnet-5.5",
+                context_window = 200000,
+            },
+        },
+        windows = {
+            width = 40, -- % of available width
+        },
     },
     dependencies = {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",
+        { "ColinKennedy/mega.cmdparse", dependencies = { "ColinKennedy/mega.logging" } },
         --- The below dependencies are optional,
         "echasnovski/mini.pick", -- for file_selector provider mini.pick
         "stevearc/dressing.nvim", -- for input provider dressing
