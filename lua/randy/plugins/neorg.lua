@@ -2,8 +2,12 @@ return {
 {
   "nvim-neorg/neorg",
   lazy = false,
-  -- parser rocks must load first so their dirs are on package.cpath when neorg looks up the parsers
-  dependencies = { "nvim-lua/plenary.nvim", "tree-sitter-norg", "tree-sitter-norg-meta" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-neorg/tree-sitter-norg",
+    "nvim-neorg/tree-sitter-norg-meta",
+  },
   priority = 1001,
   opts = {
     load = {
